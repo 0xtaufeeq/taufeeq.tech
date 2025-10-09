@@ -1,0 +1,24 @@
+---
+import client from '@/lib/client'
+
+import BentoItemNowPlayingReact from './BentoItemNowPlaying'
+
+// Handle server-side errors gracefully
+let initialData
+try {
+  const response = await client.api.spotify.$get()
+  initialData = await response.json()
+} catch (error) {
+  // If there's an error on the server side, provide a fallback "not listening" state
+  initialData = {
+    isPlaying: false,
+    isNotListening: true,
+    title: 'Not listening to music',
+    artist: 'Spotify',
+    songUrl: 'https://open.spotify.com',
+    albumImageUrl: 'https://i.scdn.co/image/ab6761610000e5eb8acf72f64b557d7cfd787642'
+  }
+}
+---
+
+<BentoItemNowPlayingReact initialData={initialData} client:only='react' />

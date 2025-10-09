@@ -1,0 +1,2 @@
+export { BentoItemLocalWeather } from './BentoItemLocalWeather'
+

@@ -1,0 +1,142 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import BackToHome from '@/components/BackToHome.astro'
+import SEO from '@/components/SEO.astro'
+import TopOverlay from '@/components/TopOverlay.astro'
+import { getCustomTransition } from '@/lib/customTransition'
+
+const values = [
+  {
+    number: '01',
+    title: 'Curiosity Over Conformity',
+    description: 'Stay obsessed with questions, not answers. Curiosity is how we find edges others don\'t see.'
+  },
+  {
+    number: '02',
+    title: 'Clarity First',
+    description: 'If you can\'t explain it simply, you don\'t understand it yet. Clarity in thought leads to clarity in action.'
+  },
+  {
+    number: '03',
+    title: 'Craft Over Convenience',
+    description: 'Don\'t cut corners. Every line of code, every design choice, every word should feel intentional.'
+  },
+  {
+    number: '04',
+    title: 'Conviction > Consensus',
+    description: 'Progress rarely comes from groupthink. Have a point of view and defend it.'
+  },
+  {
+    number: '05',
+    title: 'People Before Process',
+    description: 'Culture isn\'t built through frameworks. It\'s built through trust, energy, and shared obsession.'
+  },
+  {
+    number: '06',
+    title: 'Alignment Beats Balance',
+    description: 'Work-life "balance" is a myth. When your purpose and work align, balance happens naturally.'
+  },
+  {
+    number: '07',
+    title: 'Build What You Believe In',
+    description: 'Don\'t just make something that works. Make something that matters.'
+  }
+]
+---
+
+<BaseLayout>
+  <SEO
+    slot='seo'
+    title='My Philosophy & Values - Taufeeq Riyaz'
+    description='The principles and beliefs that guide my work, leadership, and approach to building meaningful products.'
+  />
+  <TopOverlay slot='decorator' />
+  
+  <main class='mx-auto max-w-4xl px-6 py-16 sm:px-8'>
+    <BackToHome />
+    
+    <!-- Hero Section -->
+    <div class='mt-16 space-y-6' transition:animate={getCustomTransition()}>
+      <div
+        class='flex w-fit items-center gap-2 rounded-full bg-emerald-950/55 px-4 py-2 text-emerald-300'
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+        <span class='text-sm font-medium tracking-wide'>Philosophy & Values</span>
+      </div>
+      
+      <h1
+        class='font-heading text-[clamp(2rem,7vw,3.5rem)] font-semibold leading-none'
+        transition:animate={getCustomTransition(0.05)}
+      >
+        My Philosophy and Values
+      </h1>
+    </div>
+
+    <!-- Main Philosophy Essay -->
+    <div 
+      class='prose prose-invert mt-16 max-w-3xl'
+      transition:animate={getCustomTransition(0.1)}
+    >
+      <div class='space-y-6 text-lg leading-relaxed text-zinc-300'>
+        <p>
+          I believe great work starts with curiosity. The kind that makes you ask <em>why</em> when everyone else says <em>how</em>. The kind that refuses to settle for good enough.
+        </p>
+        
+        <p>
+          I've learned that building something meaningful isn't about chasing trends or pleasing everyone. It's about having a clear point of view and the courage to defend it. The best founders and leaders I've met don't just react to the world, they shape it.
+        </p>
+        
+        <p>
+          I care about clarity, craftsmanship, and conviction. Clarity in thought before action. Craftsmanship in every detail, whether it's code, design, or a conversation. Conviction to stick with what matters when things get hard.
+        </p>
+        
+        <p>
+          I don't believe in balance as much as alignment. When your work aligns with who you are, energy flows instead of being managed. When your team aligns around purpose, magic happens.
+        </p>
+
+      </div>
+    </div>
+
+    <!-- Core Values Section -->
+    <div class='mt-32' transition:animate={getCustomTransition(0.15)}>
+      <h2 class='mb-16 text-3xl font-semibold text-zinc-100'>Core Values</h2>
+      
+      <div class='space-y-8'>
+        {values.map((value, index) => (
+          <div 
+            class='group relative rounded-2xl border border-zinc-800/50 bg-zinc-900/20 p-8 transition-all hover:border-zinc-700/50 hover:bg-zinc-900/40'
+            transition:animate={getCustomTransition(0.2 + index * 0.05)}
+          >
+            <div class='flex items-start gap-6 max-sm:flex-col max-sm:gap-4'>
+              <div class='shrink-0'>
+                <span class='text-5xl font-bold text-emerald-500/20 transition-colors group-hover:text-emerald-500/30'>
+                  {value.number}
+                </span>
+              </div>
+              <div class='space-y-3'>
+                <h3 class='text-2xl font-semibold text-zinc-100'>
+                  {value.title}
+                </h3>
+                <p class='text-lg leading-relaxed text-zinc-400'>
+                  {value.description}
+                </p>
+              </div>
+            </div>
+            <div class='absolute bottom-0 left-0 h-1 w-0 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-300 transition-all duration-300 group-hover:w-full'></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .prose em {
+    color: #a3e635;
+    font-style: italic;
+    font-weight: 500;
+  }
+</style>
+

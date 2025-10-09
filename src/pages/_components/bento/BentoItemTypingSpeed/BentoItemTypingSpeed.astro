@@ -1,0 +1,16 @@
+---
+import BentoItemTypingSpeedContent from './BentoItemTypingSpeedContent'
+
+// Mock data for typing speed display
+const data = {
+  wpm: 95,
+  acc: 98,
+  consistency: 96,
+  language: 'english' as const,
+  time: 60
+}
+
+Astro.response.headers.set('Cache-Control', 'public, max-age=86400')
+---
+
+<BentoItemTypingSpeedContent {...data} client:only='react' />
