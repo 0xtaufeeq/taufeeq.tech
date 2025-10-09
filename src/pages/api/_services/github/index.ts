@@ -16,9 +16,20 @@ const github = new Hono()
     '/last-updated-file',
     zValidator('query', z.object({ path: z.string() })),
     async (c) => {
-      const { path } = c.req.valid('query')
-
-      return c.json(await getLastUpdatedTimeByFile(path))
+      try {
+        const { path } = c.req.valid('query')
+        const result = await getLastUpdatedTimeByFile(path)
+        return c.json(result, 200, {
+          'Cache-Control': 's-maxage=3600, stale-while-revalidate=600'
+        })
+      } catch (error) {
+        console.error('Error in last-updated-file route:', error)
+        // Return fallback data on error
+        return c.json({
+          lastUpdatedTime: new Date().toISOString(),
+          latestCommitUrl: ''
+        }, 200)
+      }
     }
   )
   .get(
