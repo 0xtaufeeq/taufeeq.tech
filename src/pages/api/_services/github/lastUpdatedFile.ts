@@ -15,15 +15,34 @@ const getLastUpdatedTimeByFile = async (
     per_page: '1'
   }).toString()
 
-  const response = await fetch(API_URL + params, {
-    headers: { Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}` }
-  })
+  try {
+    const response = await fetch(API_URL + params, {
+      headers: { Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}` }
+    })
 
-  const [data] = await response.json()
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.status} ${response.statusText}`)
+    }
 
-  return {
-    lastUpdatedTime: data.commit.committer.date,
-    latestCommitUrl: data.html_url
+    const data = await response.json()
+    
+    if (!Array.isArray(data) || data.length === 0) {
+      throw new Error('No commit data found')
+    }
+
+    const [firstCommit] = data
+
+    return {
+      lastUpdatedTime: firstCommit.commit.committer.date,
+      latestCommitUrl: firstCommit.html_url
+    }
+  } catch (error) {
+    console.error('Error fetching last updated time:', error)
+    // Return fallback data when GitHub API fails
+    return {
+      lastUpdatedTime: new Date().toISOString(),
+      latestCommitUrl: ''
+    }
   }
 }
 
