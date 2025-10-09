@@ -21,6 +21,7 @@ const generateHtml = (data: AllCollectionEntry['data']): ReactElement => {
   const image = fs.readFileSync(
     path.resolve(process.cwd(), 'public/images/og_background.png')
   )
+  const imageDataUri = `data:image/png;base64,${image.toString('base64')}`
 
   return {
     key: 'html',
@@ -35,7 +36,7 @@ const generateHtml = (data: AllCollectionEntry['data']): ReactElement => {
           type: 'img',
           props: {
             tw: 'absolute left-0 top-0',
-            src: image.buffer,
+            src: imageDataUri,
             width: 1200,
             height: 630
           }
@@ -114,30 +115,39 @@ export const GET: OGAPIRoute = async ({ props }) => {
   } = props
   const html = generateHtml(data)
 
-  const SwitzerMedium = fs.readFileSync(
-    path.resolve(process.cwd(), 'public/fonts/Switzer-Medium.otf')
-  )
+  try {
+    const SwitzerMedium = fs.readFileSync(
+      path.resolve(process.cwd(), 'public/fonts/Switzer-Medium.otf')
+    )
 
-  const SwitzerSemiBold = fs.readFileSync(
-    path.resolve(process.cwd(), 'public/fonts/Switzer-Semibold.otf')
-  )
+    const SwitzerSemiBold = fs.readFileSync(
+      path.resolve(process.cwd(), 'public/fonts/Switzer-Semibold.otf')
+    )
 
-  return new ImageResponse(html, {
-    width: 1200,
-    height: 630,
-    fonts: [
-      {
-        name: 'Switzer Semi Bold',
-        data: SwitzerSemiBold.buffer as ArrayBuffer,
-        style: 'normal'
-      },
-      {
-        name: 'Switzer Medium',
-        data: SwitzerMedium.buffer as ArrayBuffer,
-        style: 'normal'
-      }
-    ]
-  })
+    return new ImageResponse(html, {
+      width: 1200,
+      height: 630,
+      fonts: [
+        {
+          name: 'Switzer Semi Bold',
+          data: SwitzerSemiBold.buffer.slice(SwitzerSemiBold.byteOffset, SwitzerSemiBold.byteOffset + SwitzerSemiBold.byteLength) as ArrayBuffer,
+          style: 'normal'
+        },
+        {
+          name: 'Switzer Medium',
+          data: SwitzerMedium.buffer.slice(SwitzerMedium.byteOffset, SwitzerMedium.byteOffset + SwitzerMedium.byteLength) as ArrayBuffer,
+          style: 'normal'
+        }
+      ]
+    })
+  } catch (error) {
+    console.error('Error loading fonts for OG image:', error)
+    // Return without custom fonts as fallback
+    return new ImageResponse(html, {
+      width: 1200,
+      height: 630
+    })
+  }
 }
 
 // getStaticPaths is used to limit the OG images generated.

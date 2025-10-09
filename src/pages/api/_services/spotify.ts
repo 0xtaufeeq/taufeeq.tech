@@ -62,7 +62,7 @@ const getRecentlyPlayed = async (accessToken: string) => {
     items: [{ track }]
   } = await response.json()
 
-  return { isPlaying: false, ...mapSpotifyData(track) }
+  return { isPlaying: false, isNotListening: false, ...mapSpotifyData(track) }
 }
 
 const getSpotifyData = async () => {
@@ -108,7 +108,7 @@ const getSpotifyData = async () => {
 
 export type SpotifyData = ReturnType<typeof mapSpotifyData> & {
   isPlaying: boolean
-  isNotListening?: boolean
+  isNotListening: boolean
 }
 
 export default getSpotifyData

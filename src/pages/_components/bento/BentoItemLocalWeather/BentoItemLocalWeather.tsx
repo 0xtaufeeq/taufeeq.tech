@@ -18,7 +18,7 @@ export function BentoItemLocalWeather() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date())
-    }, 1000)
+    }, 1000) as unknown as number
 
     return () => clearInterval(timer)
   }, [])
@@ -44,7 +44,7 @@ export function BentoItemLocalWeather() {
     }
 
     fetchWeather()
-    const weatherInterval = setInterval(fetchWeather, 30 * 60 * 1000)
+    const weatherInterval = setInterval(fetchWeather, 30 * 60 * 1000) as unknown as number
     
     return () => clearInterval(weatherInterval)
   }, [])
