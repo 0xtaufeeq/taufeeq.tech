@@ -133,3 +133,43 @@
   top: 50%;
   transform: translateY(-50%) rotate(90deg);
 }
+
+/* Mobile responsiveness for prose content */
+@media (max-width: 640px) {
+  .prose {
+    /* Better spacing for mobile */
+    @apply px-0;
+  }
+  
+  /* Code blocks - full bleed on mobile for better readability */
+  .prose pre {
+    @apply -mx-4 rounded-none px-4;
+    max-width: 100vw;
+  }
+  
+  /* Tables - make scrollable */
+  .prose table {
+    @apply block overflow-x-auto -mx-4 px-4;
+    max-width: 100vw;
+  }
+  
+  /* Inline code - smaller text */
+  .prose :not(pre) > code {
+    @apply text-xs;
+  }
+  
+  /* Images - better mobile sizing */
+  .prose img {
+    @apply w-full h-auto;
+  }
+  
+  /* Lists - better indentation */
+  .prose ul, .prose ol {
+    @apply pl-5;
+  }
+  
+  /* Blockquotes - less padding */
+  .prose blockquote {
+    @apply pl-3 py-2;
+  }
+}

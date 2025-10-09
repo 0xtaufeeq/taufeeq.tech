@@ -57,20 +57,20 @@ const htmlTitle = _htmlTitle.replace(
     client:only='react'
   />
 
-  <section class='mt-16 sm:mt-24 sm:font-light lg:mt-32'>
-    <h2 class='text-zinc-400 sm:text-lg'>
+  <section class='mt-16 sm:mt-24 sm:font-light lg:mt-32 max-sm:px-4'>
+    <h2 class='text-zinc-400 sm:text-lg max-sm:text-sm'>
       {year}
     </h2>
     <h1
-      class='font-heading mt-4 text-[clamp(1.8rem,5vw,2.5rem)] font-bold leading-[1.25] sm:mt-6 md:leading-[1.1]'
+      class='font-heading mt-4 text-[clamp(1.5rem,5vw,2.5rem)] font-bold leading-[1.25] sm:mt-6 md:leading-[1.1]'
       set:html={htmlTitle}
     />
-    <h3 class='mt-4 text-zinc-400 max-sm:text-sm'>
+    <h3 class='mt-4 text-zinc-400 max-sm:text-sm max-sm:leading-relaxed'>
       {description}
     </h3>
     {
       links.length > 0 && (
-        <div class='mt-4 flex gap-4 max-sm:flex-col-reverse sm:mt-6 sm:items-center sm:justify-between'>
+        <div class='mt-4 flex gap-4 max-sm:flex-col max-sm:gap-3 sm:mt-6 sm:items-center sm:justify-between'>
           <Links links={links} />
         </div>
       )
@@ -82,24 +82,29 @@ const htmlTitle = _htmlTitle.replace(
     alt={title}
     title={title}
     align={heroImageAlign}
-    wrapperProps={{ class: 'rounded-lg mt-8 sm:mt-12' }}
-    class='aspect-[1.5] w-full xs:aspect-[2]'
+    wrapperProps={{ class: 'rounded-lg mt-8 sm:mt-12 max-sm:mx-4' }}
+    class='aspect-[1.5] w-full xs:aspect-[2] max-sm:aspect-video'
     ambientMode
   />
 
-  <section class='mt-8 flex w-full gap-16 sm:mt-16'>
+  <section class='mt-8 flex w-full gap-16 sm:mt-16 max-sm:px-4'>
     <article
       id='article'
       class:list={[
         'prose prose-invert max-w-none max-sm:prose-sm',
         'prose-headings:font-display prose-headings:scroll-m-16 sm:prose-headings:scroll-m-24',
-        'prose-a:article-link prose-a:text-[var(--projectAccentColor)]'
+        'prose-a:article-link prose-a:text-[var(--projectAccentColor)]',
+        'max-sm:prose-p:text-sm max-sm:prose-li:text-sm',
+        'max-sm:prose-pre:text-xs max-sm:prose-code:text-xs',
+        'max-sm:prose-h2:text-xl max-sm:prose-h3:text-lg',
+        'prose-pre:max-sm:overflow-x-auto prose-pre:max-sm:-mx-4 prose-pre:max-sm:rounded-none',
+        'prose-table:max-sm:text-xs prose-table:max-sm:block prose-table:max-sm:overflow-x-auto'
       ]}
     >
       <slot />
       {
         updatedDate && (
-          <p class='!mt-8 text-zinc-500'>
+          <p class='!mt-8 text-zinc-500 max-sm:text-xs'>
             Last updated on {formatDateByTimeZone(updatedDate)} UTC+5:30.
             {latestCommitUrl && (
               <LinkArticle href={latestCommitUrl}>
@@ -117,12 +122,12 @@ const htmlTitle = _htmlTitle.replace(
     </aside>
   </section>
 
-  <section class='mt-16'>
+  <section class='mt-16 max-sm:px-4 max-sm:mt-12'>
     <!-- <div class='mb-12 grid gap-6 max-lg:mx-auto md:grid-cols-2'>
       <MoreProjectCard {...Astro.props} />
       <MoreProjectCard {...Astro.props} />
     </div> -->
-    <div class='flex flex-wrap items-center gap-4'>
+    <div class='flex flex-wrap items-center gap-4 max-sm:gap-3 max-sm:text-sm'>
       <Link
         href='/projects'
         class='!text-zinc-200 !no-underline'
@@ -130,7 +135,7 @@ const htmlTitle = _htmlTitle.replace(
         hoverStyled
         hoverEffectOffsetStart='24px'
       >
-        <ArrowRight className='mr-2 inline-block size-4 -scale-x-100' />Explore
+        <ArrowRight className='mr-2 inline-block size-4 -scale-x-100 max-sm:size-3' />Explore
         more projects</Link
       >
       <span class='text-zinc-600'>•</span>
@@ -141,7 +146,7 @@ const htmlTitle = _htmlTitle.replace(
         hoverStyled
         hoverEffectOffsetStart='24px'
       >
-        <ArrowRight className='mr-2 inline-block size-4 -scale-x-100' />Back to
+        <ArrowRight className='mr-2 inline-block size-4 -scale-x-100 max-sm:size-3' />Back to
         Home</Link
       >
     </div>
