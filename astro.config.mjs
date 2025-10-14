@@ -104,7 +104,21 @@ export default defineConfig({
         }
       }
     }),
-    sitemap(),
+    sitemap({
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
+      customPages: [
+        'https://taufeeq.tech/',
+        'https://taufeeq.tech/about/',
+        'https://taufeeq.tech/blog/',
+        'https://taufeeq.tech/projects/',
+        'https://taufeeq.tech/bookmarks/',
+        'https://taufeeq.tech/values/',
+        'https://taufeeq.tech/nohello/',
+        'https://taufeeq.tech/tools/'
+      ]
+    }),
     react(),
     tailwind({
       applyBaseStyles: false
