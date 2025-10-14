@@ -104,12 +104,7 @@ export default defineConfig({
         }
       }
     }),
-    sitemap({
-      filter: (page) => !page.includes('/api/'),
-      changefreq: 'weekly',
-      lastmod: new Date(),
-      priority: 0.7
-    }),
+    sitemap(),
     react(),
     tailwind({
       applyBaseStyles: false

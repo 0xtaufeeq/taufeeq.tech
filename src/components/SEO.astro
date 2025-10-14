@@ -12,6 +12,10 @@ interface Props extends SEOProps {
 
 const { props } = Astro
 
+// Get the current URL and construct canonical URL
+const currentPath = Astro.url.pathname
+const canonicalURL = `${BASE_URL}${currentPath}`
+
 const metaData = {
   title: props.title ?? mainMetaData.title,
   description: props.description ?? mainMetaData.description,
@@ -22,11 +26,13 @@ const defaultProps: SEOProps = {
   title: metaData.title,
   titleDefault: metaData.title,
   description: metaData.description,
+  canonical: props.canonical ?? canonicalURL,
   openGraph: {
     basic: {
       image: metaData.image,
       title: metaData.title,
       type: props.type ?? 'website',
+      url: canonicalURL,
       ...props.openGraph?.basic
     },
     optional: {
