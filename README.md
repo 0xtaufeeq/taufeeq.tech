@@ -1,40 +1,85 @@
-# jestsee.com
+# Taufeeq Riyaz - Portfolio Website
 
-A personal website showcasing my work, built with Astro.
-Check out the live website [here](https://jestsee.com).
+A modern, performant personal portfolio website showcasing my projects, blog posts, and professional journey.
 
-https://github.com/user-attachments/assets/a4e8c8a1-b901-477f-9768-f2acefa5de35
+**Live Site:** [taufeeq.tech](https://taufeeq.tech)
 
-## 📚 Tech Stack
+## Getting Started
 
-- Framework: [Astro](https://astro.build/) with TypeScript
-- Styling: [Tailwind CSS](https://tailwindcss.com/)
-- Content: MDX
-- Hosting: Deployed on [Vercel](https://vercel.com/)
+### Prerequisites
 
-## 🚀 How to Run
+- Node.js 18+ 
+- pnpm 10+ (or npm/yarn)
+- Git
 
-1. Clone this repository
-2. Setup the environment variables
-   ```sh
-   mv .env.example .env
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/0xtaufeeq/taufeeq.tech.git
+   cd taufeeq.tech
    ```
-3. Install the dependency
-   ```sh
-   pnpm i
+
+2. **Install dependencies**
+   ```bash
+   pnpm install
    ```
-4. Run the development server
-   ```sh
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+
+   Fill in the required environment variables:
+   ```env
+   MAPTILER_API_KEY=
+   
+   GITHUB_ACCESS_TOKEN=
+   
+   SPOTIFY_CLIENT_ID=
+   SPOTIFY_CLIENT_SECRET=
+   SPOTIFY_REFRESH_TOKEN=
+   ```
+
+4. **Run the development server**
+   ```bash
    pnpm dev
    ```
-5. Open your browser and navigate to http://localhost:4321.
 
-## 🌐 Preview the Built Project Locally
+   Open [http://localhost:4321](http://localhost:4321) in your browser.
 
-To serve the built project locally, run the following command:
+### Build for Production
 
-```sh
+```bash
+# Type check
+pnpm astro check
+
+# Build the project
+pnpm build
+
+# Preview the production build locally
 pnpm preview
 ```
 
-This will start a local server to preview the production build. It will be available at http://localhost:3000. You can adjust the local URL in the `package.json` file if needed.
+## Contributing
+
+While this is a personal portfolio, I'm open to suggestions and improvements! Feel free to:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/improvement`)
+3. Commit your changes (`git commit -m 'Add some improvement'`)
+4. Push to the branch (`git push origin feature/improvement`)
+5. Open a Pull Request
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## Contact
+
+- **Website:** [taufeeq.tech](https://taufeeq.tech)
+- **Email:** taufeeq@cc.cc
+
+---
+
+If you found this project interesting, consider giving it a star!

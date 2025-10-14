@@ -11,7 +11,7 @@ import getTweetContent from './_services/tweetContent'
 const app = new Hono()
   .basePath('/api')
   .onError((error, c) => {
-    console.error('error occured >>', error)
+    console.error('error occurred >>', error)
     return c.json({ error: 'Something went wrong' }, 500)
   })
   .route('/github', github)
