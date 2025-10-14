@@ -1,0 +1,664 @@
+---
+import BackToHome from '@/components/BackToHome.astro'
+import SEO from '@/components/SEO.astro'
+import StructuredData from '@/components/StructuredData.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { getWebPageSchema, getBreadcrumbSchema } from '@/lib/structuredData'
+import { BASE_URL } from '@/lib/baseUrl'
+
+const breadcrumbs = getBreadcrumbSchema([
+  { name: 'Home', url: BASE_URL },
+  { name: 'Tools', url: `${BASE_URL}/tools` },
+  { name: 'Markdown Editor', url: `${BASE_URL}/tools/markdown-editor` }
+])
+
+const webPage = getWebPageSchema(
+  'Markdown Editor | Tools',
+  'Live markdown editor with PDF export and beautiful preview',
+  `${BASE_URL}/tools/markdown-editor`
+)
+---
+
+<BaseLayout>
+  <SEO
+    title='Markdown Editor | Tools'
+    description='Live markdown editor with PDF export and beautiful preview'
+    slot='seo'
+  />
+  <StructuredData data={[webPage, breadcrumbs]} slot='head' />
+
+  <div class='mt-16 sm:mt-24'>
+    <div class='mb-8 flex items-center justify-between'>
+      <div>
+        <a
+          href='/tools'
+          class='mb-4 inline-flex items-center text-sm text-zinc-400 hover:text-zinc-200'
+        >
+          <svg
+            class='mr-2 size-4'
+            fill='none'
+            viewBox='0 0 24 24'
+            stroke='currentColor'
+          >
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M15 19l-7-7 7-7'></path>
+          </svg>
+          Back to Tools
+        </a>
+        <h1 class='font-heading text-3xl font-bold tracking-tight sm:text-4xl'>
+          Markdown Editor
+        </h1>
+        <p class='mt-2 text-zinc-400'>
+          Write and preview Markdown with live rendering
+        </p>
+      </div>
+    </div>
+
+    <div id='markdown-app'></div>
+  </div>
+</BaseLayout>
+
+<script>
+  import { marked } from 'marked'
+  import DOMPurify from 'dompurify'
+
+  function initMarkdownEditor() {
+    const container = document.getElementById('markdown-app')
+    if (!container) return
+
+    container.innerHTML = `
+      <div class="space-y-4">
+        <div class="flex flex-wrap items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <button
+              data-action="bold"
+              title="Bold (Ctrl+B)"
+              class="toolbar-btn flex size-9 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-300 transition-all hover:border-emerald-600 hover:bg-zinc-700 hover:text-emerald-400"
+            >
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z" />
+              </svg>
+            </button>
+            
+            <button
+              data-action="italic"
+              title="Italic (Ctrl+I)"
+              class="toolbar-btn flex size-9 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-300 transition-all hover:border-emerald-600 hover:bg-zinc-700 hover:text-emerald-400"
+            >
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <line x1="19" y1="4" x2="10" y2="4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                <line x1="14" y1="20" x2="5" y2="20" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                <line x1="15" y1="4" x2="9" y2="20" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+              </svg>
+            </button>
+
+            <button
+              data-action="strikethrough"
+              title="Strikethrough"
+              class="toolbar-btn flex size-9 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-300 transition-all hover:border-emerald-600 hover:bg-zinc-700 hover:text-emerald-400"
+            >
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M9 5v14M15 5v14" />
+              </svg>
+            </button>
+
+            <div class="mx-2 h-6 w-px bg-zinc-700"></div>
+
+            <button
+              data-action="heading"
+              title="Heading"
+              class="toolbar-btn flex size-9 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-800 font-bold text-zinc-300 transition-all hover:border-emerald-600 hover:bg-zinc-700 hover:text-emerald-400"
+            >
+              H
+            </button>
+
+            <button
+              data-action="quote"
+              title="Quote"
+              class="toolbar-btn flex size-9 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-300 transition-all hover:border-emerald-600 hover:bg-zinc-700 hover:text-emerald-400"
+            >
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </button>
+
+            <button
+              data-action="code"
+              title="Code"
+              class="toolbar-btn flex size-9 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-300 transition-all hover:border-emerald-600 hover:bg-zinc-700 hover:text-emerald-400"
+            >
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+            </button>
+
+            <button
+              data-action="link"
+              title="Link"
+              class="toolbar-btn flex size-9 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-300 transition-all hover:border-emerald-600 hover:bg-zinc-700 hover:text-emerald-400"
+            >
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
+            </button>
+
+            <button
+              data-action="image"
+              title="Image"
+              class="toolbar-btn flex size-9 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-300 transition-all hover:border-emerald-600 hover:bg-zinc-700 hover:text-emerald-400"
+            >
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </button>
+
+            <div class="mx-2 h-6 w-px bg-zinc-700"></div>
+
+            <button
+              data-action="list"
+              title="List"
+              class="toolbar-btn flex size-9 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-300 transition-all hover:border-emerald-600 hover:bg-zinc-700 hover:text-emerald-400"
+            >
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+
+            <button
+              data-action="table"
+              title="Table"
+              class="toolbar-btn flex size-9 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-800 text-zinc-300 transition-all hover:border-emerald-600 hover:bg-zinc-700 hover:text-emerald-400"
+            >
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="ml-auto flex flex-wrap items-center gap-2">
+            <button
+              id="export-pdf-btn"
+              class="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
+            >
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Export PDF
+            </button>
+            
+            <button
+              id="export-html-btn"
+              class="flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-200 transition-colors hover:bg-zinc-700"
+            >
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              Copy HTML
+            </button>
+
+            <button
+              id="export-md-btn"
+              class="flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-200 transition-colors hover:bg-zinc-700"
+            >
+              <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Download MD
+            </button>
+          </div>
+        </div>
+
+        <div class="grid gap-4 lg:grid-cols-2">
+          <div class="flex flex-col rounded-xl border border-zinc-800 bg-zinc-900/50">
+            <div class="flex items-center justify-between border-b border-zinc-800 px-4 py-3">
+              <h3 class="text-sm font-medium text-zinc-300">Editor</h3>
+              <div class="flex items-center gap-2">
+                <span id="char-count" class="text-xs text-zinc-500">0 chars</span>
+                <span class="text-zinc-700">•</span>
+                <span id="word-count" class="text-xs text-zinc-500">0 words</span>
+              </div>
+            </div>
+            <textarea
+              id="markdown-input"
+              class="min-h-[600px] flex-1 resize-none bg-transparent px-4 py-3 font-mono text-sm text-zinc-200 placeholder-zinc-500 focus:outline-none"
+              placeholder="Start writing your markdown here..."
+            ></textarea>
+          </div>
+
+          <div class="flex flex-col rounded-xl border border-zinc-800 bg-zinc-900/50">
+            <div class="flex items-center justify-between border-b border-zinc-800 px-4 py-3">
+              <h3 class="text-sm font-medium text-zinc-300">Preview</h3>
+              <button
+                id="fullscreen-btn"
+                class="rounded-lg p-1 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-200"
+                title="Toggle fullscreen"
+              >
+                <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                </svg>
+              </button>
+            </div>
+            <div
+              id="markdown-preview"
+              class="prose prose-invert prose-zinc min-h-[600px] max-w-none flex-1 overflow-auto px-6 py-4"
+            ></div>
+          </div>
+        </div>
+
+        <div id="status-message" class="hidden rounded-lg p-4 text-sm text-center"></div>
+      </div>
+    `
+
+    const markdownInput = document.getElementById('markdown-input') as HTMLTextAreaElement
+    const markdownPreview = document.getElementById('markdown-preview')
+    const charCount = document.getElementById('char-count')
+    const wordCount = document.getElementById('word-count')
+    const toolbarButtons = document.querySelectorAll('.toolbar-btn')
+    const exportPdfBtn = document.getElementById('export-pdf-btn')
+    const exportHtmlBtn = document.getElementById('export-html-btn')
+    const exportMdBtn = document.getElementById('export-md-btn')
+    const fullscreenBtn = document.getElementById('fullscreen-btn')
+    const statusMessage = document.getElementById('status-message')
+
+    marked.setOptions({
+      gfm: true,
+      breaks: true,
+      headerIds: true,
+      mangle: false
+    })
+
+    const defaultMarkdown = `# Welcome to Markdown Editor
+
+This is a **powerful** and *beautiful* markdown editor with live preview and PDF export.
+
+## Features
+
+- 🎨 Beautiful live preview
+- 📝 Easy-to-use toolbar
+- 📄 Export to PDF
+- 💾 Download as Markdown
+- 📋 Copy as HTML
+- ⌨️ Keyboard shortcuts
+
+## Getting Started
+
+Start typing in the editor on the left, and see your formatted text appear here instantly!
+
+### Code Blocks
+
+\`\`\`javascript
+function greet(name) {
+  console.log(\`Hello, \${name}!\`);
+}
+
+greet('World');
+\`\`\`
+
+### Tables
+
+| Feature | Status |
+|---------|--------|
+| Live Preview | ✅ |
+| PDF Export | ✅ |
+| Dark Theme | ✅ |
+
+### Quotes
+
+> "The best way to predict the future is to invent it."
+> - Alan Kay
+
+### Lists
+
+1. First item
+2. Second item
+3. Third item
+
+- Bullet point
+- Another point
+  - Nested point
+
+### Links and Images
+
+[Visit GitHub](https://github.com)
+
+![Placeholder Image](https://via.placeholder.com/600x300)
+
+---
+
+**Happy writing!** 🚀
+`
+
+    function showStatus(message: string, type: 'success' | 'error' = 'success') {
+      if (!statusMessage) return
+      
+      statusMessage.textContent = message
+      statusMessage.className = type === 'success'
+        ? 'rounded-lg p-4 text-sm text-center border border-emerald-900/30 bg-emerald-950/20 text-emerald-200'
+        : 'rounded-lg p-4 text-sm text-center border border-red-900/30 bg-red-950/20 text-red-200'
+      statusMessage.classList.remove('hidden')
+
+      setTimeout(() => {
+        statusMessage.classList.add('hidden')
+      }, 2000)
+    }
+
+    function updatePreview() {
+      const markdown = markdownInput?.value || ''
+      
+      if (markdownPreview) {
+        const html = marked.parse(markdown) as string
+        const clean = DOMPurify.sanitize(html)
+        markdownPreview.innerHTML = clean
+      }
+
+      const chars = markdown.length
+      const words = markdown.trim() ? markdown.trim().split(/\s+/).length : 0
+      
+      if (charCount) charCount.textContent = `${chars} chars`
+      if (wordCount) wordCount.textContent = `${words} words`
+    }
+
+    function insertText(before: string, after: string = '', placeholder: string = 'text') {
+      if (!markdownInput) return
+
+      const start = markdownInput.selectionStart
+      const end = markdownInput.selectionEnd
+      const selectedText = markdownInput.value.substring(start, end)
+      const fullText = markdownInput.value
+      
+      const beforeLen = before.length
+      const afterLen = after.length
+      const beforeText = fullText.substring(start - beforeLen, start)
+      const afterText = fullText.substring(end, end + afterLen)
+      
+      const startsWithMarker = selectedText.startsWith(before)
+      const endsWithMarker = selectedText.endsWith(after)
+      
+      if (selectedText && beforeText === before && afterText === after) {
+        const newStart = start - beforeLen
+        const newEnd = end + afterLen
+        markdownInput.setRangeText(selectedText, newStart, newEnd, 'end')
+        markdownInput.selectionStart = newStart
+        markdownInput.selectionEnd = newStart + selectedText.length
+        markdownInput.focus()
+        updatePreview()
+      } else if (selectedText && startsWithMarker && endsWithMarker && selectedText.length > beforeLen + afterLen) {
+        const unwrapped = selectedText.substring(beforeLen, selectedText.length - afterLen)
+        markdownInput.setRangeText(unwrapped, start, end, 'end')
+        markdownInput.selectionStart = start
+        markdownInput.selectionEnd = start + unwrapped.length
+        markdownInput.focus()
+        updatePreview()
+      } else {
+        const replacement = selectedText || placeholder
+        const newText = before + replacement + after
+
+        markdownInput.setRangeText(newText, start, end, 'end')
+        
+        if (!selectedText) {
+          markdownInput.selectionStart = start + beforeLen
+          markdownInput.selectionEnd = start + beforeLen + placeholder.length
+        } else {
+          markdownInput.selectionStart = start
+          markdownInput.selectionEnd = start + newText.length
+        }
+        
+        markdownInput.focus()
+        updatePreview()
+      }
+    }
+
+    function handleToolbarAction(action: string) {
+      switch (action) {
+        case 'bold':
+          insertText('**', '**', 'bold text')
+          break
+        case 'italic':
+          insertText('*', '*', 'italic text')
+          break
+        case 'strikethrough':
+          insertText('~~', '~~', 'strikethrough text')
+          break
+        case 'heading':
+          insertText('## ', '', 'Heading')
+          break
+        case 'quote':
+          insertText('> ', '', 'Quote')
+          break
+        case 'code':
+          insertText('`', '`', 'code')
+          break
+        case 'link':
+          insertText('[', '](url)', 'link text')
+          break
+        case 'image':
+          insertText('![', '](url)', 'alt text')
+          break
+        case 'list':
+          insertText('- ', '', 'List item')
+          break
+        case 'table':
+          insertText('| Header 1 | Header 2 |\n|----------|----------|\n| Cell 1   | Cell 2   |', '', '')
+          break
+      }
+    }
+
+    async function exportToPDF() {
+      try {
+        const { jsPDF } = await import('jspdf')
+        const html2canvas = (await import('html2canvas')).default
+
+        if (!markdownPreview) return
+
+        showStatus('Generating PDF...')
+
+        const tempContainer = document.createElement('div')
+        tempContainer.style.position = 'absolute'
+        tempContainer.style.left = '-9999px'
+        tempContainer.style.top = '0'
+        tempContainer.style.width = '210mm'
+        tempContainer.style.padding = '20mm'
+        tempContainer.style.backgroundColor = '#ffffff'
+        tempContainer.style.color = '#000000'
+        tempContainer.innerHTML = markdownPreview.innerHTML
+        
+        tempContainer.className = 'prose prose-zinc max-w-none'
+        document.body.appendChild(tempContainer)
+
+        const canvas = await html2canvas(tempContainer, {
+          scale: 2,
+          backgroundColor: '#ffffff',
+          logging: false
+        })
+
+        document.body.removeChild(tempContainer)
+
+        const imgData = canvas.toDataURL('image/png')
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4'
+        })
+
+        const imgWidth = 210
+        const pageHeight = 297
+        const imgHeight = (canvas.height * imgWidth) / canvas.width
+        let heightLeft = imgHeight
+        let position = 0
+
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+        heightLeft -= pageHeight
+
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight
+          pdf.addPage()
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+          heightLeft -= pageHeight
+        }
+
+        pdf.save('markdown-export.pdf')
+        showStatus('PDF exported successfully!')
+      } catch (err) {
+        console.error('PDF export error:', err)
+        showStatus('Failed to export PDF', 'error')
+      }
+    }
+
+    async function copyHTML() {
+      const markdown = markdownInput?.value || ''
+      const html = marked.parse(markdown) as string
+      
+      try {
+        await navigator.clipboard.writeText(html)
+        showStatus('HTML copied to clipboard!')
+      } catch (err) {
+        showStatus('Failed to copy HTML', 'error')
+      }
+    }
+
+    function downloadMarkdown() {
+      const markdown = markdownInput?.value || ''
+      const blob = new Blob([markdown], { type: 'text/markdown' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'document.md'
+      a.click()
+      URL.revokeObjectURL(url)
+      showStatus('Markdown downloaded!')
+    }
+
+    function toggleFullscreen() {
+      const previewContainer = markdownPreview?.closest('.flex')
+      if (!previewContainer) return
+
+      if (previewContainer.classList.contains('lg:col-span-2')) {
+        previewContainer.classList.remove('lg:col-span-2')
+      } else {
+        previewContainer.classList.add('lg:col-span-2')
+      }
+    }
+
+    markdownInput?.addEventListener('input', updatePreview)
+
+    toolbarButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLButtonElement
+        const action = target.getAttribute('data-action')
+        if (action) handleToolbarAction(action)
+      })
+    })
+
+    exportPdfBtn?.addEventListener('click', exportToPDF)
+    exportHtmlBtn?.addEventListener('click', copyHTML)
+    exportMdBtn?.addEventListener('click', downloadMarkdown)
+    fullscreenBtn?.addEventListener('click', toggleFullscreen)
+
+    markdownInput?.addEventListener('keydown', (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        switch (e.key.toLowerCase()) {
+          case 'b':
+            e.preventDefault()
+            handleToolbarAction('bold')
+            break
+          case 'i':
+            e.preventDefault()
+            handleToolbarAction('italic')
+            break
+        }
+      }
+    })
+
+    if (markdownInput) markdownInput.value = defaultMarkdown
+    updatePreview()
+  }
+
+  document.addEventListener('astro:page-load', initMarkdownEditor)
+</script>
+
+<style>
+  .prose {
+    @apply text-zinc-300;
+  }
+
+  .prose h1 {
+    @apply text-zinc-100 border-b border-zinc-800 pb-2;
+  }
+
+  .prose h2 {
+    @apply text-zinc-100 border-b border-zinc-800 pb-2;
+  }
+
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    @apply text-zinc-200;
+  }
+
+  .prose a {
+    @apply text-emerald-400 no-underline hover:text-emerald-300 hover:underline;
+  }
+
+  .prose strong {
+    @apply text-zinc-100 font-semibold;
+  }
+
+  .prose code {
+    @apply rounded bg-zinc-800 px-1.5 py-0.5 text-emerald-400;
+  }
+
+  .prose pre {
+    @apply rounded-lg border border-zinc-800 bg-zinc-900;
+  }
+
+  .prose pre code {
+    @apply bg-transparent p-0;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-emerald-600 bg-zinc-800/30 text-zinc-300;
+  }
+
+  .prose table {
+    @apply w-full border-collapse;
+  }
+
+  .prose thead {
+    @apply border-b-2 border-zinc-700;
+  }
+
+  .prose th {
+    @apply bg-zinc-800/50 px-4 py-2 text-left font-semibold text-zinc-200;
+  }
+
+  .prose td {
+    @apply border-t border-zinc-800 px-4 py-2;
+  }
+
+  .prose tr:hover {
+    @apply bg-zinc-800/30;
+  }
+
+  .prose hr {
+    @apply border-zinc-800;
+  }
+
+  .prose ul,
+  .prose ol {
+    @apply text-zinc-300;
+  }
+
+  .prose li {
+    @apply mb-1;
+  }
+
+  .prose img {
+    @apply rounded-lg border border-zinc-800;
+  }
+</style>
+

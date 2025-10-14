@@ -1,0 +1,120 @@
+---
+import BackToHome from '@/components/BackToHome.astro'
+import SEO from '@/components/SEO.astro'
+import StructuredData from '@/components/StructuredData.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { getCustomTransition } from '@/lib/customTransition'
+import { getWebPageSchema, getBreadcrumbSchema } from '@/lib/structuredData'
+import { BASE_URL } from '@/lib/baseUrl'
+
+interface Tool {
+  title: string
+  description: string
+  icon: string
+  href: string
+  category: string
+}
+
+const breadcrumbs = getBreadcrumbSchema([
+  { name: 'Home', url: BASE_URL },
+  { name: 'Tools', url: `${BASE_URL}/tools` }
+])
+
+const webPage = getWebPageSchema(
+  'Tools | Taufeeq Riyaz',
+  'Powerful web tools including live markdown editor and regex tester for developers',
+  `${BASE_URL}/tools`
+)
+
+const tools: Tool[] = [
+  {
+    title: 'Markdown Editor',
+    description: 'Live markdown editor with PDF export and beautiful preview',
+    icon: '📝',
+    href: '/tools/markdown-editor',
+    category: 'Editor'
+  },
+  {
+    title: 'Regex Tester',
+    description: 'Test and debug regular expressions with live pattern matching',
+    icon: '🔍',
+    href: '/tools/regex-tester',
+    category: 'Developer'
+  }
+]
+
+const categories = [...new Set(tools.map((tool) => tool.category))]
+---
+
+<BaseLayout>
+    <SEO
+      title='Tools | Taufeeq Riyaz'
+      description='Powerful web tools including live markdown editor and regex tester for developers'
+      slot='seo'
+    />
+    <StructuredData data={[webPage, breadcrumbs]} slot='head' />
+
+  <div class='mt-16 sm:mt-40'>
+    <div class='items-center justify-between gap-4 lg:flex'>
+      <div class='space-y-4'>
+        <h1 class='font-heading text-4xl font-bold tracking-tight sm:text-5xl'>
+          Tools
+        </h1>
+        <p class='text-lg text-zinc-400 max-sm:text-base'>
+          A collection of useful web tools and utilities
+        </p>
+      </div>
+      <BackToHome class='max-lg:hidden' />
+    </div>
+
+    <section class='mt-12 sm:mt-16' transition:animate={getCustomTransition(0.2)}>
+      {
+        categories.map((category) => (
+          <div class='mb-12'>
+            <h2 class='mb-6 text-xl font-semibold text-zinc-300'>{category}</h2>
+            <div class='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
+              {tools
+                .filter((tool) => tool.category === category)
+                .map((tool) => (
+                  <a
+                    href={tool.href}
+                    class:list={[
+                      'group relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/50 p-6',
+                      'transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-900',
+                      'flex flex-col gap-4'
+                    ]}
+                  >
+                    <div class='flex items-start justify-between'>
+                      <div class='flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-800 text-2xl'>
+                        {tool.icon}
+                      </div>
+                      <svg
+                        class='size-5 text-zinc-600 transition-all duration-300 group-hover:translate-x-1 group-hover:text-zinc-400'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        stroke='currentColor'
+                      >
+                        <path
+                          stroke-linecap='round'
+                          stroke-linejoin='round'
+                          stroke-width='2'
+                          d='M9 5l7 7-7 7'
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 class='mb-2 text-lg font-semibold text-zinc-200'>
+                        {tool.title}
+                      </h3>
+                      <p class='text-sm text-zinc-400'>{tool.description}</p>
+                    </div>
+                  </a>
+                ))}
+            </div>
+          </div>
+        ))
+      }
+    </section>
+  </div>
+</BaseLayout>
+
