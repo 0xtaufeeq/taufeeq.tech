@@ -24,9 +24,9 @@ export const mainWebsite: WithContext<WebSite> = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   url: import.meta.env.SITE,
-  name: 'Taufeeq Riyaz - Personal Website',
+  name: 'Taufeeq Riyaz - Entrepreneur & Software Engineer',
   description:
-    'From Figma to TypeScript, I craft seamless web and mobile experiences as a software engineer, based in Jakarta, Indonesia.',
+    'Technology entrepreneur, founder of Tenacity & DevSphere. Building educational platforms & fostering innovation in AI, blockchain & web development.',
   inLanguage: 'en_US',
   publisher: organizationSchema,
   author: {
@@ -55,16 +55,16 @@ export const personSchema: WithContext<Person> = {
     'https://github.com/0xtaufeeq',
     'https://www.linkedin.com/in/taufeeq'
   ],
-  jobTitle: 'Software Engineer & Founder',
+  jobTitle: 'Technology Entrepreneur & Developer Advocate',
   worksFor: {
     '@type': 'Organization',
     name: 'Tenacity',
     url: 'https://taufeeq.tech',
   },
-  knowsAbout: ['Web Development', 'Mobile Development', 'TypeScript', 'React', 'Astro'],
+  knowsAbout: ['Full-Stack Web Development', 'Artificial Intelligence', 'Blockchain Technologies', 'TypeScript', 'React', 'Community Building', 'Developer Education'],
   alumniOf: {
     '@type': 'Organization',
-    name: 'Your University'
+    name: 'RV University'
   }
 }
 
