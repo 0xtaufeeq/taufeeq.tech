@@ -7,8 +7,8 @@ import { cn } from '@/lib/utils'
 import { Bookmarks } from '../icons/Bookmarks'
 import { Briefcase } from '../icons/Briefcase'
 import { ChatTeardropDots } from '../icons/ChatTeardrop'
-import { HandPalm } from '../icons/HandPalm'
 import { HandWaving } from '../icons/HandWaving'
+import { Info } from '../icons/Info'
 import { Dock, DockIcon } from '../ui/dock'
 import useScrollHandler from './useScrollHandler'
 import { useTooltipHandler } from './useTooltipHandler'
@@ -34,7 +34,7 @@ export const bottomNavigationItems = [
   },
   {
     name: 'About',
-    icon: HandPalm,
+    icon: Info,
     href: '/about',
     viewTransitionName: 'about'
   },
