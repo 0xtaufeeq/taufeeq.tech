@@ -8,6 +8,67 @@ interface Props {
 const { class: className } = Astro.props
 ---
 
+<script>
+  import confetti from 'canvas-confetti'
+
+  document.addEventListener('astro:page-load', () => {
+    const bookCallButton = document.getElementById('cta-book-call')
+
+    if (bookCallButton) {
+      bookCallButton.addEventListener('click', (e) => {
+        // Get button position for confetti origin
+        const rect = bookCallButton.getBoundingClientRect()
+        const x = (rect.left + rect.width / 2) / window.innerWidth
+        const y = (rect.top + rect.height / 2) / window.innerHeight
+
+        // Fire confetti bursts
+        const count = 200
+        const defaults = {
+          origin: { x, y },
+          colors: ['#10b981', '#059669', '#34d399', '#6ee7b7', '#a7f3d0'],
+          disableForReducedMotion: true
+        }
+
+        function fire(particleRatio: number, opts: confetti.Options) {
+          confetti({
+            ...defaults,
+            ...opts,
+            particleCount: Math.floor(count * particleRatio)
+          })
+        }
+
+        // Multiple bursts for a more dramatic effect
+        fire(0.25, {
+          spread: 26,
+          startVelocity: 55
+        })
+
+        fire(0.2, {
+          spread: 60
+        })
+
+        fire(0.35, {
+          spread: 100,
+          decay: 0.91,
+          scalar: 0.8
+        })
+
+        fire(0.1, {
+          spread: 120,
+          startVelocity: 25,
+          decay: 0.92,
+          scalar: 1.2
+        })
+
+        fire(0.1, {
+          spread: 120,
+          startVelocity: 45
+        })
+      })
+    }
+  })
+</script>
+
 <!-- keyboard source: https://codepen.io/HaydnComley/pen/yLdpLbJ -->
 <div class:list={['flex items-start text-center max-xs:flex-col', className]}>
   <div class='board'>
@@ -83,6 +144,8 @@ const { class: className } = Astro.props
       'Liberation Mono', 'Courier New', monospace;
     background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
     border: 1px solid rgba(16, 185, 129, 0.3);
+    position: relative;
+    overflow: visible;
   }
 
   .key.call-to-action:hover {
@@ -90,20 +153,26 @@ const { class: className } = Astro.props
     border-color: rgba(16, 185, 129, 0.5);
   }
 
-  .call-to-action-content::after {
-    position: absolute;
-    content: '';
-    width: 0;
-    left: 0;
-    top: 50%;
-    margin: 10px 15%;
-    background: rgba(16, 185, 129, 0.8);
-    height: 2px;
-    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  .key.call-to-action:active {
+    animation: confetti-pop 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .key.call-to-action:hover .call-to-action-content::after {
-    width: 70%;
+  @keyframes confetti-pop {
+    0% {
+      transform: scale(1) translateY(0);
+    }
+    10% {
+      transform: scale(0.95) translateY(0);
+    }
+    40% {
+      transform: scale(1.05) translateY(-4px);
+    }
+    60% {
+      transform: scale(0.98) translateY(-2px);
+    }
+    100% {
+      transform: scale(1) translateY(0);
+    }
   }
 
   .key-position {
@@ -163,8 +232,8 @@ const { class: className } = Astro.props
     inset: -50%;
     background: radial-gradient(
       circle at center,
-      rgba(16, 185, 129, 0.3) 0%,
-      transparent 70%
+      rgba(16, 185, 129, 0.15) 0%,
+      transparent 50%
     );
     opacity: 0;
     transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);

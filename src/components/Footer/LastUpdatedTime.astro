@@ -16,7 +16,13 @@ const response = await client.api.github['repo-info'][':owner'][
 })
 const data = response?.status === 200 ? await response.json() : null
 
-if (!data) return
+if (!data) {
+  console.error('Failed to fetch repository info')
+  return
+}
+
+// Debug: Log the data structure
+console.log('Repository data:', JSON.stringify(data, null, 2))
 
 const commit = data.defaultBranchRef?.target
 const username = commit?.author?.user?.login || '0xtaufeeq'
@@ -24,6 +30,9 @@ const profileUrl = `https://github.com/${username}`
 const commitId = commit?.oid?.slice(0, 7) || ''
 const commitUrl = commit?.commitUrl || ''
 const date = new Date(commit?.committedDate || data.pushedAt)
+
+// Debug: Log commit data
+console.log('Commit data:', { username, commitId, commitUrl, hasDefaultBranch: !!data.defaultBranchRef })
 
 const formattedDate = formatDateByTimeZone(date)
 
