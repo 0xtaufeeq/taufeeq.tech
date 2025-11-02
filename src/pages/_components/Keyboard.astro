@@ -28,13 +28,18 @@ const { class: className } = Astro.props
     }
   </div>
   <div class='key-position flex items-center justify-center ml-4 max-xs:ml-0 max-xs:mt-6 max-xs:w-full max-xs:justify-start'>
+    <!-- Booking widget: update data-cal-link and data-cal-namespace if you change your Cal.com event -->
     <a
-      id='cta-hero-btn'
-      href='#bento'
-      data-block='center'
+      id='cta-book-call'
+      href='#'
+      role='button'
+      aria-label='Book A Call'
+      data-cal-namespace='30min'
+      data-cal-link='0xtaufeeq/30min'
+      data-cal-config='{"layout":"month_view"}'
       class='key call-to-action peer'
     >
-      <p class='call-to-action-content text-white'>Explore more</p>
+      <p class='call-to-action-content text-white'>Book A Call</p>
     </a>
   </div>
 </div>

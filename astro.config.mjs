@@ -77,6 +77,9 @@ export default defineConfig({
   },
 
   vite: {
+    server: {
+      allowedHosts: ['.ngrok-free.app']
+    },
     ssr: {
       noExternal: ['path-to-regexp', 'react-tweet']
     }
