@@ -37,6 +37,21 @@ export const GetRepoInfo = gql`
       pushedAt
       updatedAt
       url
+      defaultBranchRef {
+        target {
+          ... on Commit {
+            oid
+            committedDate
+            author {
+              name
+              user {
+                login
+              }
+            }
+            commitUrl
+          }
+        }
+      }
     }
   }
 `

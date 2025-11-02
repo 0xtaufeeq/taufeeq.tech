@@ -11,14 +11,19 @@ const response = await client.api.github['repo-info'][':owner'][
 ].$get({
   param: {
     owner: '0xtaufeeq',
-    repository: '0xtaufeeq'
+    repository: 'taufeeq.tech'
   }
 })
 const data = response?.status === 200 ? await response.json() : null
 
 if (!data) return
 
-const date = new Date(data.pushedAt)
+const commit = data.defaultBranchRef?.target
+const username = commit?.author?.user?.login || '0xtaufeeq'
+const profileUrl = `https://github.com/${username}`
+const commitId = commit?.oid?.slice(0, 7) || ''
+const commitUrl = commit?.commitUrl || ''
+const date = new Date(commit?.committedDate || data.pushedAt)
 
 const formattedDate = formatDateByTimeZone(date)
 
@@ -28,7 +33,34 @@ const { class: className } = Astro.props
 {
   data ? (
     <p class:list={['text-xs min-[961px]:self-end', className]}>
-      Last updated by Taufeeq Riyaz <br class='xs:hidden' /> on {formattedDate} UTC+7
+      Last updated by{' '}
+      <a
+        href={profileUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-medium hover:underline transition-colors"
+        title={`View ${username}'s GitHub profile`}
+      >
+        {username}
+      </a>
+      {' '}on{' '}
+      <time datetime={date.toISOString()} class="font-medium">
+        {formattedDate} IST
+      </time>
+      {commitId && commitUrl && (
+        <>
+          {' '}·{' '}
+          <a 
+            href={commitUrl} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="font-mono hover:underline transition-colors"
+            title="View commit on GitHub"
+          >
+            Commit ID - {commitId}
+          </a>
+        </>
+      )}
     </p>
   ) : (
     // TODO: handle error
