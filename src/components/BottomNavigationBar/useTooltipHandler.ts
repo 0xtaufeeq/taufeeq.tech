@@ -31,6 +31,7 @@ export const useTooltipHandler = (
     const nav = navRef?.current
     if (!nav) return
 
+    // Ensure the nav is visible
     nav.style.opacity = '1'
 
     const teardown = () => {
@@ -44,6 +45,8 @@ export const useTooltipHandler = (
       nav.addEventListener('pointerleave', teardown)
     }
 
+    // Remove any existing listeners before adding new ones
+    nav.removeEventListener('pointerenter', initPointerTrack)
     nav.addEventListener('pointerenter', initPointerTrack)
   }
 

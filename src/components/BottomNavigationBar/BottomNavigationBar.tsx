@@ -58,7 +58,9 @@ const BottomNavigationBar = () => {
   const handlePathChange = () => {
     // hide the tooltip when the page is loaded
     const tip = document.querySelector<HTMLDivElement>('.tip')
-    tip?.style.setProperty('--show', '0')
+    if (tip) {
+      tip.style.setProperty('--show', '0')
+    }
   }
 
   useEffect(() => {
@@ -70,10 +72,18 @@ const BottomNavigationBar = () => {
     })
     window.addEventListener('scroll', handleScroll)
 
-    setInitialPosition()
-    setupTooltip()
+    // Delay setup to ensure DOM is ready
+    const timeoutId = setTimeout(() => {
+      setInitialPosition()
+      setupTooltip()
+      
+      // Initialize CSS variables for tooltip
+      document.documentElement.style.setProperty('--tip-x', '0')
+      document.documentElement.style.setProperty('--tip-y', '0')
+    }, 100)
 
     return () => {
+      clearTimeout(timeoutId)
       document.removeEventListener('astro:page-load', handlePathChange)
       window.removeEventListener('scroll', handleScroll)
     }
@@ -91,7 +101,16 @@ const BottomNavigationBar = () => {
           onPointerMove={() => {
             // remove the css variable which force tooltip to be hidden
             const tip = document.querySelector<HTMLDivElement>('.tip')
-            tip?.style.removeProperty('--show')
+            if (tip) {
+              tip.style.removeProperty('--show')
+            }
+          }}
+          onPointerEnter={() => {
+            // Ensure tooltip is visible on hover
+            const tip = document.querySelector<HTMLDivElement>('.tip')
+            if (tip) {
+              tip.style.removeProperty('--show')
+            }
           }}
           className={cn(
             'mx-auto overflow-hidden rounded-[32px]',

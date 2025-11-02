@@ -17,6 +17,19 @@ export interface GithubRepositoryLastUpdated {
   url: string
   pushedAt: string
   updatedAt: string
+  defaultBranchRef?: {
+    target: {
+      oid: string
+      committedDate: string
+      author: {
+        name: string
+        user: {
+          login: string
+        }
+      }
+      commitUrl: string
+    }
+  }
 }
 
 export type MonkeyTypeLanguage = 'indonesian' | 'english'
