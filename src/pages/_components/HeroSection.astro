@@ -7,26 +7,25 @@ import Keyboard from '../_components/Keyboard.astro'
     class:list={[
       'flex w-fit items-center rounded-full',
       'gap-3 py-1.5 pl-3 pr-4',
-      'border border-zinc-600/75',
-      'bg-slate-950/25',
+      'border border-emerald-500/20 bg-emerald-500/5 backdrop-blur-sm',
       'enter-animation'
     ]}
   >
     <div class='relative size-3'>
       <div
-        class='absolute size-full animate-ping rounded-full bg-green-300 opacity-65'
+        class='absolute size-full animate-ping rounded-full bg-emerald-400 opacity-20'
       >
       </div>
-      <div class='drop-shadow-green size-full rounded-full bg-green-400'></div>
+      <div class='drop-shadow-green size-full rounded-full bg-emerald-400'></div>
     </div>
-    <h3 class='text-sm text-slate-200 max-xs:text-xs'>
+    <h3 class='text-sm text-zinc-300 max-xs:text-xs'>
       Available for projects
     </h3>
   </div>
   <h1
-    class='enter-animation text-[clamp(2rem,7vw,3rem)] font-medium leading-[1.05] tracking-tight'
+    class='enter-animation text-[clamp(2rem,7vw,3rem)] font-medium leading-[1.05] tracking-tight text-zinc-100'
   >
-    Hi, I'm Taufeeq Riyaz. <br /> I think deeply about why things work.
+    Hi, I'm <span class="text-primary-gradient">Taufeeq Riyaz</span>. <br /> I think deeply about why things work.
   </h1>
   <h2
     class='enter-animation mb-8 max-w-xl leading-relaxed text-slate-400 max-sm:text-sm'

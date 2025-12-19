@@ -22,12 +22,12 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            lineHeight: '1.8',
-            fontWeight: '300',
+            lineHeight: '1.75',
+            fontWeight: '400',
             color: theme('colors.zinc.400'),
-            letterSpacing: theme('letterSpacing.wide'),
+            letterSpacing: '0.01em',
             a: {
-              fontWeight: '400'
+              fontWeight: '500'
             },
             blockquote: {
               fontWeight: '400',

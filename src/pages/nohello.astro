@@ -1,139 +1,216 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import SEO from '@/components/SEO.astro'
+import BackToHome from '@/components/BackToHome.astro'
 ---
 
 <BaseLayout>
   <SEO slot='seo' title='No Hello' description="Please don't say just hello in chat" />
 
-  <div class='mx-auto max-w-3xl px-6 py-16'>
-    <div class='mb-20 text-center'>
-      <h1 class='mb-3 text-6xl font-bold tracking-tight'>
-        no <span class='line-through decoration-red-400/60'>hello</span>
+  <div class='relative mx-auto max-w-3xl px-6 py-24'>
+    <div class='absolute left-6 top-6 md:left-0 md:top-8'>
+      <BackToHome />
+    </div>
+
+    <!-- Background Glow -->
+    <div
+      class:list={[
+        '-z-10 h-64 w-64 rounded-full bg-primary-gradient opacity-20 blur-[100px]',
+        'absolute left-1/2 top-0 -translate-x-1/2'
+      ]}
+    >
+    </div>
+
+    <div class='mb-24 text-center'>
+      
+      <h1 class='mb-6 text-7xl font-bold tracking-tight text-white md:text-8xl'>
+        no <span class='line-through decoration-red-500/50 decoration-4'>hello</span>
       </h1>
-      <p class='text-lg text-zinc-400'>Please don't say just hello in chat</p>
+      <p class='text-xl text-zinc-400 max-w-lg mx-auto leading-relaxed'>
+        Please don't just say hello in chat. It interrupts flow and delays answers.
+      </p>
     </div>
 
-    <div class='mb-16'>
-      <p class='mb-12 text-center text-xl leading-relaxed text-zinc-300'>
-        Imagine calling someone on the phone, saying <em class='text-emerald-400'>"hello!"</em> and immediately putting them on hold.
-      </p>
-
-      <div class='mb-8 space-y-4 rounded-2xl border border-red-900/30 bg-red-950/20 p-6'>
-        <div class='flex gap-3'>
-          <div class='flex-shrink-0'>
-            <div class='flex h-10 w-10 items-center justify-center rounded-full bg-red-900/40 text-sm font-medium text-red-200'>K</div>
-          </div>
-          <div class='flex-1'>
-            <div class='mb-1 flex items-baseline gap-2'>
-              <span class='text-sm font-medium text-zinc-300'>Keith</span>
-              <span class='text-xs text-zinc-600'>2:15 PM</span>
-            </div>
-            <div class='inline-block rounded-lg bg-red-900/30 px-3 py-2 text-sm text-red-100'>hi</div>
-          </div>
+    <div class='mb-20'>
+      <div class='relative mb-12 rounded-3xl border border-zinc-800 bg-zinc-900/50 p-8 shadow-2xl backdrop-blur-sm'>
+        <!-- Window Controls -->
+        <div class='mb-6 flex gap-2'>
+          <div class='h-3 w-3 rounded-full bg-red-500/20'></div>
+          <div class='h-3 w-3 rounded-full bg-yellow-500/20'></div>
+          <div class='h-3 w-3 rounded-full bg-green-500/20'></div>
         </div>
 
-        <div class='flex gap-3'>
-          <div class='flex-shrink-0'>
-            <div class='flex h-10 w-10 items-center justify-center rounded-full bg-zinc-700 text-sm font-medium'>Y</div>
-          </div>
-          <div class='flex-1'>
-            <div class='mb-1 flex items-baseline gap-2'>
-              <span class='text-sm font-medium text-zinc-300'>You</span>
-              <span class='text-xs text-zinc-600'>2:19 PM</span>
+        <div class='space-y-6'>
+          <!-- Bad Example -->
+          <div class='flex gap-4'>
+            <div class='flex-shrink-0'>
+              <div class='flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500/10 text-sm font-bold text-indigo-400 ring-1 ring-indigo-500/50'>K</div>
             </div>
-            <div class='inline-block rounded-lg bg-zinc-700 px-3 py-2 text-sm'>hello?</div>
+            <div class='flex-1 space-y-1'>
+              <div class='flex items-baseline gap-2'>
+                <span class='text-sm font-bold text-zinc-200'>Keith</span>
+                <span class='text-xs text-zinc-600'>2:15 PM</span>
+              </div>
+              <div class='w-fit rounded-2xl rounded-tl-none bg-indigo-500/10 px-4 py-2 text-indigo-100 ring-1 ring-indigo-500/20'>
+                hi
+              </div>
+            </div>
+          </div>
+
+          <div class='flex flex-row-reverse gap-4'>
+            <div class='flex-shrink-0'>
+              <div class='flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/10 text-sm font-bold text-emerald-400 ring-1 ring-emerald-500/50'>Y</div>
+            </div>
+            <div class='flex-1 space-y-1'>
+              <div class='flex flex-row-reverse items-baseline gap-2'>
+                <span class='text-sm font-bold text-zinc-200'>You</span>
+                <span class='text-xs text-zinc-600'>2:19 PM</span>
+              </div>
+              <div class='ml-auto w-fit rounded-2xl rounded-tr-none bg-emerald-500/10 px-4 py-2 text-emerald-100 ring-1 ring-emerald-500/20'>
+                hello?
+              </div>
+            </div>
+          </div>
+
+          <!-- Typing Indicator -->
+          <div class='flex gap-4'>
+            <div class='flex-shrink-0'>
+              <div class='flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500/10 text-sm font-bold text-indigo-400 ring-1 ring-indigo-500/50'>K</div>
+            </div>
+            <div class='flex-1 space-y-1'>
+              <div class='flex items-baseline gap-2'>
+                <span class='text-sm font-bold text-zinc-200'>Keith</span>
+                <span class='text-xs text-zinc-600'>is typing...</span>
+              </div>
+              <div class='flex w-16 items-center gap-1 rounded-2xl rounded-tl-none bg-zinc-800/50 px-4 py-3 ring-1 ring-zinc-700/50'>
+                <div class='h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-500 [animation-delay:-0.3s]'></div>
+                <div class='h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-500 [animation-delay:-0.15s]'></div>
+                <div class='h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-500'></div>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div class='flex gap-3'>
-          <div class='flex-shrink-0'>
-            <div class='flex h-10 w-10 items-center justify-center rounded-full bg-red-900/40 text-sm font-medium text-red-200'>K</div>
-          </div>
-          <div class='flex-1'>
-            <div class='mb-1 flex items-baseline gap-2'>
-              <span class='text-sm font-medium text-zinc-300'>Keith</span>
-              <span class='text-xs text-zinc-600'>2:20 PM</span>
-            </div>
-            <div class='inline-block rounded-lg bg-red-900/30 px-3 py-2 text-sm text-red-100'>what time was that meeting again?</div>
-          </div>
-        </div>
-
-        <div class='flex gap-3'>
-          <div class='flex-shrink-0'>
-            <div class='flex h-10 w-10 items-center justify-center rounded-full bg-zinc-700 text-sm font-medium'>Y</div>
-          </div>
-          <div class='flex-1'>
-            <div class='mb-1 flex items-baseline gap-2'>
-              <span class='text-sm font-medium text-zinc-300'>You</span>
-              <span class='text-xs text-zinc-600'>2:20 PM</span>
-            </div>
-            <div class='inline-block rounded-lg bg-zinc-700 px-3 py-2 text-sm'>3:30</div>
+        
+        <!-- Annotation -->
+        <div class='absolute -right-4 top-1/2 hidden translate-x-full md:block'>
+          <div class='flex items-center gap-2 text-sm text-red-400'>
+            <span class='text-2xl'>←</span>
+            <span class='w-32 font-medium'>Wasting both of your time</span>
           </div>
         </div>
       </div>
 
-      <p class='mb-8 text-sm leading-relaxed text-zinc-400'>
-        Keith could have received his answer <strong class='text-red-400'>5 minutes sooner</strong>. Instead, you had to wait for him to type out his question. In async communication, this wastes time for both parties.
-      </p>
-
-      <div class='space-y-4 rounded-2xl border border-emerald-900/30 bg-emerald-950/20 p-6'>
-        <div class='flex gap-3'>
-          <div class='flex-shrink-0'>
-            <div class='flex h-10 w-10 items-center justify-center rounded-full bg-emerald-900/40 text-sm font-medium text-emerald-200'>D</div>
-          </div>
-          <div class='flex-1'>
-            <div class='mb-1 flex items-baseline gap-2'>
-              <span class='text-sm font-medium text-zinc-300'>Dawn</span>
-              <span class='text-xs text-zinc-600'>2:15 PM</span>
-            </div>
-            <div class='inline-block rounded-lg bg-emerald-900/30 px-3 py-2 text-sm text-emerald-100'>Hey! What time was that meeting?</div>
-          </div>
-        </div>
-
-        <div class='flex gap-3'>
-          <div class='flex-shrink-0'>
-            <div class='flex h-10 w-10 items-center justify-center rounded-full bg-zinc-700 text-sm font-medium'>Y</div>
-          </div>
-          <div class='flex-1'>
-            <div class='mb-1 flex items-baseline gap-2'>
-              <span class='text-sm font-medium text-zinc-300'>You</span>
-              <span class='text-xs text-zinc-600'>2:15 PM</span>
-            </div>
-            <div class='inline-block rounded-lg bg-zinc-700 px-3 py-2 text-sm'>3:30</div>
-          </div>
-        </div>
-      </div>
-
-      <p class='mt-8 text-sm leading-relaxed text-zinc-400'>
-        <span class='text-emerald-400'>Much better.</span> Dawn asked her question immediately, and you could respond right away—even if you were away from your desk.
+      <p class='mx-auto max-w-xl text-center text-lg text-zinc-400'>
+        Keith could have received his answer <strong class='text-emerald-400'>minutes sooner</strong>. <br/>In async communication, asking "hello" forces a context switch without providing context.
       </p>
     </div>
 
-    <div class='mb-16 grid gap-8 md:grid-cols-2'>
-      <div class='rounded-xl border border-red-900/30 bg-red-950/10 p-6'>
-        <h2 class='mb-4 text-lg font-semibold text-red-400'>Don't say</h2>
-        <ul class='space-y-2 text-sm text-zinc-400'>
-          <li>"Hello"</li>
-          <li>"Hi Taufeeq, quick question"</li>
-          <li>"You got a sec?"</li>
-          <li>"ping"</li>
+    <!-- The Better Way -->
+    <div class='mb-24'>
+       <div class='relative rounded-3xl border border-zinc-800 bg-zinc-900/50 p-8 shadow-2xl backdrop-blur-sm'>
+        <!-- Window Controls -->
+        <div class='mb-6 flex gap-2'>
+          <div class='h-3 w-3 rounded-full bg-zinc-700'></div>
+          <div class='h-3 w-3 rounded-full bg-zinc-700'></div>
+          <div class='h-3 w-3 rounded-full bg-zinc-700'></div>
+        </div>
+
+        <div class='space-y-6'>
+          <div class='flex gap-4'>
+            <div class='flex-shrink-0'>
+              <div class='flex h-10 w-10 items-center justify-center rounded-full bg-pink-500/10 text-sm font-bold text-pink-400 ring-1 ring-pink-500/50'>D</div>
+            </div>
+            <div class='flex-1 space-y-1'>
+              <div class='flex items-baseline gap-2'>
+                <span class='text-sm font-bold text-zinc-200'>Dawn</span>
+                <span class='text-xs text-zinc-600'>2:15 PM</span>
+              </div>
+              <div class='w-fit max-w-md rounded-2xl rounded-tl-none bg-pink-500/10 px-4 py-2 text-pink-100 ring-1 ring-pink-500/20'>
+                Hey! Do you know what time the team meeting is today?
+              </div>
+            </div>
+          </div>
+
+          <div class='flex flex-row-reverse gap-4'>
+            <div class='flex-shrink-0'>
+              <div class='flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/10 text-sm font-bold text-emerald-400 ring-1 ring-emerald-500/50'>Y</div>
+            </div>
+            <div class='flex-1 space-y-1'>
+              <div class='flex flex-row-reverse items-baseline gap-2'>
+                <span class='text-sm font-bold text-zinc-200'>You</span>
+                <span class='text-xs text-zinc-600'>2:16 PM</span>
+              </div>
+              <div class='ml-auto w-fit rounded-2xl rounded-tr-none bg-emerald-500/10 px-4 py-2 text-emerald-100 ring-1 ring-emerald-500/20'>
+                Yep, it's at 3:30 PM!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Annotation -->
+         <div class='absolute -right-4 top-1/2 hidden translate-x-full md:block'>
+          <div class='flex items-center gap-2 text-sm text-emerald-400'>
+            <span class='text-2xl'>←</span>
+            <span class='w-32 font-medium'>Actionable immediately</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class='mb-24 grid gap-6 md:grid-cols-2'>
+      <div class='group rounded-3xl border border-red-500/10 bg-red-500/5 p-8 transition-colors hover:border-red-500/20 hover:bg-red-500/10'>
+        <div class='mb-4 flex items-center gap-3'>
+          <div class='flex h-8 w-8 items-center justify-center rounded-full bg-red-500/20 text-red-400'>✕</div>
+          <h2 class='text-lg font-semibold text-red-200'>Don't say</h2>
+        </div>
+        <ul class='space-y-3 text-zinc-400'>
+          <li class='flex items-center gap-2'>
+            <span class='h-1.5 w-1.5 rounded-full bg-red-500/50'></span>
+            "Hello"
+          </li>
+          <li class='flex items-center gap-2'>
+            <span class='h-1.5 w-1.5 rounded-full bg-red-500/50'></span>
+            "Hi Taufeeq, quick question"
+          </li>
+          <li class='flex items-center gap-2'>
+            <span class='h-1.5 w-1.5 rounded-full bg-red-500/50'></span>
+            "You got a sec?"
+          </li>
+          <li class='flex items-center gap-2'>
+            <span class='h-1.5 w-1.5 rounded-full bg-red-500/50'></span>
+            "ping"
+          </li>
         </ul>
       </div>
 
-      <div class='rounded-xl border border-emerald-900/30 bg-emerald-950/10 p-6'>
-        <h2 class='mb-4 text-lg font-semibold text-emerald-400'>Instead say</h2>
-        <ul class='space-y-2 text-sm text-zinc-400'>
-          <li>"Hey! When's the deadline for X?"</li>
-          <li>"Hi, hope you're well. Could you send me the latest report?"</li>
-          <li>"Quick question - what's the login for Y?"</li>
+      <div class='group rounded-3xl border border-emerald-500/10 bg-emerald-500/5 p-8 transition-colors hover:border-emerald-500/20 hover:bg-emerald-500/10'>
+         <div class='mb-4 flex items-center gap-3'>
+          <div class='flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400'>✓</div>
+          <h2 class='text-lg font-semibold text-emerald-200'>Instead say</h2>
+        </div>
+        <ul class='space-y-3 text-zinc-400'>
+          <li class='flex items-center gap-2'>
+            <span class='h-1.5 w-1.5 rounded-full bg-emerald-500/50'></span>
+            "Hey! When's the deadline for X?"
+          </li>
+          <li class='flex items-center gap-2'>
+            <span class='h-1.5 w-1.5 rounded-full bg-emerald-500/50'></span>
+            "Hi, could you send me the report?"
+          </li>
+          <li class='flex items-center gap-2'>
+            <span class='h-1.5 w-1.5 rounded-full bg-emerald-500/50'></span>
+            "Quick q - what's the login for Y?"
+          </li>
         </ul>
       </div>
     </div>
 
-    <div class='border-t border-zinc-800 pt-8 text-center'>
-      <p class='text-sm text-zinc-500'>
-        Inspired by <a href='https://nohello.net/' target='_blank' class='text-zinc-400 underline-offset-4 hover:underline'>nohello.net</a>
+    <div class='text-center'>
+      <p class='text-sm text-zinc-600 mb-2'>
+        Inspired by <a href='https://nohello.net/' target='_blank' class='text-zinc-400 transition-colors hover:text-emerald-400'>nohello.net</a>
+      </p>
+      <p class='text-[10px] text-zinc-700 italic opacity-50 hover:opacity-100 transition-opacity'>
+        (⚠️ Warning: This page contains traces of sarcasm. Viewer discretion is advised.)
       </p>
     </div>
   </div>
