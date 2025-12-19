@@ -1,5 +1,298 @@
 ---
-import UnderConstruction from './_components/UnderConstruction.astro'
+import { Image } from 'astro:assets'
+import BackToHome from '@/components/BackToHome.astro'
+import Link from '@/components/Link.astro'
+import SectionHeader from '@/components/SectionHeader.astro'
+import SEO from '@/components/SEO.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { getCustomTransition } from '@/lib/customTransition'
+
+// Experience data structured by company
+const EXPERIENCE = [
+  {
+    company: 'DevSphere',
+    location: 'Bengaluru, Karnataka, India',
+    logoUrl: '/images/devsphere.jpg',
+    roles: [
+      {
+        title: 'Advisor',
+        period: 'Jun 2025 - Present',
+        description: 'I ensure things get done.'
+      },
+      {
+        title: 'Founder and President',
+        period: 'Jan 2024 - Jun 2025',
+        description: 'I get things done.'
+      }
+    ]
+  },
+  {
+    company: 'Tenacity',
+    location: 'Bengaluru, Karnataka, India',
+    logoUrl: '/images/tenacity.jpg',
+    roles: [
+      {
+        title: 'Founder And Design Lead',
+        period: 'Dec 2022 - Present',
+        description: `As the founder of Tenacity, I am responsible for managing all aspects of the product and community, including the technology and design end. I take great care to ensure that the community runs smoothly and that our members have access to the resources and support they need to succeed.
+
+        I work day and night to provide value for members at Tenacity, whether it's organizing events, creating educational content, or providing mentorship and guidance. I am dedicated to making a positive impact on the lives of our members and believe in the power of community.`
+      }
+    ]
+  },
+  {
+    company: 'RV University',
+    location: 'Bengaluru, Karnataka, India',
+    logoUrl: '/images/rv university.jpg',
+    roles: [
+      {
+        title: 'Research Associate - Centre For Global Health and Development',
+        period: 'Dec 2024 - Present',
+        description: 'Full-time research role contributing to global health initiatives.'
+      },
+      {
+        title: 'Mentor - Centre For High Performing Systems and Web Technologies',
+        period: 'Jun 2024 - Jul 2024',
+        description: 'Mentored students on web technologies and high-performance systems.'
+      },
+      {
+        title: 'Peer Mentor - SoCSE',
+        period: 'Jun 2023 - Present',
+        description: 'Mentoring students in School of Computer Science and Engineering.'
+      },
+      {
+        title: 'Teaching Assistant - B.Tech(Hons.)',
+        period: 'Mar 2023 - Jun 2023',
+        description: 'Assisted in teaching and grading for B.Tech students.'
+      },
+      {
+        title: 'Peer Mentor - BSc(Hons.)',
+        period: 'Oct 2022 - Mar 2023',
+        description: `As a Peer Mentor at RV University, I had the opportunity to work closely with students, providing guidance, support, and mentorship to help them reach their full potential. My primary goal was to assist students in web technologies course and to develop the skills needed to succeed both in the classroom and in the professional world. I provided one-on-one mentoring to students who needed additional support, helping them to overcome challenges and achieve their goals.`
+      }
+    ]
+  },
+  {
+    company: 'Rabble Labs',
+    location: 'Bengaluru, Karnataka, India',
+    logoUrl: '/images/rabble.jpg',
+    roles: [
+      {
+        title: 'Community and Growth',
+        period: 'Jun 2024 - Aug 2024',
+        description: `Rabble Labs (Buidlers Tribe + Lumos Labs) provides a comprehensive suite of on chain platforms tailored for dedicated Web3 builders and enthusiasts. Our platforms empower Web3 developers by offering seamless access to talent, capital, distribution channels, and on chain users.
+
+        Our standout platforms, buidl.so, connects Web3 founders with investors, trusted vendors, partners, advisors, and top-tier talent.`
+      }
+    ]
+  },
+  {
+    company: 'Emporia Business Club',
+    location: 'Bengaluru, Karnataka, India',
+    logoUrl: '/images/emporia.jpg',
+    roles: [
+      {
+        title: 'Tech and Design',
+        period: 'Sep 2022 - Apr 2023',
+        description: 'Responsible for making ads for marketing campaigns, designing and developing websites.'
+      }
+    ]
+  },
+  {
+    company: 'Astro Bot',
+    location: 'India',
+    logoUrl: '/images/astrobot.jpg',
+    roles: [
+      {
+        title: 'Developer',
+        period: 'May 2021 - Dec 2022',
+        description: `Astro Bot is a versatile and powerful bot designed for use on Discord servers. It was built using the Discord.py library. The main purpose of Astro Bot is to help keep Discord servers organized and to make various tasks more convenient for server administrators and members.
+
+        The key features of Astro Bot are its ability to perform a wide range of tasks, such as managing roles, automating tasks, and providing useful information. It was widely used in many servers across the platform.`
+      }
+    ]
+  },
+  {
+    company: 'Spenny (acquired by CRED)',
+    location: 'India',
+    logoUrl: '/images/spenny_logo.jpg',
+    roles: [
+      {
+        title: 'Chief Experiment Officer',
+        period: 'Dec 2021 - Mar 2022',
+        description: `I had the opportunity to work with the founder and founding team of Spenny. During my time there, I was able to learn a lot about entrepreneurship, marketing, and design. I was assigned weekly tasks that were designed to help the company acquire new customers and improve its marketing efforts.
+
+        One of my primary responsibilities was to assist with the design of websites, posters, and social media posts. I worked closely with the team to create visually appealing designs that were in line with the company's branding and marketing goals.`
+      }
+    ]
+  }
+]
+
+const SKILLS = [
+  'Community Building',
+  'Product Design',
+  'Web Development',
+  'System Design',
+  'Python',
+  'Discord.py',
+  'React / Next.js',
+  'Astro',
+  'Figma',
+  'Digital Marketing'
+]
 ---
 
-<UnderConstruction />
+<BaseLayout>
+  <SEO 
+    slot='seo' 
+    title='About Me' 
+    description='Building Tenacity. Founding President at DevSphere. Tech Enthusiast.' 
+  />
+
+  <div class='relative mx-auto max-w-3xl px-6 py-24'>
+    <!-- Back Button -->
+    <div 
+      class='absolute left-6 top-6 md:left-0 md:top-8'
+      transition:animate={getCustomTransition(0)}
+    >
+      <BackToHome />
+    </div>
+
+    <!-- Background Glow -->
+    <div
+      class:list={[
+        '-z-10 h-64 w-64 rounded-full bg-primary-gradient opacity-10 blur-[100px]',
+        'absolute right-0 top-0 translate-x-1/3'
+      ]}
+    >
+    </div>
+
+    <!-- Header -->
+    <header class='mb-20 pt-16'>
+      <h1 
+        class='mb-8 text-5xl font-bold tracking-tight text-white md:text-6xl'
+        transition:animate={getCustomTransition(0.1)}
+      >
+        About <span class='text-zinc-500'>Me</span>
+      </h1>
+      
+      <div 
+        class='prose prose-zinc prose-invert max-w-none'
+        transition:animate={getCustomTransition(0.2)}
+      >
+        <p class='text-xl leading-relaxed text-zinc-300'>
+          Hi, I'm <strong class='text-emerald-400'>Taufeeq Riyaz</strong>. I'm a builder and community leader passionate about empowering others.
+        </p>
+        <p class='text-zinc-400'>
+          Currently, I'm building <strong class='text-zinc-200'>Tenacity</strong>, a community where students can discover their passions and develop skills. I also served as the Founding President of <strong class='text-zinc-200'>DevSphere</strong>. I love working at the intersection of technology, design, and people.
+        </p>
+      </div>
+    </header>
+
+    <!-- Skills -->
+    <section class='mb-20'>
+      <h2 
+        class='mb-8 text-2xl font-semibold text-zinc-100'
+        transition:animate={getCustomTransition(0.3)}
+      >
+        Skills & Interests
+      </h2>
+      <div 
+        class='flex flex-wrap gap-3'
+        transition:animate={getCustomTransition(0.35)}
+      >
+        {SKILLS.map((skill) => (
+          <div class='rounded-full border border-zinc-800 bg-zinc-900/50 px-4 py-2 text-sm text-zinc-300 transition-colors hover:border-emerald-500/30 hover:text-emerald-400'>
+            {skill}
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class='mb-20'>
+      <h2 
+        class='mb-8 text-2xl font-semibold text-zinc-100'
+        transition:animate={getCustomTransition(0.4)}
+      >
+        Experience
+      </h2>
+      <div class='space-y-12'>
+        {EXPERIENCE.map((companyData, index) => (
+          <div 
+            class='group relative'
+            transition:animate={getCustomTransition(0.4 + (index * 0.05))}
+          >
+            <div class='flex gap-4 mb-6'>
+              <div class='flex-shrink-0'>
+                <img 
+                  src={companyData.logoUrl} 
+                  alt={`${companyData.company} logo`}
+                  class='h-12 w-12 rounded-lg border border-zinc-800 bg-zinc-900 object-cover'
+                />
+              </div>
+              <div>
+                <h3 class='text-xl font-semibold text-white'>{companyData.company}</h3>
+                {companyData.location && <p class='text-sm text-zinc-500'>{companyData.location}</p>}
+              </div>
+            </div>
+
+            <div class='relative ml-[23px] space-y-8 border-l border-zinc-800 pl-8'>
+              {companyData.roles.map((role, roleIndex) => (
+                <div class='relative'>
+                  <span class='absolute -left-[37px] top-1.5 h-3 w-3 rounded-full border-2 border-zinc-950 bg-zinc-700 transition-colors group-hover:bg-emerald-500 group-hover:border-emerald-900'></span>
+                  
+                  <div class='flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-2'>
+                    <h4 class='text-lg font-medium text-zinc-200'>{role.title}</h4>
+                    <span class='text-sm text-zinc-500 shrink-0'>{role.period}</span>
+                  </div>
+                  
+                  <div class='text-zinc-400 leading-relaxed text-sm space-y-4'>
+                    {role.description.split('\n\n').map(paragraph => (
+                      <p>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Connect -->
+    <section>
+      <h2 
+        class='mb-8 text-2xl font-semibold text-zinc-100'
+        transition:animate={getCustomTransition(0.5)}
+      >
+        Connect
+      </h2>
+      <p 
+        class='mb-8 text-zinc-400'
+        transition:animate={getCustomTransition(0.55)}
+      >
+        I'm always open to discussing new projects, community initiatives, or just chatting about tech.
+      </p>
+      
+      <div 
+        class='flex gap-4'
+        transition:animate={getCustomTransition(0.6)}
+      >
+        <a 
+          href='https://linkedin.com/in/taufeeq' 
+          target='_blank'
+          class='flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-2 text-zinc-400 transition-all hover:border-zinc-700 hover:text-white hover:shadow-lg'
+        >
+          LinkedIn
+        </a>
+        <a 
+          href='mailto:contact.taufeeq@gmail.com' 
+          class='flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-2 text-zinc-400 transition-all hover:border-zinc-700 hover:text-white hover:shadow-lg'
+        >
+          Email Me
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
