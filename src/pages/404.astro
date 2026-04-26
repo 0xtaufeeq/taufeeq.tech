@@ -9,178 +9,171 @@ import { ArrowRight } from '@icons/ArrowRight'
   <SEO
     slot='seo'
     title='404 - Page Not Found'
-    description='Oops! The page you are looking for does not exist.'
+    description='Lost in the void. We couldn"t find the page you"re looking for.'
   />
 
-  <main class='relative flex min-h-screen items-center justify-center overflow-hidden px-6'>
-    <!-- Animated Background Circles -->
-    <div class='pointer-events-none absolute inset-0'>
-      <div class='floating-circle absolute left-[10%] top-[20%] h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl'></div>
-      <div class='floating-circle-delayed absolute right-[15%] top-[60%] h-96 w-96 rounded-full bg-purple-500/10 blur-3xl'></div>
-      <div class='floating-circle-slow absolute bottom-[10%] left-[40%] h-80 w-80 rounded-full bg-blue-500/10 blur-3xl'></div>
-    </div>
+  <section id="error-section" class='relative mt-12 flex min-h-[60vh] w-full flex-col items-center justify-center overflow-hidden rounded-2xl border border-zinc-800/50 bg-zinc-900/20 px-6 py-24'>
+    <!-- Matrix Canvas (Easter Egg) -->
+    <canvas id="matrix-canvas" class="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-1000 rounded-2xl"></canvas>
 
-    <!-- Content -->
-    <div class='relative z-10 text-center'>
-      <!-- 404 Text -->
-      <div class='mb-8 space-y-4'>
-        <h1 class='glitch-text font-heading text-[clamp(5rem,20vw,12rem)] font-bold leading-none tracking-tight'>
+    <!-- Mouse Tracking Spotlight -->
+    <div 
+      id="spotlight" 
+      class="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 rounded-2xl"
+    ></div>
+
+    <!-- Content Card -->
+    <div class='relative z-10 w-full max-w-2xl text-center'>
+      
+      <!-- Typography -->
+      <div class='mb-4'>
+        <h1 class='font-secondary select-none text-[clamp(6rem,20vw,10rem)] font-bold leading-none tracking-tighter text-zinc-100'>
           404
         </h1>
-        <div class='mx-auto h-1 w-32 rounded-full bg-gradient-to-r from-emerald-500 to-purple-500'></div>
       </div>
 
-      <!-- Message -->
-      <div class='mb-12 space-y-4'>
-        <h2 class='text-2xl font-semibold text-zinc-100 sm:text-3xl'>
-          Oops! Page Not Found
+      <!-- Copy -->
+      <div class='mb-12 space-y-3'>
+        <h2 class='text-xl font-medium tracking-tight text-zinc-200 sm:text-2xl'>
+          Lost in the void.
         </h2>
-        <p class='mx-auto max-w-md text-lg text-zinc-400'>
-          Looks like you've ventured into uncharted territory. The page you're looking for doesn't exist or has been moved.
+        <p class='mx-auto max-w-md text-sm text-zinc-400 sm:text-base'>
+          The page you're looking for has been moved, deleted, or possibly never existed.
         </p>
       </div>
 
-      <!-- Actions -->
-      <div class='flex flex-col items-center gap-4 sm:flex-row sm:justify-center'>
+      <!-- Action Buttons -->
+      <div class='flex flex-wrap items-center justify-center gap-6 sm:gap-8'>
         <Link
           href='/'
-          class='group flex items-center gap-2 rounded-full bg-emerald-500 px-8 py-3 font-medium text-black transition-all hover:bg-emerald-400 hover:shadow-lg hover:shadow-emerald-500/20'
+          class='!text-zinc-200 !no-underline text-sm sm:text-base'
+          styled
+          hoverStyled
+          hoverEffectOffsetStart='24px'
         >
-          <span>Take Me Home</span>
-          <ArrowRight className='size-4 transition-transform group-hover:translate-x-1' />
+          <ArrowRight className='mr-2 inline-block size-4 -scale-x-100 max-sm:size-3' />
+          Take me home
         </Link>
         
         <button
           onclick='history.back()'
-          class='group flex items-center gap-2 rounded-full border border-zinc-700 px-8 py-3 font-medium text-zinc-300 transition-all hover:border-zinc-600 hover:bg-zinc-800/50'
+          class='group inline-flex items-center gap-2 text-sm sm:text-base font-medium text-zinc-400 transition-colors hover:text-zinc-200'
         >
-          <ArrowRight className='size-4 rotate-180 transition-transform group-hover:-translate-x-1' />
-          <span>Go Back</span>
+          <ArrowRight className='size-4 rotate-180 transition-transform duration-300 group-hover:-translate-x-1' />
+          <span>Go back</span>
         </button>
       </div>
 
-      <!-- Fun Easter Egg -->
-      <div class='mt-16'>
-        <p class='text-sm text-zinc-600'>
-          Error code: <span class='font-mono text-emerald-500'>ERR_NOT_FOUND</span>
+      <!-- Hint -->
+      <div class='mt-16 opacity-0 transition-opacity hover:opacity-30'>
+        <p class='text-xs text-zinc-500 font-mono'>
+          TYPE 'VOID'
         </p>
       </div>
     </div>
-  </main>
+  </section>
 </BaseLayout>
 
-<style>
-  /* Glitch Effect for 404 Text */
-  .glitch-text {
-    position: relative;
-    color: #10b981;
-    animation: glitch 3s infinite;
+<script>
+  // Mouse Spotlight Effect
+  const spotlight = document.getElementById('spotlight');
+  const section = document.getElementById('error-section');
+  
+  if (spotlight && section) {
+    section.addEventListener('mousemove', (e) => {
+      const rect = section.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      spotlight.style.background = `radial-gradient(circle 400px at ${x}px ${y}px, rgba(45, 212, 191, 0.06), transparent 80%)`;
+      spotlight.style.opacity = '1';
+    });
+    
+    section.addEventListener('mouseleave', () => {
+      spotlight.style.opacity = '0';
+    });
   }
 
-  .glitch-text::before,
-  .glitch-text::after {
-    content: '404';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-  }
+  // Easter Egg: Matrix Rain
+  const canvas = document.getElementById('matrix-canvas') as HTMLCanvasElement | null;
+  let easterEggActive = false;
+  let animationId: number;
 
-  .glitch-text::before {
-    animation: glitch-before 3s infinite;
-    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-    color: #8b5cf6;
-  }
+  if (canvas && section) {
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = section.clientWidth;
+    let height = canvas.height = section.clientHeight;
 
-  .glitch-text::after {
-    animation: glitch-after 3s infinite;
-    clip-path: polygon(0 80%, 100% 80%, 100% 100%, 0 100%);
-    color: #06b6d4;
-  }
+    window.addEventListener('resize', () => {
+      if (!canvas) return;
+      width = canvas.width = section.clientWidth;
+      height = canvas.height = section.clientHeight;
+    });
 
-  @keyframes glitch {
-    0%, 100% {
-      transform: translate(0);
-    }
-    20% {
-      transform: translate(-2px, 2px);
-    }
-    40% {
-      transform: translate(-2px, -2px);
-    }
-    60% {
-      transform: translate(2px, 2px);
-    }
-    80% {
-      transform: translate(2px, -2px);
-    }
-  }
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+{}|:"<>?~`-=[]\',./';
+    const charArray = chars.split('');
+    const fontSize = 14;
+    let columns = Math.floor(width / fontSize);
+    let drops: number[] = [];
 
-  @keyframes glitch-before {
-    0%, 100% {
-      transform: translate(0);
+    function initDrops() {
+      columns = Math.floor(width / fontSize);
+      drops = [];
+      for (let i = 0; i < columns; i++) {
+        drops[i] = 1;
+      }
     }
-    20% {
-      transform: translate(2px, -2px);
-    }
-    40% {
-      transform: translate(-2px, 2px);
-    }
-    60% {
-      transform: translate(2px, 2px);
-    }
-    80% {
-      transform: translate(-2px, -2px);
-    }
-  }
+    
+    initDrops();
+    window.addEventListener('resize', initDrops);
 
-  @keyframes glitch-after {
-    0%, 100% {
-      transform: translate(0);
-    }
-    20% {
-      transform: translate(-2px, 2px);
-    }
-    40% {
-      transform: translate(2px, -2px);
-    }
-    60% {
-      transform: translate(-2px, -2px);
-    }
-    80% {
-      transform: translate(2px, 2px);
-    }
-  }
+    function draw() {
+      if (!ctx) return;
+      ctx.fillStyle = 'rgba(24, 24, 27, 0.1)'; // zinc-900 trail
+      ctx.fillRect(0, 0, width, height);
 
-  /* Floating Circles Animation */
-  .floating-circle {
-    animation: float 20s ease-in-out infinite;
-  }
+      ctx.fillStyle = '#10b981'; // emerald-500
+      ctx.font = fontSize + 'px monospace';
 
-  .floating-circle-delayed {
-    animation: float 25s ease-in-out infinite reverse;
-    animation-delay: 2s;
-  }
+      for (let i = 0; i < drops.length; i++) {
+        const text = charArray[Math.floor(Math.random() * charArray.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-  .floating-circle-slow {
-    animation: float 30s ease-in-out infinite;
-    animation-delay: 4s;
-  }
+        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+      
+      if (easterEggActive) {
+        animationId = requestAnimationFrame(draw);
+      }
+    }
 
-  @keyframes float {
-    0%, 100% {
-      transform: translate(0, 0) scale(1);
-    }
-    25% {
-      transform: translate(20px, -30px) scale(1.1);
-    }
-    50% {
-      transform: translate(-20px, 20px) scale(0.9);
-    }
-    75% {
-      transform: translate(30px, 10px) scale(1.05);
-    }
-  }
-</style>
+    // Keylogger for 'VOID'
+    const secretCode = ['v', 'o', 'i', 'd'];
+    let keyIndex = 0;
 
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === secretCode[keyIndex]) {
+        keyIndex++;
+        if (keyIndex === secretCode.length) {
+          // Trigger Easter Egg
+          if (!easterEggActive) {
+            easterEggActive = true;
+            canvas.style.opacity = '0.35';
+            initDrops();
+            draw();
+          } else {
+            // Turn off
+            easterEggActive = false;
+            canvas.style.opacity = '0';
+            if (animationId) cancelAnimationFrame(animationId);
+          }
+          keyIndex = 0;
+        }
+      } else {
+        keyIndex = 0;
+      }
+    });
+  }
+</script>
