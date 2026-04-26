@@ -31,6 +31,7 @@ export const mainWebsite: WithContext<WebSite> = {
   publisher: organizationSchema,
   author: {
     '@type': 'Person',
+    '@id': `${import.meta.env.SITE}/#taufeeq-riyaz`,
     name: 'Taufeeq Riyaz'
   }
 }
@@ -47,24 +48,45 @@ export const projectWebsite: WithContext<WebSite> = {
 export const personSchema: WithContext<Person> = {
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': `${import.meta.env.SITE}/#taufeeq-riyaz`,
   name: 'Taufeeq Riyaz',
   url: import.meta.env.SITE,
-  image: `${import.meta.env.SITE}/images/og_main.png`,
+  image: 'https://avatars.githubusercontent.com/u/74425589',
+  description:
+    'Technology entrepreneur and developer advocate. Founder of Tenacity - a community platform that has run 150+ events with 50+ industry brands. Infosys Springboard 20Under20 (2024). B.Tech CSE at RV University, Bengaluru.',
   sameAs: [
-    'https://x.com/0xtaufeeq',
+    'https://www.linkedin.com/in/taufeeq',
     'https://github.com/0xtaufeeq',
-    'https://www.linkedin.com/in/taufeeq'
+    'https://taufeeqriyaz.medium.com',
+    'https://www.crunchbase.com/person/taufeeq-riyaz',
+    'https://www.instagram.com/0xtaufeeq',
+    'https://www.figma.com/@taufeeq'
   ],
-  jobTitle: 'Technology Entrepreneur & Developer Advocate',
+  jobTitle: 'Founder & Developer Advocate',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Bengaluru',
+    addressRegion: 'Karnataka',
+    addressCountry: 'IN'
+  },
+  award: 'Infosys Springboard 20Under20 - Entrepreneurship Category, 2024',
   worksFor: {
     '@type': 'Organization',
     name: 'Tenacity',
-    url: 'https://taufeeq.tech',
+    url: 'https://tenacityhq.vercel.app',
   },
-  knowsAbout: ['Full-Stack Web Development', 'Artificial Intelligence', 'Blockchain Technologies', 'TypeScript', 'React', 'Community Building', 'Developer Education'],
+  knowsAbout: [
+    'Artificial Intelligence',
+    'Blockchain',
+    'Web3',
+    'Developer Communities',
+    'Full-Stack Development',
+    'Cloud Computing'
+  ],
   alumniOf: {
-    '@type': 'Organization',
-    name: 'RV University'
+    '@type': 'CollegeOrUniversity',
+    name: 'RV University',
+    url: 'https://rvu.edu.in'
   }
 }
 
