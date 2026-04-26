@@ -278,7 +278,6 @@ const webPage = getWebPageSchema(
         if (flagM?.checked) flags += 'm'
         if (flagS?.checked) flags += 's'
 
-        const regex = new RegExp(pattern, flags)
         const matches = text.matchAll(new RegExp(pattern, flags))
         const matchArray = Array.from(matches)
 

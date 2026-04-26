@@ -15,7 +15,7 @@ const { class: className } = Astro.props
     const bookCallButton = document.getElementById('cta-book-call')
 
     if (bookCallButton) {
-      bookCallButton.addEventListener('click', (e) => {
+      bookCallButton.addEventListener('click', () => {
         // Get button position for confetti origin
         const rect = bookCallButton.getBoundingClientRect()
         const x = (rect.left + rect.width / 2) / window.innerWidth

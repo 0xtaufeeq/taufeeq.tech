@@ -1,8 +1,5 @@
 ---
-import { Image } from 'astro:assets'
 import BackToHome from '@/components/BackToHome.astro'
-import Link from '@/components/Link.astro'
-import SectionHeader from '@/components/SectionHeader.astro'
 import SEO from '@/components/SEO.astro'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import { getCustomTransition } from '@/lib/customTransition'
@@ -238,7 +235,7 @@ const SKILLS = [
             </div>
 
             <div class='relative ml-[23px] space-y-8 border-l border-zinc-800 pl-8'>
-              {companyData.roles.map((role, roleIndex) => (
+              {companyData.roles.map((role) => (
                 <div class='relative'>
                   <span class='absolute -left-[37px] top-1.5 h-3 w-3 rounded-full border-2 border-zinc-950 bg-zinc-700 transition-colors group-hover:bg-emerald-500 group-hover:border-emerald-900'></span>
                   
