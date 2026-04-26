@@ -21,6 +21,10 @@ export default defineConfig({
   adapter,
   output: 'static',
   site: 'https://taufeeq.tech',
+  
+  redirects: {
+    '/sitemap.xml': '/sitemap-index.xml'
+  },
 
   markdown: {
     shikiConfig: {
