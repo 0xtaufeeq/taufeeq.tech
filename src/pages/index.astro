@@ -1,6 +1,7 @@
 ---
+import StructuredData from '@/components/StructuredData.astro'
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import { mainWebsite, personSchema } from '@/lib/structuredData'
+import { mainWebsite, organizationSchema, personSchema, profilePageSchema } from '@/lib/structuredData'
 
 import BentoSection from './_components/BentoSection.astro'
 import BlogSection from './_components/BlogSection.astro'
@@ -12,17 +13,9 @@ import ProjectSection from './_components/ProjectSection.astro'
 
 <BaseLayout>
   <Decorator slot='decorator' />
-  <script
-    is:inline
-    type='application/ld+json'
-    set:html={JSON.stringify(mainWebsite)}
-    slot='head'
-  />
-  <script
-    is:inline
-    type='application/ld+json'
-    set:html={JSON.stringify(personSchema)}
-    slot='head'
+  <StructuredData 
+    data={[mainWebsite, organizationSchema, personSchema, profilePageSchema]} 
+    slot='head' 
   />
   <HeroSection />
   <BentoSection />
