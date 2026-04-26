@@ -105,6 +105,7 @@ export default defineConfig({
       ]
     }),
     (await import('@playform/compress')).default({
+      Exclude: ['robots.txt'],
       HTML: {
         'html-minifier-terser': {
           collapseWhitespace: false
