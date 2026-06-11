@@ -59,6 +59,25 @@ export default {
         6: '6px'
       },
       colors: {
+        // Design language: deepen the dark surfaces to near-black
+        zinc: {
+          900: '#111111',
+          950: '#050505'
+        },
+        // Signature electric-emerald accent (#00D97E) on AMOLED black
+        accent: {
+          50: '#eafff5',
+          100: '#cdfde6',
+          200: '#a0f8d2',
+          300: '#5ef0b4',
+          400: '#25e394',
+          500: '#00d97e',
+          600: '#00b368',
+          700: '#008f55',
+          800: '#007046',
+          900: '#0b5c3d',
+          950: '#03301f'
+        },
         shark: {
           50: '#f6f8f9',
           100: '#ebeff3',
@@ -75,6 +94,7 @@ export default {
       },
       fontFamily: {
         sans: ['Switzer', 'sans'],
+        serif: ['"Playfair Display"', 'Georgia', 'serif'],
         mono: ['"DM Mono"', 'monospace'],
         secondary: [
           '"Fustat SemiBold", sans',

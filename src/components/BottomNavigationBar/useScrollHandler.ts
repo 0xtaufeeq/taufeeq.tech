@@ -62,7 +62,17 @@ const useScrollHandler = (navRef: React.RefObject<HTMLDivElement | null>) => {
     offset.current = bottomNavBarOffset
   }
 
-  return { handleScroll, setInitialPosition }
+  // The island persists across view transitions, so a navigation that resets
+  // the scroll position fires no scroll event — snap the dock back into view.
+  const resetPosition = () => {
+    if (!navRef.current) return
+
+    navBottom.current = offset.current
+    previousScrollY.current = window.scrollY
+    navRef.current.style.bottom = `${offset.current}px`
+  }
+
+  return { handleScroll, setInitialPosition, resetPosition }
 }
 
 export default useScrollHandler

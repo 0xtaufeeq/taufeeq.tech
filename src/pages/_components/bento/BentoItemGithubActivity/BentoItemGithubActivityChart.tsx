@@ -47,7 +47,7 @@ const BentoGithubActivity = (props: Props) => {
         <BentoBadge icon={Github} text='Github activity' />
         <p className='line-clamp-1 text-sm'>{hoveredTile}</p>
       </div>
-      <div className='w-full overflow-x-scroll'>
+      <div className='scrollbar-color w-full overflow-x-auto'>
         <HeatMap
           {...getDateProps()}
           onMouseLeave={() => setHoveredTile(defaultValue)}

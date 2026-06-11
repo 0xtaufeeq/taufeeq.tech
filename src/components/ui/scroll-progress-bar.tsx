@@ -49,7 +49,7 @@ export default function ScrollProgressBar({
     >
       <span
         className={cn(
-          'absolute block h-full w-screen bg-emerald-400',
+          'absolute block h-full w-screen bg-accent-400',
           className
         )}
       ></span>

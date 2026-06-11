@@ -10,12 +10,15 @@ interface WeatherData {
 }
 
 export function BentoItemLocalWeather() {
-  const [currentTime, setCurrentTime] = useState(new Date())
+  // null until mounted: the server-rendered time can never match the
+  // client's clock, which trips React hydration error #418
+  const [currentTime, setCurrentTime] = useState<Date | null>(null)
   const [weather, setWeather] = useState<WeatherData | null>(null)
   const [loading, setLoading] = useState(true)
 
   // Update time every second
   useEffect(() => {
+    setCurrentTime(new Date())
     const timer = setInterval(() => {
       setCurrentTime(new Date())
     }, 1000) as unknown as number
@@ -49,7 +52,8 @@ export function BentoItemLocalWeather() {
     return () => clearInterval(weatherInterval)
   }, [])
 
-  const formatTime = (date: Date) => {
+  const formatTime = (date: Date | null) => {
+    if (!date) return '--:--:--'
     return date.toLocaleTimeString('en-US', {
       hour: '2-digit',
       minute: '2-digit',
@@ -58,7 +62,8 @@ export function BentoItemLocalWeather() {
     })
   }
 
-  const formatDate = (date: Date) => {
+  const formatDate = (date: Date | null) => {
+    if (!date) return '—'
     return date.toLocaleDateString('en-US', {
       weekday: 'short',
       month: 'short',
@@ -114,7 +119,7 @@ export function BentoItemLocalWeather() {
           <div className='flex items-center gap-2'>
             <p className='text-sm text-slate-400'>{formatDate(currentTime)}</p>
             <span className='text-slate-600'>•</span>
-            <p className='text-sm text-slate-500'>{getTimeZone()}</p>
+            <p className='text-sm text-slate-500'>{currentTime ? getTimeZone() : ''}</p>
           </div>
         </div>
 

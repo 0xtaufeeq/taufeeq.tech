@@ -45,9 +45,9 @@ const POSITION_CLASS = [
       >
         <Image
           src={imageSrc}
-          alt='TODO'
+          alt={`Photography sample ${index + 1}`}
           class='h-full w-full object-cover'
-          transition:name={index === 1 ? 'ass' : 'asd'}
+          transition:name={`photo-card-${index}`}
           inferSize
         />
       </div>

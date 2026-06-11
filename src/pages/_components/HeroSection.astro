@@ -2,42 +2,54 @@
 import Keyboard from '../_components/Keyboard.astro'
 ---
 
-<section class='flex h-screen flex-col gap-8 pb-32 pt-24 sm:justify-center'>
+<section class='relative h-screen pb-32 pt-24'>
+  <!-- three.js ember field, full-bleed behind the hero content -->
   <div
-    class:list={[
-      'flex w-fit items-center rounded-full',
-      'gap-3 py-1.5 pl-3 pr-4',
-      'border border-emerald-500/20 bg-emerald-500/5 backdrop-blur-sm',
-      'enter-animation'
-    ]}
+    id='hero-embers'
+    class='pointer-events-none absolute inset-y-0 z-0 w-screen'
+    style='left: calc(50% - 50vw);'
+    aria-hidden='true'
   >
-    <div class='relative size-3'>
-      <div
-        class='absolute size-full animate-ping rounded-full bg-emerald-400 opacity-20'
-      >
-      </div>
-      <div class='drop-shadow-green size-full rounded-full bg-emerald-400'></div>
-    </div>
-    <h3 class='text-sm text-zinc-300 max-xs:text-xs'>
-      Available for projects
-    </h3>
   </div>
-  <h1
-    class='enter-animation text-[clamp(2rem,7vw,3rem)] font-medium leading-[1.05] tracking-tight text-zinc-100'
-  >
-    Hi, I'm <span class="text-primary-gradient">Taufeeq Riyaz</span>. <br /> I think deeply about why things work.
-  </h1>
-  <h2
-    class='enter-animation mb-8 max-w-xl leading-relaxed text-slate-400 max-sm:text-sm'
-  >
+
+  <div class='relative z-10 flex h-full flex-col gap-8 sm:justify-center'>
+    <div
+      class:list={[
+        'flex w-fit items-center rounded-full',
+        'gap-3 py-1.5 pl-3 pr-4',
+        'border border-accent-500/20 bg-accent-500/5 backdrop-blur-sm',
+        'enter-animation'
+      ]}
+    >
+      <div class='relative size-3'>
+        <div
+          class='absolute size-full animate-ping rounded-full bg-accent-400 opacity-20'
+        >
+        </div>
+        <div class='drop-shadow-accent size-full rounded-full bg-accent-400'></div>
+      </div>
+      <h3 class='text-sm text-zinc-300 max-xs:text-xs'>
+        Available for projects
+      </h3>
+    </div>
+    <h1
+      data-hero-headline
+      class='font-heading text-[clamp(2rem,7vw,3rem)] font-semibold leading-[1.05] text-zinc-100'
+    >
+      Hi, I'm <span class="text-primary-gradient">Taufeeq Riyaz</span>. <br /> I think deeply about <span class='font-light italic'>why things work.</span>
+    </h1>
+    <h2
+      class='enter-animation mb-8 max-w-xl leading-relaxed text-zinc-400 max-sm:text-sm'
+    >
 I like working with ideas that move the needle, whether it's products, systems, or people. I care about craft, momentum, and doing the hard things well. Most days I'm building, writing, or helping others figure out how to ship their vision.
-  </h2>
-  <Keyboard class='enter-animation' />
+    </h2>
+    <Keyboard class='enter-animation' />
+  </div>
 </section>
 
 <style is:global>
-  .drop-shadow-green {
-    filter: drop-shadow(0px 0px 8px #59ff7e);
+  .drop-shadow-accent {
+    filter: drop-shadow(0px 0px 8px var(--accent-color-1));
   }
 
   .enter-animation {
@@ -57,3 +69,103 @@ I like working with ideas that move the needle, whether it's products, systems, 
     animation-delay: 0.6s;
   }
 </style>
+
+<script>
+  import { gsap } from 'gsap'
+
+  let cleanupEmbers: (() => void) | undefined
+
+  const prefersReducedMotion = () =>
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  /** Wrap each word in a span so the headline can cascade in. */
+  function splitWords(root: HTMLElement) {
+    const walk = (node: Node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent ?? ''
+        if (!text.trim()) return
+
+        // bg-clip gradients don't reach into new inline-blocks — re-apply
+        const inheritGradient =
+          node.parentElement?.classList.contains('text-primary-gradient')
+
+        const fragment = document.createDocumentFragment()
+        text.split(/(\s+)/).forEach((token) => {
+          if (!token) return
+          if (!token.trim()) {
+            fragment.appendChild(document.createTextNode(token))
+            return
+          }
+          const span = document.createElement('span')
+          span.className = 'split-word inline-block will-change-transform'
+          if (inheritGradient) span.classList.add('text-primary-gradient')
+          span.textContent = token
+          fragment.appendChild(span)
+        })
+        node.parentNode?.replaceChild(fragment, node)
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        Array.from(node.childNodes).forEach(walk)
+      }
+    }
+    Array.from(root.childNodes).forEach(walk)
+  }
+
+  function initHero() {
+    const headline = document.querySelector<HTMLElement>('[data-hero-headline]')
+    if (!headline) return
+
+    if (prefersReducedMotion()) {
+      headline.classList.remove('opacity-0')
+      return
+    }
+
+    if (!headline.dataset.splitDone) {
+      splitWords(headline)
+      headline.dataset.splitDone = 'true'
+    }
+    headline.classList.remove('opacity-0')
+
+    gsap.from(headline.querySelectorAll('.split-word'), {
+      yPercent: 70,
+      opacity: 0,
+      filter: 'blur(10px)',
+      duration: 1,
+      ease: 'power3.out',
+      stagger: 0.055,
+      delay: 0.15
+    })
+
+    initEmbers()
+  }
+
+  /**
+   * The ember field costs ~500KB of three.js — only fetch it on desktop
+   * pointers, and only once the main thread is idle. Phones keep the
+   * gradient glow and skip the download entirely.
+   */
+  function initEmbers() {
+    const mount = document.getElementById('hero-embers')
+    if (!mount || cleanupEmbers) return
+    if (!window.matchMedia('(pointer: fine) and (min-width: 768px)').matches)
+      return
+
+    const start = async () => {
+      if (cleanupEmbers || !document.getElementById('hero-embers')) return
+      const { createEmberScene } = await import('@/scripts/hero-embers')
+      const target = document.getElementById('hero-embers')
+      if (target && !cleanupEmbers) cleanupEmbers = createEmberScene(target)
+    }
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => start(), { timeout: 2500 })
+    } else {
+      setTimeout(start, 350)
+    }
+  }
+
+  document.addEventListener('astro:page-load', initHero)
+  document.addEventListener('astro:before-swap', () => {
+    cleanupEmbers?.()
+    cleanupEmbers = undefined
+  })
+</script>

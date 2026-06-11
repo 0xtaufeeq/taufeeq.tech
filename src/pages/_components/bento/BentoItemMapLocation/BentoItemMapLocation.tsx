@@ -29,13 +29,15 @@ interface ZoomButtonProps
     'onClick' | 'children' | 'className'
   > {
   hide?: boolean
+  label: string
 }
 
 const ZoomButton = (props: ZoomButtonProps) => {
-  const { onClick, children, className, hide } = props
+  const { onClick, children, className, hide, label } = props
   return (
     <button
       onClick={onClick}
+      aria-label={label}
       className={cn(
         'absolute size-10 rounded-full bg-zinc-950 text-3xl leading-none outline outline-2 outline-slate-700',
         'scale-100 transition-all duration-300 hover:outline-4',
@@ -111,8 +113,8 @@ const BentoItemMapLocation = ({ className }: Props) => {
       </MapContainer>
       <div className='absolute inset-0 flex items-center justify-center'>
         <div className='relative size-16'>
-          <div className='absolute size-full animate-ping rounded-full bg-emerald-300/20 opacity-65 blur-sm'></div>
-          <div className='drop-shadow-green size-full rounded-full bg-emerald-400/30'></div>
+          <div className='absolute size-full animate-ping rounded-full bg-accent-300/20 opacity-65 blur-sm'></div>
+          <div className='drop-shadow-accent size-full rounded-full bg-accent-400/30'></div>
         </div>
       </div>
 
@@ -120,6 +122,7 @@ const BentoItemMapLocation = ({ className }: Props) => {
         onClick={zoomOut}
         className='bottom-4 left-4'
         hide={currentZoom <= MIN_ZOOM}
+        label='Zoom out'
       >
         <Minus className='size-4' />
       </ZoomButton>
@@ -128,6 +131,7 @@ const BentoItemMapLocation = ({ className }: Props) => {
         onClick={zoomIn}
         className='bottom-4 right-4'
         hide={currentZoom >= MAX_ZOOM}
+        label='Zoom in'
       >
         <Plus className='size-4' />
       </ZoomButton>

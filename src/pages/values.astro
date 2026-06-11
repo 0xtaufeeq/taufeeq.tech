@@ -3,7 +3,32 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 import BackToHome from '@/components/BackToHome.astro'
 import SEO from '@/components/SEO.astro'
 import TopOverlay from '@/components/TopOverlay.astro'
-import { getCustomTransition } from '@/lib/customTransition'
+
+// Inline SVG flourishes used as "punctuation" between values in the ticker
+const CONNECTORS = [
+  // wave
+  `<svg viewBox="0 0 150 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 22 Q 15 4 28 22 T 53 22 T 78 22 T 103 22 T 128 22 T 147 22" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>`,
+  // loop flourish
+  `<svg viewBox="0 0 130 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 46 C 30 12 62 4 66 24 C 69 40 42 48 38 30 C 34 12 78 8 126 34" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>`,
+  // curved arrow
+  `<svg viewBox="0 0 130 50" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 42 C 42 46 84 32 118 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M100 6 L120 9 L110 27" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`,
+  // asterisk
+  `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M24 5 V43 M7 14 L41 34 M41 14 L7 34" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg>`,
+  // dip curve
+  `<svg viewBox="0 0 140 50" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 12 C 30 44 64 46 92 26 C 104 17 122 18 137 30" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>`
+]
+
+// Variable spacing + slight tilts so the tape reads organically, not like slides
+const ITEM_GAPS = [
+  'ml-[9vw]',
+  'ml-[15vw]',
+  'ml-[7vw]',
+  'ml-[18vw]',
+  'ml-[10vw]',
+  'ml-[14vw]',
+  'ml-[8vw]'
+]
+const CONNECTOR_TILTS = ['', 'rotate-3', '-rotate-2', '', 'rotate-2', '-scale-y-100', '-rotate-3']
 
 const values = [
   {
@@ -56,10 +81,8 @@ const values = [
     <BackToHome />
     
     <!-- Hero Section -->
-    <div class='mt-16 space-y-6' transition:animate={getCustomTransition()}>
-      <div
-        class='flex w-fit items-center gap-2 rounded-full bg-emerald-950/55 px-4 py-2 text-emerald-300'
-      >
+    <div class='mt-16 space-y-6'>
+      <div class='section-badge'>
         <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
         </svg>
@@ -67,8 +90,7 @@ const values = [
       </div>
       
       <h1
-        class='font-heading text-[clamp(2rem,7vw,3.5rem)] font-semibold leading-none'
-        transition:animate={getCustomTransition(0.05)}
+        class='page-title'
       >
         My Philosophy and Values
       </h1>
@@ -77,7 +99,6 @@ const values = [
     <!-- Main Philosophy Essay -->
     <div 
       class='prose prose-invert mt-16 max-w-3xl'
-      transition:animate={getCustomTransition(0.1)}
     >
       <div class='space-y-6 text-lg leading-relaxed text-zinc-300'>
         <p>
@@ -99,44 +120,147 @@ const values = [
       </div>
     </div>
 
-    <!-- Core Values Section -->
-    <div class='mt-32' transition:animate={getCustomTransition(0.15)}>
-      <h2 class='mb-16 text-3xl font-semibold text-zinc-100'>Core Values</h2>
-      
-      <div class='space-y-8'>
-        {values.map((value, index) => (
-          <div 
-            class='group relative rounded-2xl border border-zinc-800/50 bg-zinc-900/20 p-8 transition-all hover:border-zinc-700/50 hover:bg-zinc-900/40'
-            transition:animate={getCustomTransition(0.2 + index * 0.05)}
-          >
-            <div class='flex items-start gap-6 max-sm:flex-col max-sm:gap-4'>
-              <div class='shrink-0'>
-                <span class='text-5xl font-bold text-emerald-500/20 transition-colors group-hover:text-emerald-500/30'>
-                  {value.number}
-                </span>
-              </div>
-              <div class='space-y-3'>
-                <h3 class='text-2xl font-semibold text-zinc-100'>
-                  {value.title}
-                </h3>
-                <p class='text-lg leading-relaxed text-zinc-400'>
-                  {value.description}
-                </p>
-              </div>
-            </div>
-            <div class='absolute bottom-0 left-0 h-1 w-0 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-300 transition-all duration-300 group-hover:w-full'></div>
+    <!-- Core Values — pinned horizontal ticker (GSAP ScrollTrigger) -->
+    <section id='values-ticker' class='mt-32'>
+      <h2 class='sr-only'>Core Values</h2>
+
+      <div
+        class='ticker-viewport relative flex h-screen w-screen items-center'
+        style='margin-left: calc(50% - 50vw);'
+      >
+        <div
+          class='ticker-track flex items-center whitespace-nowrap pl-[8vw] pr-[14vw] will-change-transform'
+        >
+          <!-- opening of the "sentence" -->
+          <div class='flex items-center gap-6'>
+            <span class='font-mono text-xs uppercase tracking-[0.35em] text-accent-400'>
+              Core Values
+            </span>
+            <span
+              class='inline-block h-8 w-auto text-accent-500 sm:h-10 [&>svg]:h-full [&>svg]:w-auto'
+              set:html={CONNECTORS[2]}
+            />
           </div>
-        ))}
+
+          {values.map((value, index) => (
+            <div class:list={['flex items-center', ITEM_GAPS[index]]}>
+              <span
+                class:list={[
+                  'mr-[4vw] inline-block h-[clamp(2rem,5vw,3.5rem)] w-auto shrink-0 text-accent-500/80',
+                  '[&>svg]:h-full [&>svg]:w-auto',
+                  CONNECTOR_TILTS[index]
+                ]}
+                set:html={CONNECTORS[index % CONNECTORS.length]}
+              />
+              <span class='mr-4 self-start pt-[1vw] font-mono text-xs text-accent-400 sm:text-sm'>
+                ( {value.number} )
+              </span>
+              <h3
+                class:list={[
+                  'font-serif text-[clamp(3rem,9vw,7.5rem)] leading-none',
+                  index === 3
+                    ? 'font-medium text-accent-500'
+                    : index % 2 === 0
+                      ? 'font-medium text-zinc-100'
+                      : 'font-light italic text-zinc-200'
+                ]}
+              >
+                {value.title}
+              </h3>
+              <p class='ml-[3vw] inline-block w-56 whitespace-normal text-sm leading-relaxed text-zinc-400 sm:w-64'>
+                {value.description}
+              </p>
+            </div>
+          ))}
+
+          <!-- end of the tape -->
+          <div class='ml-[12vw] flex items-center gap-8'>
+            <span
+              class='inline-block h-10 w-auto text-accent-500 [&>svg]:h-full [&>svg]:w-auto'
+              set:html={CONNECTORS[3]}
+            />
+            <span class='font-serif text-[clamp(2rem,5vw,3.5rem)] font-light italic leading-none text-zinc-500'>
+              the rest is noise.
+            </span>
+          </div>
+        </div>
+
+        <div
+          class='pointer-events-none absolute bottom-24 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.35em] text-white/30'
+        >
+          keep scrolling
+        </div>
       </div>
-    </div>
+    </section>
   </main>
 </BaseLayout>
 
+<script>
+  import { gsap } from 'gsap'
+  import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+  gsap.registerPlugin(ScrollTrigger)
+
+  function initValuesTicker() {
+    const section = document.getElementById('values-ticker')
+    if (!section) return
+
+    const viewport = section.querySelector<HTMLElement>('.ticker-viewport')
+    const track = section.querySelector<HTMLElement>('.ticker-track')
+    if (!viewport || !track) return
+
+    // Reduced motion (or no JS at all): the viewport stays a plain
+    // horizontally-scrollable strip instead of a pinned scrub.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    viewport.classList.add('is-pinned')
+
+    const distance = () => track.scrollWidth - window.innerWidth
+
+    gsap.to(track, {
+      x: () => -distance(),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: () => `+=${distance()}`,
+        pin: true,
+        scrub: 1,
+        anticipatePin: 1,
+        invalidateOnRefresh: true
+      }
+    })
+
+    // Playfair loads late and changes the track width — re-measure once it's in
+    document.fonts?.ready.then(() => ScrollTrigger.refresh())
+  }
+
+  document.addEventListener('astro:page-load', initValuesTicker)
+  document.addEventListener('astro:before-swap', () => {
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
+  })
+</script>
+
 <style>
   .prose em {
-    color: #a3e635;
+    color: theme(colors.accent.300);
     font-style: italic;
     font-weight: 500;
+  }
+
+  /* Fallback: a manually scrollable strip until (unless) GSAP pins it */
+  .ticker-viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+
+  .ticker-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ticker-viewport.is-pinned {
+    overflow: hidden;
   }
 </style>
 

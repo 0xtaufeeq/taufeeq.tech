@@ -60,7 +60,7 @@ const htmlTitle = _htmlTitle.replace(
       {year}
     </h2>
     <h1
-      class='font-heading mt-4 text-[clamp(1.5rem,5vw,2.5rem)] font-bold leading-[1.25] sm:mt-6 md:leading-[1.1]'
+      class='font-heading mt-4 text-[clamp(1.8rem,5vw,2.5rem)] font-semibold leading-[1.25] sm:mt-6 md:leading-[1.1]'
       set:html={htmlTitle}
     />
     <h3 class='mt-4 text-zinc-400 max-sm:text-sm max-sm:leading-relaxed'>
@@ -142,12 +142,13 @@ const htmlTitle = _htmlTitle.replace(
   </section>
 </BaseLayout>
 
-<style is:global define:vars={{ projectAccentColor: '#2dd4bf' }}>
-  * {
-    --projectAccentColor: theme(colors.zinc.200);
+<style is:global>
+  :root {
+    --projectAccentColor: theme(colors.accent.400);
   }
 
   .article-heading > a {
+    color: inherit;
     font-weight: 600;
     text-decoration: none;
     text-underline-offset: 0px;

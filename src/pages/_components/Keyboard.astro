@@ -25,7 +25,7 @@ const { class: className } = Astro.props
         const count = 200
         const defaults = {
           origin: { x, y },
-          colors: ['#10b981', '#059669', '#34d399', '#6ee7b7', '#a7f3d0'],
+          colors: ['#00d97e', '#00b368', '#25e394', '#5ef0b4', '#a0f8d2'],
           disableForReducedMotion: true
         }
 
@@ -74,7 +74,7 @@ const { class: className } = Astro.props
   <div class='board'>
     {
       SOCIAL_MEDIA_DATA.map(({ name, href, icon: Icon }) => (
-        <div class='key-position'>
+        <div class='key-position' data-magnetic>
           <a
             aria-label={name}
             class='key'
@@ -88,7 +88,10 @@ const { class: className } = Astro.props
       ))
     }
   </div>
-  <div class='key-position flex items-center justify-center ml-4 max-xs:ml-0 max-xs:mt-6 max-xs:w-full max-xs:justify-start'>
+  <div
+    class='key-position ml-4 flex items-center justify-center max-xs:ml-0 max-xs:mt-6 max-xs:w-full max-xs:justify-start'
+    data-magnetic
+  >
     <!-- Booking widget: update data-cal-link and data-cal-namespace if you change your Cal.com event -->
     <a
       id='cta-book-call'
@@ -142,22 +145,22 @@ const { class: className } = Astro.props
     letter-spacing: 0.08rem;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
       'Liberation Mono', 'Courier New', monospace;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
-    border: 1px solid rgba(16, 185, 129, 0.4);
+    background: linear-gradient(135deg, rgba(0, 217, 126, 0.1) 0%, rgba(0, 179, 104, 0.1) 100%);
+    border: 1px solid rgba(0, 217, 126, 0.4);
     position: relative;
     overflow: hidden;
     box-shadow: 
-      0 0 20px -5px rgba(16, 185, 129, 0.15),
-      inset 0 0 20px -5px rgba(16, 185, 129, 0.15);
+      0 0 20px -5px rgba(0, 217, 126, 0.15),
+      inset 0 0 20px -5px rgba(0, 217, 126, 0.15);
   }
 
   .key.call-to-action:hover {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%);
-    border-color: rgba(16, 185, 129, 0.8);
+    background: linear-gradient(135deg, rgba(0, 217, 126, 0.2) 0%, rgba(0, 179, 104, 0.2) 100%);
+    border-color: rgba(0, 217, 126, 0.8);
     box-shadow: 
-      0 0 25px -5px rgba(16, 185, 129, 0.3),
-      inset 0 0 25px -5px rgba(16, 185, 129, 0.2);
-    text-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+      0 0 25px -5px rgba(0, 217, 126, 0.3),
+      inset 0 0 25px -5px rgba(0, 217, 126, 0.2);
+    text-shadow: 0 0 8px rgba(0, 217, 126, 0.5);
   }
 
   /* Shine effect */
@@ -271,7 +274,7 @@ const { class: className } = Astro.props
     inset: -50%;
     background: radial-gradient(
       circle at center,
-      rgba(16, 185, 129, 0.15) 0%,
+      rgba(0, 217, 126, 0.15) 0%,
       transparent 50%
     );
     opacity: 0;
@@ -281,11 +284,11 @@ const { class: className } = Astro.props
 
   .key:hover {
     cursor: pointer;
-    border-color: rgba(16, 185, 129, 0.4);
+    border-color: rgba(0, 217, 126, 0.4);
     box-shadow:
       0 2px 4px 0 rgba(0, 0, 0, 0.4),
       0 8px 16px -4px rgba(0, 0, 0, 0.3),
-      0 0 20px -5px rgba(16, 185, 129, 0.3),
+      0 0 20px -5px rgba(0, 217, 126, 0.3),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
     transform: translateY(-2px);
   }
@@ -296,7 +299,7 @@ const { class: className } = Astro.props
 
   .key:hover svg {
     transform: scale(1.1);
-    filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.4));
+    filter: drop-shadow(0 0 8px rgba(0, 217, 126, 0.4));
   }
 
   .key:active,
@@ -307,7 +310,7 @@ const { class: className } = Astro.props
       0 1px 2px 0 rgba(0, 0, 0, 0.3),
       0 2px 4px -1px rgba(0, 0, 0, 0.2),
       inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
-    border-color: rgba(16, 185, 129, 0.5);
+    border-color: rgba(0, 217, 126, 0.5);
   }
 
   /* tooltip source: https://codepen.io/cbracco/pen/nXEQLw */

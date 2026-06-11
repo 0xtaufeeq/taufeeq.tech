@@ -6,23 +6,22 @@ interface Props {
   class?: string
 }
 
-const response = await client.api.github['repo-info'][':owner'][
-  ':repository'
-].$get({
-  param: {
-    owner: '0xtaufeeq',
-    repository: 'taufeeq.tech'
-  }
-})
-const data = response?.status === 200 ? await response.json() : null
-
-if (!data) {
-  console.error('Failed to fetch repository info')
-  return
+let data = null
+try {
+  const response = await client.api.github['repo-info'][':owner'][
+    ':repository'
+  ].$get({
+    param: {
+      owner: '0xtaufeeq',
+      repository: 'taufeeq.tech'
+    }
+  })
+  data = response?.status === 200 ? await response.json() : null
+} catch {
+  // Self-fetch can fail in dev or offline builds — degrade gracefully
 }
 
-// Debug: Log the data structure
-console.log('Repository data:', JSON.stringify(data, null, 2))
+if (!data) return
 
 const commit = data.defaultBranchRef?.target
 const username = commit?.author?.user?.login || '0xtaufeeq'
@@ -30,9 +29,6 @@ const profileUrl = `https://github.com/${username}`
 const commitId = commit?.oid?.slice(0, 7) || ''
 const commitUrl = commit?.commitUrl || ''
 const date = new Date(commit?.committedDate || data.pushedAt)
-
-// Debug: Log commit data
-console.log('Commit data:', { username, commitId, commitUrl, hasDefaultBranch: !!data.defaultBranchRef })
 
 const formattedDate = formatDateByTimeZone(date)
 

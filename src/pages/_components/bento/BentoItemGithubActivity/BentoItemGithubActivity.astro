@@ -3,8 +3,13 @@ import client from '@/lib/client'
 
 import BentoGithubActivityChart from './BentoItemGithubActivityChart'
 
-const response = await client.api.github.contributions.$get()
-const data = response.status === 200 ? await response.json() : null
+let data = null
+try {
+  const response = await client.api.github.contributions.$get()
+  data = response.status === 200 ? await response.json() : null
+} catch {
+  // Self-fetch can fail in dev or offline builds — degrade gracefully
+}
 
 Astro.response.headers.set('Cache-Control', 'public, max-age=86400')
 ---

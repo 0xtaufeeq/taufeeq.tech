@@ -47,7 +47,7 @@ const webPage = getWebPageSchema(
           </svg>
           Back to Tools
         </a>
-        <h1 class='font-heading text-3xl font-bold tracking-tight sm:text-4xl'>
+        <h1 class='font-heading text-3xl font-semibold sm:text-4xl'>
           Regex Tester
         </h1>
         <p class='mt-2 text-zinc-400'>
@@ -81,7 +81,7 @@ const webPage = getWebPageSchema(
             <input
               id="regex-pattern"
               type="text"
-              class="flex-1 border-x-0 border-y border-zinc-700 bg-zinc-800 px-4 py-3 font-mono text-zinc-200 placeholder-zinc-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              class="flex-1 border-x-0 border-y border-zinc-700 bg-zinc-800 px-4 py-3 font-mono text-zinc-200 placeholder-zinc-500 focus:border-accent-500 focus:outline-none focus:ring-2 focus:ring-accent-500/20"
               placeholder="Enter your regex pattern..."
             />
             <span class="flex items-center rounded-r-lg border border-l-0 border-zinc-700 bg-zinc-800 px-3 text-zinc-400">/</span>
@@ -97,40 +97,40 @@ const webPage = getWebPageSchema(
                 type="checkbox"
                 id="flag-g"
                 checked
-                class="size-4 rounded border-zinc-700 bg-zinc-800 text-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
+                class="size-4 rounded border-zinc-700 bg-zinc-800 text-accent-600 focus:ring-2 focus:ring-accent-500/20"
               />
               <span class="text-sm text-zinc-300">
-                <code class="text-emerald-500">g</code> - Global
+                <code class="text-accent-500">g</code> - Global
               </span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
                 id="flag-i"
-                class="size-4 rounded border-zinc-700 bg-zinc-800 text-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
+                class="size-4 rounded border-zinc-700 bg-zinc-800 text-accent-600 focus:ring-2 focus:ring-accent-500/20"
               />
               <span class="text-sm text-zinc-300">
-                <code class="text-emerald-500">i</code> - Case insensitive
+                <code class="text-accent-500">i</code> - Case insensitive
               </span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
                 id="flag-m"
-                class="size-4 rounded border-zinc-700 bg-zinc-800 text-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
+                class="size-4 rounded border-zinc-700 bg-zinc-800 text-accent-600 focus:ring-2 focus:ring-accent-500/20"
               />
               <span class="text-sm text-zinc-300">
-                <code class="text-emerald-500">m</code> - Multiline
+                <code class="text-accent-500">m</code> - Multiline
               </span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
                 id="flag-s"
-                class="size-4 rounded border-zinc-700 bg-zinc-800 text-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
+                class="size-4 rounded border-zinc-700 bg-zinc-800 text-accent-600 focus:ring-2 focus:ring-accent-500/20"
               />
               <span class="text-sm text-zinc-300">
-                <code class="text-emerald-500">s</code> - Dot all
+                <code class="text-accent-500">s</code> - Dot all
               </span>
             </label>
           </div>
@@ -141,7 +141,7 @@ const webPage = getWebPageSchema(
           <label class="mb-2 block text-sm font-medium text-zinc-300">Test String</label>
           <textarea
             id="test-string"
-            class="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 font-mono text-zinc-200 placeholder-zinc-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+            class="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 font-mono text-zinc-200 placeholder-zinc-500 focus:border-accent-500 focus:outline-none focus:ring-2 focus:ring-accent-500/20"
             rows="8"
             placeholder="Enter text to test against your regex..."
           ></textarea>
@@ -152,7 +152,7 @@ const webPage = getWebPageSchema(
           <!-- Match Count -->
           <div class="flex items-center gap-2">
             <span class="text-sm text-zinc-400">Matches:</span>
-            <span id="match-count" class="font-semibold text-emerald-500">0</span>
+            <span id="match-count" class="font-semibold text-accent-500">0</span>
           </div>
 
           <!-- Highlighted Text -->
@@ -200,39 +200,39 @@ const webPage = getWebPageSchema(
               <div>
                 <h4 class="mb-2 font-medium text-zinc-300">Character Classes</h4>
                 <div class="space-y-1 text-sm">
-                  <div><code class="text-emerald-500">.</code> - Any character</div>
-                  <div><code class="text-emerald-500">\\d</code> - Digit (0-9)</div>
-                  <div><code class="text-emerald-500">\\w</code> - Word character</div>
-                  <div><code class="text-emerald-500">\\s</code> - Whitespace</div>
-                  <div><code class="text-emerald-500">[abc]</code> - Any of a, b, or c</div>
-                  <div><code class="text-emerald-500">[^abc]</code> - Not a, b, or c</div>
+                  <div><code class="text-accent-500">.</code> - Any character</div>
+                  <div><code class="text-accent-500">\\d</code> - Digit (0-9)</div>
+                  <div><code class="text-accent-500">\\w</code> - Word character</div>
+                  <div><code class="text-accent-500">\\s</code> - Whitespace</div>
+                  <div><code class="text-accent-500">[abc]</code> - Any of a, b, or c</div>
+                  <div><code class="text-accent-500">[^abc]</code> - Not a, b, or c</div>
                 </div>
               </div>
               <div>
                 <h4 class="mb-2 font-medium text-zinc-300">Quantifiers</h4>
                 <div class="space-y-1 text-sm">
-                  <div><code class="text-emerald-500">*</code> - 0 or more</div>
-                  <div><code class="text-emerald-500">+</code> - 1 or more</div>
-                  <div><code class="text-emerald-500">?</code> - 0 or 1</div>
-                  <div><code class="text-emerald-500">{n}</code> - Exactly n times</div>
-                  <div><code class="text-emerald-500">{n,}</code> - n or more times</div>
-                  <div><code class="text-emerald-500">{n,m}</code> - Between n and m times</div>
+                  <div><code class="text-accent-500">*</code> - 0 or more</div>
+                  <div><code class="text-accent-500">+</code> - 1 or more</div>
+                  <div><code class="text-accent-500">?</code> - 0 or 1</div>
+                  <div><code class="text-accent-500">{n}</code> - Exactly n times</div>
+                  <div><code class="text-accent-500">{n,}</code> - n or more times</div>
+                  <div><code class="text-accent-500">{n,m}</code> - Between n and m times</div>
                 </div>
               </div>
               <div>
                 <h4 class="mb-2 font-medium text-zinc-300">Anchors</h4>
                 <div class="space-y-1 text-sm">
-                  <div><code class="text-emerald-500">^</code> - Start of string</div>
-                  <div><code class="text-emerald-500">$</code> - End of string</div>
-                  <div><code class="text-emerald-500">\\b</code> - Word boundary</div>
+                  <div><code class="text-accent-500">^</code> - Start of string</div>
+                  <div><code class="text-accent-500">$</code> - End of string</div>
+                  <div><code class="text-accent-500">\\b</code> - Word boundary</div>
                 </div>
               </div>
               <div>
                 <h4 class="mb-2 font-medium text-zinc-300">Groups</h4>
                 <div class="space-y-1 text-sm">
-                  <div><code class="text-emerald-500">(abc)</code> - Capturing group</div>
-                  <div><code class="text-emerald-500">(?:abc)</code> - Non-capturing group</div>
-                  <div><code class="text-emerald-500">a|b</code> - a or b</div>
+                  <div><code class="text-accent-500">(abc)</code> - Capturing group</div>
+                  <div><code class="text-accent-500">(?:abc)</code> - Non-capturing group</div>
+                  <div><code class="text-accent-500">a|b</code> - a or b</div>
                 </div>
               </div>
             </div>
@@ -303,7 +303,7 @@ const webPage = getWebPageSchema(
                 const after = highlighted.slice(end)
                 
                 highlighted = before + 
-                  `<span class="bg-emerald-600/30 text-emerald-200 rounded px-1">${escapeHtml(matchText)}</span>` + 
+                  `<span class="bg-accent-600/30 text-accent-200 rounded px-1">${escapeHtml(matchText)}</span>` + 
                   after
                 
                 offset += 67 + escapeHtml(matchText).length - matchText.length
@@ -330,7 +330,7 @@ const webPage = getWebPageSchema(
                     <div class="flex-1">
                       <div class="text-sm">
                         <span class="text-zinc-400">Match ${index + 1}:</span>
-                        <code class="ml-2 text-emerald-400">${escapeHtml(match[0])}</code>
+                        <code class="ml-2 text-accent-400">${escapeHtml(match[0])}</code>
                       </div>
                       ${groups}
                     </div>

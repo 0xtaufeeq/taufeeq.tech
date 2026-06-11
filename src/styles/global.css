@@ -30,12 +30,33 @@
     );
   }
 
+  /* Shared UI primitives — keep buttons, cards and badges identical across pages */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-full bg-accent-500 px-6 py-2.5 text-sm font-medium text-zinc-950 transition-all duration-300 hover:bg-accent-400 hover:shadow-lg hover:shadow-accent-500/20;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/50 px-6 py-2.5 text-sm font-medium text-zinc-300 transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-900 hover:text-zinc-100;
+  }
+
+  .ui-card {
+    @apply rounded-xl border border-zinc-800 bg-zinc-900/50 transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-900;
+  }
+
+  .section-badge {
+    @apply flex w-fit items-center gap-2 rounded-full bg-accent-950/55 px-4 py-2 text-accent-300;
+  }
+
+  .page-title {
+    @apply font-heading text-[clamp(2rem,7vw,3.25rem)] font-semibold leading-none;
+  }
+
   .font-display {
-    @apply font-secondary tracking-normal;
+    @apply font-serif tracking-normal;
   }
 
   .font-heading {
-    @apply font-secondary tracking-tight;
+    @apply font-serif tracking-tight;
   }
 
   .link-hover-animation {
@@ -76,8 +97,10 @@
 }
 
 :root {
-  --accent-color-1: #00df73;
-  --accent-color-2: #01fedc;
+  --bg: #050505;
+  --card: #111111;
+  --accent-color-1: #00d97e;
+  --accent-color-2: #5ef0b4;
   --accent-gradient-color: linear-gradient(
     90deg,
     var(--accent-color-1),
@@ -85,8 +108,117 @@
   );
 }
 
+::selection {
+  background-color: var(--accent-color-1);
+  color: #050505;
+}
+
 :focus-visible {
-  @apply outline outline-2 outline-offset-2 outline-emerald-300;
+  @apply outline outline-2 outline-offset-2 outline-accent-300;
+}
+
+/* Reveal-on-scroll — elements with .reveal fade/slide in when they enter the
+   viewport (observer lives in BaseLayout) */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Custom cursor — built by motion.ts on fine-pointer devices only */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+
+#site-cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+
+#site-cursor .cursor-dot {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: white;
+}
+
+#site-cursor .cursor-ring {
+  position: absolute;
+  top: -18px;
+  left: -18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+}
+
+@media (pointer: coarse) {
+  #site-cursor {
+    display: none;
+  }
+}
+
+/* SFX mute toggle — built by sfx.ts, rebuilt per page swap */
+#sfx-toggle {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  border: 1px solid theme('colors.zinc.800');
+  background: theme('colors.zinc.950 / 80%');
+  color: theme('colors.zinc.400');
+  backdrop-filter: blur(8px);
+  transition:
+    color 0.3s,
+    border-color 0.3s;
+}
+
+#sfx-toggle:hover {
+  color: var(--accent-color-2);
+  border-color: theme('colors.zinc.700');
+}
+
+#sfx-toggle[data-muted='1'] {
+  color: theme('colors.zinc.600');
+}
+
+/* Film-grain texture laid over the whole page */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 @keyframes fade-in-bottom {
@@ -99,15 +231,6 @@
     transform: translateY(0);
     opacity: 1;
     filter: blur(0);
-  }
-}
-
-@keyframes text-blur-out {
-  0% {
-    filter: blur(0.01);
-  }
-  100% {
-    filter: blur(12px) opacity(0%);
   }
 }
 
@@ -138,6 +261,20 @@
   left: -20.25px;
   top: 50%;
   transform: translateY(-50%) rotate(90deg);
+}
+
+/* Code block copy button — wrapper added by src/scripts/code-copy.ts.
+   The button anchors to the wrapper, not the <pre>, so it stays pinned
+   while long code scrolls horizontally underneath it. */
+.code-block-wrapper {
+  position: relative;
+}
+
+.code-copy-slot {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  z-index: 10;
 }
 
 /* Mobile responsiveness for prose content */

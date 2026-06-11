@@ -24,7 +24,10 @@ const { year, title, description, slug, heroImage, heroImageAlign } =
     alt={title}
     align={heroImageAlign}
     class='aspect-[1.75] transition-all duration-800 group-hover:scale-105'
-    wrapperProps={{ class: 'rounded-lg overflow-clip' }}
+    wrapperProps={{
+      class: 'relative rounded-lg overflow-clip',
+      'data-distort': true
+    }}
   />
   <div class='flex flex-col gap-4'>
     <p>{year}</p>
@@ -38,7 +41,7 @@ const { year, title, description, slug, heroImage, heroImageAlign } =
       {description}
     </p>
     <span
-      class='link-hover-animation group-hover:link-hovered-animation w-fit text-sm text-emerald-400'
+      class='link-hover-animation group-hover:link-hovered-animation w-fit text-sm text-accent-400'
       >Read more
       <ArrowRight
         className='ml-1 inline-block transition-all duration-300 group-hover:ml-2'
@@ -48,3 +51,7 @@ const { year, title, description, slug, heroImage, heroImageAlign } =
 </Link>
 
 <style define:vars={{ offsetEnd: '24px' }}></style>
+
+<script>
+  import '@/scripts/hover-distort'
+</script>

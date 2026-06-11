@@ -24,7 +24,7 @@
 
 .heading-item:has(a.current-heading)::after {
   content: 'Current';
-  @apply ml-2 rounded-full bg-emerald-950/75 py-1 pl-2 pr-2.5 text-xs leading-none text-emerald-400;
+  @apply ml-2 rounded-full bg-accent-950/75 py-1 pl-2 pr-2.5 text-xs leading-none text-accent-400;
 }
 
 .gradient-clipped {

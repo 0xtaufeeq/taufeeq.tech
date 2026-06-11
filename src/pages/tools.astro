@@ -3,7 +3,6 @@ import BackToHome from '@/components/BackToHome.astro'
 import SEO from '@/components/SEO.astro'
 import StructuredData from '@/components/StructuredData.astro'
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import { getCustomTransition } from '@/lib/customTransition'
 import { getWebPageSchema, getBreadcrumbSchema } from '@/lib/structuredData'
 import { BASE_URL } from '@/lib/baseUrl'
 
@@ -56,22 +55,29 @@ const categories = [...new Set(tools.map((tool) => tool.category))]
 
   <div class='mt-16 sm:mt-40'>
     <div class='items-center justify-between gap-4 lg:flex'>
-      <div class='space-y-4'>
-        <h1 class='font-heading text-4xl font-bold tracking-tight sm:text-5xl'>
-          Tools
-        </h1>
-        <p class='text-lg text-zinc-400 max-sm:text-base'>
+      <div class='space-y-6 sm:space-y-8'>
+        <div class='section-badge'>
+          <svg xmlns='http://www.w3.org/2000/svg' class='size-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' />
+            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 12a3 3 0 11-6 0 3 3 0 016 0z' />
+          </svg>
+          <h1 class='text-sm font-medium tracking-wide max-sm:text-xs'>Tools</h1>
+        </div>
+        <h2 class='page-title'>
+          Useful Web Tools
+        </h2>
+        <p class='text-zinc-400 max-md:text-sm'>
           A collection of useful web tools and utilities
         </p>
       </div>
       <BackToHome class='max-lg:hidden' />
     </div>
 
-    <section class='mt-12 sm:mt-16' transition:animate={getCustomTransition(0.2)}>
+    <section class='mt-12 sm:mt-16'>
       {
         categories.map((category) => (
           <div class='mb-12'>
-            <h2 class='mb-6 text-xl font-semibold text-zinc-300'>{category}</h2>
+            <h2 class='font-heading mb-6 text-xl font-semibold text-zinc-300'>{category}</h2>
             <div class='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
               {tools
                 .filter((tool) => tool.category === category)
@@ -79,8 +85,7 @@ const categories = [...new Set(tools.map((tool) => tool.category))]
                   <a
                     href={tool.href}
                     class:list={[
-                      'group relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/50 p-6',
-                      'transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-900',
+                      'ui-card group relative overflow-hidden p-6',
                       'flex flex-col gap-4'
                     ]}
                   >
@@ -103,7 +108,7 @@ const categories = [...new Set(tools.map((tool) => tool.category))]
                       </svg>
                     </div>
                     <div>
-                      <h3 class='mb-2 text-lg font-semibold text-zinc-200'>
+                      <h3 class='font-display mb-2 text-xl font-semibold text-zinc-100'>
                         {tool.title}
                       </h3>
                       <p class='text-sm text-zinc-400'>{tool.description}</p>

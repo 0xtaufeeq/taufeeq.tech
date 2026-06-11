@@ -180,8 +180,8 @@ export default function NewTableOfContent({ headings }: Props) {
           className={cn(
             'group flex items-center gap-2',
             'rounded-full px-3 py-2.5 max-xs:ml-1 max-xs:mr-2 max-xs:p-0',
-            'font-heading text-sm text-emerald-400',
-            'bg-emerald-950/60'
+            'font-heading text-sm text-accent-400',
+            'bg-accent-950/60'
           )}
         >
           <CircularScrollProgress className='xs:hidden' />

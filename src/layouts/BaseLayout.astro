@@ -23,6 +23,7 @@ const { class: className } = Astro.props
     </slot>
   </head>
   <body class='flex min-h-dvh flex-col items-center overflow-x-hidden bg-zinc-950 text-white'>
+    <div class='noise-overlay' aria-hidden='true'></div>
     <CalEmbed client:only='react' />
     <slot name='decorator' />
     <main
@@ -39,13 +40,47 @@ const { class: className } = Astro.props
 </html>
 
 <script>
+  import '@/scripts/motion'
+  import '@/scripts/sfx'
+
   const scrollOptions: ScrollIntoViewOptions = {
     behavior: 'smooth',
     block: 'start'
   }
 
+  const scrollToElement = (target: HTMLElement, block?: ScrollLogicalPosition) => {
+    if (window.__lenis && (!block || block === 'start')) {
+      window.__lenis.scrollTo(target)
+    } else {
+      target.scrollIntoView({ ...scrollOptions, block })
+    }
+  }
+
   document.addEventListener('astro:page-load', () => {
     document.getElementById('nav-dock')?.classList.remove('!p-3')
+
+    // Copy buttons for code blocks — loaded lazily so pages without
+    // code never pay for React DOM here
+    if (document.querySelector('.prose pre, article pre')) {
+      import('@/scripts/code-copy').then(({ mountCopyButtons }) =>
+        mountCopyButtons()
+      )
+    }
+
+    // reveal-on-scroll (styles live in global.css)
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active')
+            revealObserver.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    )
+
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el))
 
     // handle hash on initial load
     if (window.location.hash) {
@@ -53,7 +88,7 @@ const { class: className } = Astro.props
 
       const targetId = window.location.hash.substring(1)
       const targetElement = document.getElementById(targetId)
-      targetElement?.scrollIntoView(scrollOptions)
+      if (targetElement) scrollToElement(targetElement)
     }
 
     // handle in page navigation
@@ -68,7 +103,7 @@ const { class: className } = Astro.props
 
         const targetElement = document.getElementById(targetId)
         const block = currentTarget.dataset['block'] as ScrollLogicalPosition
-        targetElement?.scrollIntoView({ ...scrollOptions, block })
+        if (targetElement) scrollToElement(targetElement, block)
 
         // Manually update the URL hash without triggering the default jump
         history.pushState(null, '', `#${targetId}`)
@@ -79,7 +114,7 @@ const { class: className } = Astro.props
       const targetId = window.location.hash.substring(1)
       const targetElement = document.getElementById(targetId)
 
-      targetElement?.scrollIntoView(scrollOptions)
+      if (targetElement) scrollToElement(targetElement)
     })
   })
 </script>

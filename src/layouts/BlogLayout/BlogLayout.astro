@@ -62,7 +62,7 @@ const {
   <section class='mt-8 sm:font-light'>
     <BlogInfo pubDate={pubDate} readingTime={readingTime} />
     <h1
-      class='font-heading mt-4 text-[clamp(1.8rem,5vw,2rem)] font-semibold leading-[1.25] !-tracking-[0.01em] md:leading-[1.1]'
+      class='font-heading mt-4 text-[clamp(1.8rem,5vw,2.5rem)] font-semibold leading-[1.25] !-tracking-[0.01em] md:leading-[1.1]'
     >
       {title}
     </h1>
@@ -72,7 +72,7 @@ const {
     <ul class='mt-8 flex flex-wrap gap-2'>
       {
         tags.map((item) => (
-          <li class='rounded bg-zinc-900 px-2 py-1 font-mono text-xs tracking-tight text-zinc-500'>
+          <li class='rounded bg-zinc-900 px-2 py-1 font-mono text-xs tracking-tight text-zinc-400'>
             {item}
           </li>
         ))
@@ -138,12 +138,13 @@ const {
   </section>
 </BaseLayout>
 
-<style is:global define:vars={{ projectAccentColor: '#2dd4bf' }}>
-  * {
-    --projectAccentColor: theme(colors.zinc.200);
+<style is:global>
+  :root {
+    --projectAccentColor: theme(colors.accent.400);
   }
 
   .article-heading > a {
+    color: inherit;
     font-weight: 600;
     text-decoration: none;
     text-underline-offset: 0px;

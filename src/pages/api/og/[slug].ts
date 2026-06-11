@@ -49,7 +49,7 @@ const generateHtml = (data: AllCollectionEntry['data']): ReactElement => {
               {
                 type: 'div',
                 props: {
-                  tw: 'w-8 h-8 mr-4 bg-green-300 text-green-300 rounded-full'
+                  tw: 'w-8 h-8 mr-4 bg-[#00d97e] text-[#00d97e] rounded-full'
                 }
               },
               {

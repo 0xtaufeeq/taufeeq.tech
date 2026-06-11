@@ -1,46 +1,39 @@
 import './BottomNavigationBar.css'
 
 import { useEffect, useRef, useState } from 'react'
+import { Bookmark, Briefcase, Hand, Info, MessageCircle } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
-
-import { Bookmarks } from '../icons/Bookmarks'
-import { Briefcase } from '../icons/Briefcase'
-import { ChatTeardropDots } from '../icons/ChatTeardrop'
-import { HandWaving } from '../icons/HandWaving'
-import { Info } from '../icons/Info'
-import { Dock, DockIcon } from '../ui/dock'
+import { Dock } from '../ui/dock-two'
 import useScrollHandler from './useScrollHandler'
-import { useTooltipHandler } from './useTooltipHandler'
 
 export const bottomNavigationItems = [
   {
-    name: 'Hi 👋',
-    icon: HandWaving,
+    label: 'Hi 👋',
+    icon: Hand,
     href: '/',
     viewTransitionName: 'home'
   },
   {
-    name: 'Projects',
+    label: 'Projects',
     icon: Briefcase,
     href: '/projects',
     viewTransitionName: 'projects'
   },
   {
-    name: 'Blog',
-    icon: ChatTeardropDots,
+    label: 'Blog',
+    icon: MessageCircle,
     href: '/blog',
     viewTransitionName: 'blog'
   },
   {
-    name: 'About',
+    label: 'About',
     icon: Info,
     href: '/about',
     viewTransitionName: 'about'
   },
   {
-    name: 'Bookmarks',
-    icon: Bookmarks,
+    label: 'Bookmarks',
+    icon: Bookmark,
     href: '/bookmarks',
     viewTransitionName: 'bookmarks'
   }
@@ -51,104 +44,54 @@ const BottomNavigationBar = () => {
   const firstSegment = '/' + (currentPath.split('/').filter(Boolean)[0] ?? '')
 
   const navRef = useRef<HTMLDivElement>(null)
-
-  const { handleScroll, setInitialPosition } = useScrollHandler(navRef)
-  const { setupTooltip } = useTooltipHandler(navRef)
-
-  const handlePathChange = () => {
-    // hide the tooltip when the page is loaded
-    const tip = document.querySelector<HTMLDivElement>('.tip')
-    if (tip) {
-      tip.style.setProperty('--show', '0')
-    }
-  }
+  const { handleScroll, setInitialPosition, resetPosition } =
+    useScrollHandler(navRef)
 
   useEffect(() => {
-    setCurrentPath(window.location.pathname)
-
-    document.addEventListener('astro:page-load', handlePathChange)
-    document.addEventListener('local-navigation', (e) => {
+    const syncPath = () => {
+      setCurrentPath(window.location.pathname)
+      resetPosition()
+    }
+    const onLocalNavigation = (e: Event) =>
       setCurrentPath((e as CustomEvent).detail.path)
-    })
+
+    syncPath()
+    document.addEventListener('astro:page-load', syncPath)
+    document.addEventListener('local-navigation', onLocalNavigation)
     window.addEventListener('scroll', handleScroll)
 
     // Delay setup to ensure DOM is ready
-    const timeoutId = setTimeout(() => {
-      setInitialPosition()
-      setupTooltip()
-      
-      // Initialize CSS variables for tooltip
-      document.documentElement.style.setProperty('--tip-x', '0')
-      document.documentElement.style.setProperty('--tip-y', '0')
-    }, 100)
+    const timeoutId = setTimeout(setInitialPosition, 100)
 
     return () => {
       clearTimeout(timeoutId)
-      document.removeEventListener('astro:page-load', handlePathChange)
+      document.removeEventListener('astro:page-load', syncPath)
+      document.removeEventListener('local-navigation', onLocalNavigation)
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
 
   return (
-    <>
-      <div
-        id='nav-container'
-        ref={navRef}
-        className={cn('nav', 'fixed z-10')}
-        style={{ bottom: 'var(--bottom-nav-bar-offset)' }}
-      >
-        <nav
-          onPointerMove={() => {
-            // remove the css variable which force tooltip to be hidden
-            const tip = document.querySelector<HTMLDivElement>('.tip')
-            if (tip) {
-              tip.style.removeProperty('--show')
-            }
-          }}
-          onPointerEnter={() => {
-            // Ensure tooltip is visible on hover
-            const tip = document.querySelector<HTMLDivElement>('.tip')
-            if (tip) {
-              tip.style.removeProperty('--show')
-            }
-          }}
-          className={cn(
-            'mx-auto overflow-hidden rounded-[32px]',
-            'border border-shark-950',
-            'w-fit bg-black transition-all duration-300'
-          )}
-        >
-          <div id='bottom-nav-bar-upper' className='w-full'></div>
-          <Dock>
-            <li id='bottom-nav-bar-leading'></li>
-            {bottomNavigationItems.map(
-              ({ name, icon: Icon, href, ...item }) => (
-                <DockIcon
-                  key={name}
-                  name={item.viewTransitionName}
-                  href={href}
-                  onClick={() => setCurrentPath(href)}
-                  aria-label={name}
-                >
-                  <Icon className='size-5' />
-                  {firstSegment === href && (
-                    <div className='absolute bottom-[3px] size-[3.5px] rounded-full bg-emerald-300'></div>
-                  )}
-                </DockIcon>
-              )
-            )}
-          </Dock>
-        </nav>
-      </div>
-      <div className='tip' aria-hidden='true'>
-        <div className='tip__track'>
-          <div />
-          {bottomNavigationItems.map(({ name }) => (
-            <div key={name}>{name}</div>
-          ))}
-        </div>
-      </div>
-    </>
+    <div
+      id='nav-container'
+      ref={navRef}
+      className='nav fixed z-10'
+      style={{ bottom: 'var(--bottom-nav-bar-offset)' }}
+    >
+      <nav aria-label='Primary'>
+        <Dock
+          className='w-auto'
+          pillId='nav-dock'
+          upper={<div id='bottom-nav-bar-upper' className='w-full' />}
+          leading={<li id='bottom-nav-bar-leading' />}
+          items={bottomNavigationItems.map((item) => ({
+            ...item,
+            isActive: firstSegment === item.href,
+            onClick: () => setCurrentPath(item.href)
+          }))}
+        />
+      </nav>
+    </div>
   )
 }
 

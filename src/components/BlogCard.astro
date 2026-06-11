@@ -47,7 +47,7 @@ const { minutes } = calculateReadingTime(body!)
       class='mt-4 flex justify-between gap-6 max-xs:flex-col-reverse xs:mt-6 xs:items-center'
     >
       <span
-        class='link-hover-animation group-hover:link-hovered-animation w-fit text-sm text-emerald-400'
+        class='link-hover-animation group-hover:link-hovered-animation w-fit text-sm text-accent-400'
         >Read more
         <ArrowRight
           className='ml-1 inline-block transition-all duration-300 group-hover:ml-2'
@@ -56,7 +56,7 @@ const { minutes } = calculateReadingTime(body!)
       <ul class='flex flex-wrap gap-2'>
         {
           tags.map((item) => (
-            <li class='rounded bg-zinc-900 px-2 py-1 font-mono text-xs tracking-tight text-zinc-500'>
+            <li class='rounded bg-zinc-900 px-2 py-1 font-mono text-xs tracking-tight text-zinc-400'>
               {item}
             </li>
           ))
