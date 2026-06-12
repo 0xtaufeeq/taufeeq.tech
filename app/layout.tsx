@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { DM_Mono, Playfair_Display } from 'next/font/google'
 import localFont from 'next/font/local'
+import { ViewTransitions } from 'next-view-transitions'
+import { Analytics } from '@vercel/analytics/next'
 
 import { CalProvider } from '@/components/providers/CalProvider'
 import { CustomCursor } from '@/components/providers/CustomCursor'
@@ -79,10 +81,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html
-      lang="en"
-      className={`dark ${switzer.variable} ${playfair.variable} ${dmMono.variable}`}
-    >
+    <ViewTransitions>
+      <html
+        lang="en"
+        data-scroll-behavior="smooth"
+        className={`dark ${switzer.variable} ${playfair.variable} ${dmMono.variable}`}
+      >
       <body className="flex min-h-dvh flex-col items-center overflow-x-hidden bg-zinc-950 font-sans text-white antialiased">
         {/* React hoists this to <head>; metadata.alternates can't express it
             without being clobbered by per-page canonical overrides. */}
@@ -102,8 +106,10 @@ export default function RootLayout({
           </main>
           <Footer />
         </SmoothScroll>
-        <DockNav />
-      </body>
-    </html>
+          <DockNav />
+          <Analytics />
+        </body>
+      </html>
+    </ViewTransitions>
   )
 }

@@ -1,8 +1,10 @@
 'use client'
 
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
+import { useTransitionRouter } from 'next-view-transitions'
+
+import { slideInOut } from '@/lib/view-transition'
 import {
   Bookmark,
   Briefcase,
@@ -22,10 +24,21 @@ const NAV_ITEMS: { label: string; icon: LucideIcon; href: string }[] = [
   { label: 'Bookmarks', icon: Bookmark, href: '/bookmarks' }
 ]
 
-/** Floating bottom dock — the primary navigation. */
+/** Floating bottom dock — the primary navigation. Links navigate through
+ * useTransitionRouter so the slide-up/reveal view transition plays. */
 export function DockNav() {
   const pathname = usePathname()
+  const router = useTransitionRouter()
   const firstSegment = '/' + (pathname?.split('/').filter(Boolean)[0] ?? '')
+
+  const navigate = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    // let the browser handle new-tab / download / context-menu clicks
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0)
+      return
+    e.preventDefault()
+    if (href === pathname) return
+    router.push(href, { onTransitionReady: slideInOut })
+  }
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-5 z-40 flex justify-center">
@@ -35,6 +48,7 @@ export function DockNav() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
         className="pointer-events-auto"
+        style={{ viewTransitionName: 'dock-nav' }}
       >
         <motion.ul
           animate={{ y: [-2, 2, -2] }}
@@ -52,9 +66,10 @@ export function DockNav() {
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Link
+                  <a
                     href={href}
                     aria-label={label}
+                    onClick={(e) => navigate(e, href)}
                     className={cn(
                       'group relative flex items-center justify-center rounded-full p-3',
                       'transition-colors hover:bg-white/10'
@@ -80,7 +95,7 @@ export function DockNav() {
                     >
                       {label}
                     </span>
-                  </Link>
+                  </a>
                 </motion.div>
               </li>
             )

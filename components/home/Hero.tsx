@@ -1,6 +1,7 @@
-import { FadeIn, SplitText } from '@/components/motion/SplitText'
+import { FadeIn } from '@/components/motion/FadeIn'
 
 import { EmberField } from './EmberField'
+import { HeroTitle } from './HeroTitle'
 import { Keyboard } from './Keyboard'
 
 export function Hero() {
@@ -21,16 +22,7 @@ export function Hero() {
           </div>
         </FadeIn>
 
-        <SplitText
-          as="h1"
-          className="font-heading text-[clamp(2.25rem,7.5vw,4rem)] font-semibold leading-[1.05] text-zinc-100"
-          segments={[
-            { text: "Hi, I'm" },
-            { text: 'Taufeeq Riyaz.', className: 'text-primary-gradient' },
-            { text: 'I think deeply about', block: true },
-            { text: 'why things work.', className: 'font-light italic' }
-          ]}
-        />
+        <HeroTitle />
 
         <FadeIn delay={0.45}>
           <p className="mb-8 max-w-xl leading-relaxed text-zinc-400 max-sm:text-sm">
