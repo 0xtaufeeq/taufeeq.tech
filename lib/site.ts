@@ -1,0 +1,264 @@
+export const SITE = {
+  name: 'Taufeeq Riyaz',
+  url: 'https://taufeeq.tech',
+  title: 'Taufeeq Riyaz',
+  description:
+    'Taufeeq Riyaz is a technology entrepreneur and developer advocate recognized for building transformative educational platforms and fostering innovation communities across India. Founder of Tenacity and DevSphere, 20Under20 by Infosys Springboard.',
+  handle: '0xtaufeeq',
+  email: 'contact.taufeeq@gmail.com'
+}
+
+export const SOCIALS = [
+  { name: 'Github', href: 'https://github.com/0xtaufeeq' },
+  { name: 'LinkedIn', href: 'https://linkedin.com/in/taufeeq' },
+  { name: 'Instagram', href: 'https://instagram.com/0xtaufeeq' },
+  { name: 'Email', href: 'mailto:contact.taufeeq@gmail.com' }
+] as const
+
+export const EXTRA_SOCIALS = [
+  { name: 'X', href: 'https://x.com/0xtaufeeq' },
+  { name: 'Figma', href: 'https://www.figma.com/@taufeeq' },
+  { name: 'Medium', href: 'https://medium.com/@taufeeqriyaz' }
+] as const
+
+export const MARQUEE_WORDS = [
+  'Builder',
+  'Product Thinker',
+  'Community Leader',
+  'Designer',
+  'Writer',
+  'Momentum'
+]
+
+export const PROJECT_META = {
+  title: 'Milestones in the learning journey',
+  description:
+    'Each project marks a step forward, showcasing my growth and journey as a developer. Explore how I’ve tackled challenges and built solutions along the way.'
+}
+
+export const BLOG_META = {
+  title: 'Learning, Building, and Documenting',
+  description:
+    'Insights and experiences from my journey as a developer—exploring ideas, overcoming challenges, and sharing lessons learned along the way.'
+}
+
+export const PHILOSOPHY_CARDS = [
+  {
+    title: 'Think Different',
+    description:
+      'Innovation distinguishes between a leader and a follower. I believe in challenging the status quo and pushing boundaries to create products that truly matter.',
+    icon: 'zap'
+  },
+  {
+    title: 'Empower Great Teams',
+    description:
+      'Great things are never done by one person. They are done by a team of people. I believe in building and inspiring teams that can achieve the impossible together.',
+    icon: 'users'
+  },
+  {
+    title: 'Pursue Excellence',
+    description:
+      'Quality is more important than quantity. I strive for perfection in every detail, crafting experiences that delight users and stand the test of time.',
+    icon: 'sparkles'
+  }
+] as const
+
+export const VALUES = [
+  {
+    number: '01',
+    title: 'Curiosity Over Conformity',
+    description:
+      "Stay obsessed with questions, not answers. Curiosity is how we find edges others don't see."
+  },
+  {
+    number: '02',
+    title: 'Clarity First',
+    description:
+      "If you can't explain it simply, you don't understand it yet. Clarity in thought leads to clarity in action."
+  },
+  {
+    number: '03',
+    title: 'Craft Over Convenience',
+    description:
+      "Don't cut corners. Every line of code, every design choice, every word should feel intentional."
+  },
+  {
+    number: '04',
+    title: 'Conviction > Consensus',
+    description:
+      'Progress rarely comes from groupthink. Have a point of view and defend it.'
+  },
+  {
+    number: '05',
+    title: 'People Before Process',
+    description:
+      "Culture isn't built through frameworks. It's built through trust, energy, and shared obsession."
+  },
+  {
+    number: '06',
+    title: 'Alignment Beats Balance',
+    description:
+      'Work-life "balance" is a myth. When your purpose and work align, balance happens naturally.'
+  },
+  {
+    number: '07',
+    title: 'Build What You Believe In',
+    description:
+      "Don't just make something that works. Make something that matters."
+  }
+] as const
+
+export const EXPERIENCE = [
+  {
+    company: 'DevSphere',
+    location: 'Bengaluru, Karnataka, India',
+    logoUrl: '/images/devsphere.png',
+    roles: [
+      {
+        title: 'Advisor',
+        period: 'Jun 2025 - Present',
+        description: 'I ensure things get done.'
+      },
+      {
+        title: 'Founder and President',
+        period: 'Jan 2024 - Jun 2025',
+        description: 'I get things done.'
+      }
+    ]
+  },
+  {
+    company: 'Tenacity',
+    location: 'Bengaluru, Karnataka, India',
+    logoUrl: '/images/tenacity.jpg',
+    roles: [
+      {
+        title: 'Founder And Design Lead',
+        period: 'Dec 2022 - Present',
+        description: `As the founder of Tenacity, I am responsible for managing all aspects of the product and community, including the technology and design end. I take great care to ensure that the community runs smoothly and that our members have access to the resources and support they need to succeed.
+
+I work day and night to provide value for members at Tenacity, whether it's organizing events, creating educational content, or providing mentorship and guidance. I am dedicated to making a positive impact on the lives of our members and believe in the power of community.`
+      }
+    ]
+  },
+  {
+    company: 'RV University',
+    location: 'Bengaluru, Karnataka, India',
+    logoUrl: '/images/rv university.jpg',
+    roles: [
+      {
+        title: 'Research Associate - Centre For Global Health and Development',
+        period: 'Dec 2024 - Present',
+        description:
+          'Full-time research role contributing to global health initiatives.'
+      },
+      {
+        title: 'Mentor - Centre For High Performing Systems and Web Technologies',
+        period: 'Jun 2024 - Jul 2024',
+        description:
+          'Mentored students on web technologies and high-performance systems.'
+      },
+      {
+        title: 'Peer Mentor - SoCSE',
+        period: 'Jun 2023 - Present',
+        description:
+          'Mentoring students in School of Computer Science and Engineering.'
+      },
+      {
+        title: 'Teaching Assistant - B.Tech(Hons.)',
+        period: 'Mar 2023 - Jun 2023',
+        description: 'Assisted in teaching and grading for B.Tech students.'
+      },
+      {
+        title: 'Peer Mentor - BSc(Hons.)',
+        period: 'Oct 2022 - Mar 2023',
+        description: `As a Peer Mentor at RV University, I had the opportunity to work closely with students, providing guidance, support, and mentorship to help them reach their full potential. My primary goal was to assist students in web technologies course and to develop the skills needed to succeed both in the classroom and in the professional world. I provided one-on-one mentoring to students who needed additional support, helping them to overcome challenges and achieve their goals.`
+      }
+    ]
+  },
+  {
+    company: 'Rabble Labs',
+    location: 'Bengaluru, Karnataka, India',
+    logoUrl: '/images/rabble.jpg',
+    roles: [
+      {
+        title: 'Community and Growth',
+        period: 'Jun 2024 - Aug 2024',
+        description: `Rabble Labs (Buidlers Tribe + Lumos Labs) provides a comprehensive suite of on chain platforms tailored for dedicated Web3 builders and enthusiasts. Our platforms empower Web3 developers by offering seamless access to talent, capital, distribution channels, and on chain users.
+
+Our standout platforms, buidl.so, connects Web3 founders with investors, trusted vendors, partners, advisors, and top-tier talent.`
+      }
+    ]
+  },
+  {
+    company: 'Emporia Business Club',
+    location: 'Bengaluru, Karnataka, India',
+    logoUrl: '/images/emporia.jpg',
+    roles: [
+      {
+        title: 'Tech and Design',
+        period: 'Sep 2022 - Apr 2023',
+        description:
+          'Responsible for making ads for marketing campaigns, designing and developing websites.'
+      }
+    ]
+  },
+  {
+    company: 'Astro Bot',
+    location: 'India',
+    logoUrl: '/images/astrobot.jpg',
+    roles: [
+      {
+        title: 'Developer',
+        period: 'May 2021 - Dec 2022',
+        description: `Astro Bot is a versatile and powerful bot designed for use on Discord servers. It was built using the Discord.py library. The main purpose of Astro Bot is to help keep Discord servers organized and to make various tasks more convenient for server administrators and members.
+
+The key features of Astro Bot are its ability to perform a wide range of tasks, such as managing roles, automating tasks, and providing useful information. It was widely used in many servers across the platform.`
+      }
+    ]
+  },
+  {
+    company: 'Spenny (acquired by CRED)',
+    location: 'India',
+    logoUrl: '/images/spenny_logo.jpg',
+    roles: [
+      {
+        title: 'Chief Experiment Officer',
+        period: 'Dec 2021 - Mar 2022',
+        description: `I had the opportunity to work with the founder and founding team of Spenny. During my time there, I was able to learn a lot about entrepreneurship, marketing, and design. I was assigned weekly tasks that were designed to help the company acquire new customers and improve its marketing efforts.
+
+One of my primary responsibilities was to assist with the design of websites, posters, and social media posts. I worked closely with the team to create visually appealing designs that were in line with the company's branding and marketing goals.`
+      }
+    ]
+  }
+] as const
+
+export const SKILLS = [
+  'Community Building',
+  'Product Design',
+  'Web Development',
+  'System Design',
+  'Python',
+  'Discord.py',
+  'React / Next.js',
+  'Astro',
+  'Figma',
+  'Digital Marketing'
+]
+
+export const TECH_STACKS = [
+  { name: 'Next.js', description: 'The React Framework for Production' },
+  {
+    name: 'React',
+    description: 'A JavaScript library for building user interfaces'
+  },
+  { name: 'GCP', description: 'Google Cloud Platform' },
+  {
+    name: 'Vercel',
+    description: 'Platform for frontend frameworks and static sites'
+  },
+  { name: 'Git', description: 'Distributed version control system' },
+  { name: 'GitHub', description: 'Development platform for collaboration' },
+  { name: 'JavaScript', description: 'The programming language of the web' },
+  { name: 'Python', description: 'A versatile programming language' },
+  { name: 'Figma', description: 'Collaborative interface design tool' }
+] as const
