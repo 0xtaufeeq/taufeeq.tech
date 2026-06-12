@@ -5,9 +5,12 @@ import { Clock, ExternalLink } from 'lucide-react'
 
 import { GithubIcon } from '@/components/icons'
 import { Mdx } from '@/components/mdx/Mdx'
+import { JsonLd } from '@/components/seo/JsonLd'
 import { BackToHome } from '@/components/ui/BackToHome'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
 import { getProject, getProjects } from '@/lib/content'
+import { projectJsonLd } from '@/lib/jsonld'
+import { SITE } from '@/lib/site'
 import { formatDate } from '@/lib/utils'
 
 interface PageProps {
@@ -27,9 +30,18 @@ export async function generateMetadata({
   return {
     title: project.title,
     description: project.description,
+    alternates: { canonical: `/projects/${slug}` },
     openGraph: {
       title: project.title,
       description: project.description,
+      url: `/projects/${slug}`,
+      images: [project.heroImage]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: project.title,
+      description: project.description,
+      creator: `@${SITE.handle}`,
       images: [project.heroImage]
     }
   }
@@ -42,6 +54,7 @@ export default async function ProjectPage({ params }: PageProps) {
 
   return (
     <article className="mx-auto max-w-3xl py-16">
+      <JsonLd data={projectJsonLd(project)} />
       <ScrollProgress />
       <BackToHome />
 

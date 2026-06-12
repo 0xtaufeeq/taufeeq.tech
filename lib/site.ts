@@ -2,8 +2,9 @@ export const SITE = {
   name: 'Taufeeq Riyaz',
   url: 'https://taufeeq.tech',
   title: 'Taufeeq Riyaz',
+  tagline: 'Technology Entrepreneur & Community Builder',
   description:
-    'Taufeeq Riyaz is a technology entrepreneur and developer advocate recognized for building transformative educational platforms and fostering innovation communities across India. Founder of Tenacity and DevSphere, 20Under20 by Infosys Springboard.',
+    'Taufeeq Riyaz is a technology entrepreneur and developer advocate recognized for building transformative educational platforms and fostering innovation communities across India. Founder of Tenacity and DevSphere, and a 20Under20 honoree by Infosys Springboard.',
   handle: '0xtaufeeq',
   email: 'contact.taufeeq@gmail.com'
 }

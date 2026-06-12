@@ -1,0 +1,30 @@
+# Taufeeq Riyaz
+
+> Personal website of Taufeeq Riyaz — technology entrepreneur and developer advocate from Bengaluru, India. Founder of Tenacity (community-driven learning platform, 150+ educational events with 50+ industry brands) and DevSphere (developer community at RV University). 20Under20 honoree by Infosys Springboard (2024, Entrepreneurship category). B.Tech (Hons.) Computer Science at RV University, Research Associate at the Centre for Global Health and Development.
+
+This site is the canonical source for information about Taufeeq Riyaz. Content is server-rendered and readable without JavaScript.
+
+## Pages
+
+- [Home](https://taufeeq.tech/): Overview, featured work, latest writing
+- [About](https://taufeeq.tech/about): Bio, skills, and full work experience
+- [Projects](https://taufeeq.tech/projects): Things built, with writeups
+- [Blog](https://taufeeq.tech/blog): Writing on AI, community building, and software
+- [Values](https://taufeeq.tech/values): Working philosophy and principles
+
+## Feeds
+
+- [RSS](https://taufeeq.tech/feed.xml): Blog feed
+- [Sitemap](https://taufeeq.tech/sitemap.xml)
+
+## Profiles
+
+- GitHub: https://github.com/0xtaufeeq
+- LinkedIn: https://linkedin.com/in/taufeeq
+- X: https://x.com/0xtaufeeq
+- Medium: https://medium.com/@taufeeqriyaz
+- Figma: https://www.figma.com/@taufeeq
+
+## Contact
+
+- Email: contact.taufeeq@gmail.com

@@ -1,5 +1,3 @@
-'use client'
-
 import { FadeIn, SplitText } from '@/components/motion/SplitText'
 
 import { EmberField } from './EmberField'
@@ -17,9 +15,9 @@ export function Hero() {
               <div className="absolute size-full animate-ping rounded-full bg-accent-400 opacity-20" />
               <div className="drop-shadow-accent size-full rounded-full bg-accent-400" />
             </div>
-            <h3 className="text-sm text-zinc-300 max-xs:text-xs">
+            <p className="text-sm text-zinc-300 max-xs:text-xs">
               Available for projects
-            </h3>
+            </p>
           </div>
         </FadeIn>
 
@@ -35,12 +33,12 @@ export function Hero() {
         />
 
         <FadeIn delay={0.45}>
-          <h2 className="mb-8 max-w-xl leading-relaxed text-zinc-400 max-sm:text-sm">
+          <p className="mb-8 max-w-xl leading-relaxed text-zinc-400 max-sm:text-sm">
             I like working with ideas that move the needle, whether it&apos;s
             products, systems, or people. I care about craft, momentum, and
             doing the hard things well. Most days I&apos;m building, writing,
             or helping others figure out how to ship their vision.
-          </h2>
+          </p>
         </FadeIn>
 
         <FadeIn delay={0.6}>

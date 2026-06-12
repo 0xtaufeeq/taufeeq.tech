@@ -3,18 +3,22 @@ import Image from 'next/image'
 import { User } from 'lucide-react'
 
 import { Reveal } from '@/components/motion/Reveal'
+import { JsonLd } from '@/components/seo/JsonLd'
 import { BackToHome } from '@/components/ui/BackToHome'
+import { profilePageJsonLd } from '@/lib/jsonld'
 import { EXPERIENCE, SKILLS } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'About Me',
   description:
-    'Building Tenacity. Founding President at DevSphere. Tech Enthusiast.'
+    'Building Tenacity. Founding President at DevSphere. Tech Enthusiast.',
+  alternates: { canonical: '/about' }
 }
 
 export default function AboutPage() {
   return (
     <div className="relative mx-auto max-w-3xl px-6 py-24">
+      <JsonLd data={profilePageJsonLd} />
       <div className="absolute left-6 top-6 md:-left-4 md:top-8">
         <BackToHome />
       </div>

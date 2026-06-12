@@ -6,7 +6,8 @@ import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = {
   title: 'No Hello',
-  description: "Please don't say just hello in chat"
+  description: "Please don't say just hello in chat",
+  alternates: { canonical: '/nohello' }
 }
 
 const Avatar = ({

@@ -4,9 +4,12 @@ import { notFound } from 'next/navigation'
 import { Clock } from 'lucide-react'
 
 import { Mdx } from '@/components/mdx/Mdx'
+import { JsonLd } from '@/components/seo/JsonLd'
 import { BackToHome } from '@/components/ui/BackToHome'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
 import { getBlogPost, getBlogPosts } from '@/lib/content'
+import { blogPostJsonLd } from '@/lib/jsonld'
+import { SITE } from '@/lib/site'
 import { formatDate } from '@/lib/utils'
 
 interface PageProps {
@@ -23,14 +26,30 @@ export async function generateMetadata({
   const { slug } = await params
   const post = getBlogPost(slug)
   if (!post) return {}
+  const published = new Date(post.pubDate).toISOString()
+  const modified = post.updatedDate
+    ? new Date(post.updatedDate).toISOString()
+    : published
   return {
     title: post.title,
     description: post.description,
+    alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       title: post.title,
       description: post.description,
+      url: `/blog/${slug}`,
       type: 'article',
-      publishedTime: post.pubDate,
+      publishedTime: published,
+      modifiedTime: modified,
+      authors: [SITE.name],
+      tags: post.tags,
+      images: [post.heroImage]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      creator: `@${SITE.handle}`,
       images: [post.heroImage]
     }
   }
@@ -43,6 +62,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <article className="mx-auto max-w-3xl py-16">
+      <JsonLd data={blogPostJsonLd(post)} />
       <ScrollProgress />
       <BackToHome />
 

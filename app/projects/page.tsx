@@ -10,7 +10,8 @@ import { PROJECT_META } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Projects',
-  description: PROJECT_META.description
+  description: PROJECT_META.description,
+  alternates: { canonical: '/projects' }
 }
 
 export default function ProjectsPage() {

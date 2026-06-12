@@ -4,6 +4,8 @@ import { getBlogPosts, getProjects } from '@/lib/content'
 import { SITE } from '@/lib/site'
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  // Static pages get no lastModified: a fabricated "always fresh" date
+  // teaches crawlers to distrust the real dates on posts and projects.
   const staticPages = [
     '',
     '/about',
@@ -16,13 +18,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/nohello',
     '/bookmarks'
   ].map((path) => ({
-    url: `${SITE.url}${path}`,
-    lastModified: new Date()
+    url: `${SITE.url}${path}`
   }))
 
   const projects = getProjects().map(({ slug, updatedDate }) => ({
     url: `${SITE.url}/projects/${slug}`,
-    lastModified: updatedDate ? new Date(updatedDate) : new Date()
+    ...(updatedDate && { lastModified: new Date(updatedDate) })
   }))
 
   const posts = getBlogPosts().map(({ slug, updatedDate, pubDate }) => ({

@@ -2,7 +2,6 @@ import { MapPin } from 'lucide-react'
 
 import { SOCIAL_ICON_MAP } from '@/components/icons'
 import { getGithubContributions } from '@/lib/github'
-import { getSpotifyData } from '@/lib/spotify'
 import { EXTRA_SOCIALS } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
@@ -17,10 +16,9 @@ import { DiscoverMoreCTA } from './DiscoverMoreCTA'
 import { MapCard } from './MapCard'
 
 export async function BentoSection() {
-  const [contributions, spotify] = await Promise.all([
-    getGithubContributions(),
-    getSpotifyData()
-  ])
+  // Spotify is intentionally not fetched here: its no-store fetches would
+  // force the whole route dynamic. NowPlaying polls /api/spotify instead.
+  const contributions = await getGithubContributions()
 
   return (
     <BentoGrid>
@@ -91,7 +89,7 @@ export async function BentoSection() {
           'max-lg:col-start-1 max-lg:col-end-4 max-lg:row-start-4 max-lg:row-end-6'
         )}
       >
-        <NowPlaying initialData={spotify} />
+        <NowPlaying />
       </BentoCard>
 
       <BentoCard

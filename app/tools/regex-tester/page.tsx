@@ -6,7 +6,8 @@ import { RegexTester } from '@/components/tools/RegexTester'
 
 export const metadata: Metadata = {
   title: 'Regex Tester | Tools',
-  description: 'Test and debug regular expressions with live pattern matching'
+  description: 'Test and debug regular expressions with live pattern matching',
+  alternates: { canonical: '/tools/regex-tester' }
 }
 
 export default function RegexTesterPage() {

@@ -6,7 +6,8 @@ import { BackToHome } from '@/components/ui/BackToHome'
 
 export const metadata: Metadata = {
   title: 'Under construction',
-  description: 'This page is under construction'
+  description: 'This page is under construction',
+  alternates: { canonical: '/bookmarks' }
 }
 
 export default function BookmarksPage() {

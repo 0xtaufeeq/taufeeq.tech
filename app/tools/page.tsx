@@ -8,7 +8,8 @@ import { BackToHome } from '@/components/ui/BackToHome'
 export const metadata: Metadata = {
   title: 'Tools',
   description:
-    'Powerful web tools including live markdown editor and regex tester for developers'
+    'Powerful web tools including live markdown editor and regex tester for developers',
+  alternates: { canonical: '/tools' }
 }
 
 const TOOLS = [

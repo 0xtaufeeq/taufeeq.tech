@@ -7,6 +7,8 @@ import { CustomCursor } from '@/components/providers/CustomCursor'
 import { SmoothScroll } from '@/components/providers/SmoothScroll'
 import { DockNav } from '@/components/nav/DockNav'
 import { Footer } from '@/components/footer/Footer'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { personJsonLd, websiteJsonLd } from '@/lib/jsonld'
 import { SITE } from '@/lib/site'
 
 import './globals.css'
@@ -34,26 +36,37 @@ const dmMono = DM_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: SITE.title,
+    default: `${SITE.title} — ${SITE.tagline}`,
     template: `%s | ${SITE.title}`
   },
   description: SITE.description,
+  authors: [{ name: SITE.name, url: SITE.url }],
+  creator: SITE.name,
+  publisher: SITE.name,
+  // og:image / twitter:image come from app/opengraph-image.tsx (file
+  // convention); per-post hero images in generateMetadata still override it.
   openGraph: {
-    title: SITE.title,
+    title: `${SITE.title} — ${SITE.tagline}`,
     description: SITE.description,
     url: SITE.url,
     siteName: SITE.title,
-    images: ['/images/og_main.png'],
     locale: 'en_US',
     type: 'website'
   },
   twitter: {
     card: 'summary_large_image',
-    title: SITE.title,
-    creator: '@0xtaufeeq',
-    images: ['/images/og_main.png']
+    title: `${SITE.title} — ${SITE.tagline}`,
+    description: SITE.description,
+    creator: `@${SITE.handle}`
   },
-  icons: { icon: '/favicon.svg' }
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' }
+    ],
+    apple: '/apple-touch-icon.png'
+  }
 }
 
 export const viewport: Viewport = {
@@ -71,6 +84,15 @@ export default function RootLayout({
       className={`dark ${switzer.variable} ${playfair.variable} ${dmMono.variable}`}
     >
       <body className="flex min-h-dvh flex-col items-center overflow-x-hidden bg-zinc-950 font-sans text-white antialiased">
+        {/* React hoists this to <head>; metadata.alternates can't express it
+            without being clobbered by per-page canonical overrides. */}
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={SITE.title}
+          href="/feed.xml"
+        />
+        <JsonLd data={[personJsonLd, websiteJsonLd]} />
         <div className="noise-overlay" aria-hidden="true" />
         <CustomCursor />
         <CalProvider />

@@ -1,7 +1,4 @@
-'use client'
-
-import { Fragment, type ReactNode } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { Fragment, type CSSProperties, type ReactNode } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -21,7 +18,8 @@ interface SplitTextProps {
 
 /**
  * Word-by-word blur/rise reveal — the hero headline treatment.
- * Each word animates from below with a blur, like 21st.dev's BlurText.
+ * CSS keyframes with per-word animation-delay, so the words animate at
+ * first paint instead of staying hidden until framer-motion hydrates.
  */
 export function SplitText({
   segments,
@@ -30,7 +28,6 @@ export function SplitText({
   delay = 0.15,
   stagger = 0.055
 }: SplitTextProps) {
-  const reduceMotion = useReducedMotion()
   let wordIndex = 0
 
   return (
@@ -43,25 +40,16 @@ export function SplitText({
             return (
               <Fragment key={`${sIndex}-${wIndex}`}>
                 <span className="inline-block overflow-visible">
-                  <motion.span
-                    className={cn(
-                      'inline-block will-change-transform',
-                      segment.className
-                    )}
-                    initial={
-                      reduceMotion
-                        ? false
-                        : { y: '70%', opacity: 0, filter: 'blur(10px)' }
+                  <span
+                    className={cn('word-rise', segment.className)}
+                    style={
+                      {
+                        '--delay': `${delay + index * stagger}s`
+                      } as CSSProperties
                     }
-                    animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-                    transition={{
-                      duration: 1,
-                      ease: [0.215, 0.61, 0.355, 1],
-                      delay: delay + index * stagger
-                    }}
                   >
                     {word}
-                  </motion.span>
+                  </span>
                 </span>{' '}
               </Fragment>
             )
@@ -81,16 +69,12 @@ interface FadeProps {
 
 /** Simple blur-rise entrance used for hero sub-elements. */
 export function FadeIn({ children, className, delay = 0, y = 28 }: FadeProps) {
-  const reduceMotion = useReducedMotion()
-
   return (
-    <motion.div
-      className={className}
-      initial={reduceMotion ? false : { opacity: 0, y, filter: 'blur(12px)' }}
-      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      transition={{ duration: 0.7, ease: [0.39, 0.575, 0.565, 1], delay }}
+    <div
+      className={cn('fade-rise', className)}
+      style={{ '--delay': `${delay}s`, '--rise-y': `${y}px` } as CSSProperties}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }

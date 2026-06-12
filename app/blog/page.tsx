@@ -10,7 +10,8 @@ import { BLOG_META } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Blog',
-  description: BLOG_META.description
+  description: BLOG_META.description,
+  alternates: { canonical: '/blog' }
 }
 
 export default function BlogPage() {

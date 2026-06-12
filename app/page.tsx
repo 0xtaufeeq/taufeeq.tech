@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { Briefcase, Pencil } from 'lucide-react'
 
 import { BentoSection } from '@/components/bento/BentoSection'
@@ -11,6 +12,14 @@ import { FancyLink } from '@/components/ui/FancyLink'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { getBlogPosts, getProjects } from '@/lib/content'
 import { BLOG_META, PROJECT_META } from '@/lib/site'
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' }
+}
+
+/** Bento data (GitHub, repo info) is fetch-cached for 1h; Spotify is fetched
+ * client-side — keep this page statically rendered. */
+export const revalidate = 3600
 
 export default function HomePage() {
   const projects = getProjects()

@@ -6,7 +6,8 @@ import { MarkdownEditor } from '@/components/tools/MarkdownEditor'
 
 export const metadata: Metadata = {
   title: 'Markdown Editor | Tools',
-  description: 'Live markdown editor with PDF export and beautiful preview'
+  description: 'Live markdown editor with PDF export and beautiful preview',
+  alternates: { canonical: '/tools/markdown-editor' }
 }
 
 export default function MarkdownEditorPage() {

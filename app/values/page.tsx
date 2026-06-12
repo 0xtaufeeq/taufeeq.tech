@@ -8,7 +8,8 @@ import { ValuesTicker } from '@/components/values/ValuesTicker'
 export const metadata: Metadata = {
   title: 'My Philosophy & Values',
   description:
-    'The principles and beliefs that guide my work, leadership, and approach to building meaningful products.'
+    'The principles and beliefs that guide my work, leadership, and approach to building meaningful products.',
+  alternates: { canonical: '/values' }
 }
 
 export default function ValuesPage() {
