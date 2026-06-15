@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { DM_Mono, Playfair_Display } from 'next/font/google'
-import localFont from 'next/font/local'
+import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google'
 import { ViewTransitions } from 'next-view-transitions'
 import { Analytics } from '@vercel/analytics/next'
 
@@ -15,23 +14,23 @@ import { SITE } from '@/lib/site'
 
 import './globals.css'
 
-const switzer = localFont({
-  src: '../public/fonts/Switzer-Variable.woff2',
-  variable: '--font-switzer',
+const geistSans = Geist({
+  subsets: ['latin'],
+  variable: '--font-geist-sans',
   display: 'swap'
 })
 
-const playfair = Playfair_Display({
+const geistMono = Geist_Mono({
   subsets: ['latin'],
+  variable: '--font-geist-mono',
+  display: 'swap'
+})
+
+const instrumentSerif = Instrument_Serif({
+  weight: '400',
   style: ['normal', 'italic'],
-  variable: '--font-playfair',
-  display: 'swap'
-})
-
-const dmMono = DM_Mono({
   subsets: ['latin'],
-  weight: ['300', '400', '500'],
-  variable: '--font-dm-mono',
+  variable: '--font-instrument-serif',
   display: 'swap'
 })
 
@@ -72,7 +71,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#050505'
+  themeColor: '#fbfbf7'
 }
 
 export default function RootLayout({
@@ -80,14 +79,21 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // Set theme before paint to avoid a flash of the wrong palette.
+  const themeScript = `(function(){try{var t=localStorage.getItem('theme');var m=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(!t&&m)){document.documentElement.classList.add('dark');}}catch(e){}})();`
+
   return (
     <ViewTransitions>
       <html
         lang="en"
         data-scroll-behavior="smooth"
-        className={`dark ${switzer.variable} ${playfair.variable} ${dmMono.variable}`}
+        className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}
+        suppressHydrationWarning
       >
-      <body className="flex min-h-dvh flex-col items-center overflow-x-hidden bg-zinc-950 font-sans text-white antialiased">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="flex min-h-dvh flex-col items-center overflow-x-hidden bg-paper font-sans text-ink antialiased">
         {/* React hoists this to <head>; metadata.alternates can't express it
             without being clobbered by per-page canonical overrides. */}
         <link
@@ -97,7 +103,6 @@ export default function RootLayout({
           href="/feed.xml"
         />
         <JsonLd data={[personJsonLd, websiteJsonLd]} />
-        <div className="noise-overlay" aria-hidden="true" />
         <CustomCursor />
         <CalProvider />
         <SmoothScroll>

@@ -6,7 +6,6 @@ import { BlogCard } from '@/components/cards/BlogCard'
 import { ProjectCard } from '@/components/cards/ProjectCard'
 import { Hero } from '@/components/home/Hero'
 import { Philosophy } from '@/components/home/Philosophy'
-import { VelocityMarquee } from '@/components/home/VelocityMarquee'
 import { Reveal } from '@/components/motion/Reveal'
 import { FancyLink } from '@/components/ui/FancyLink'
 import { SectionHeader } from '@/components/ui/SectionHeader'
@@ -28,7 +27,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <VelocityMarquee />
 
       <div className="mt-24">
         <BentoSection />

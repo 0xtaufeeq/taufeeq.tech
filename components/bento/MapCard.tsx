@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic'
 const MapLocation = dynamic(() => import('./MapLocation'), {
   ssr: false,
   loading: () => (
-    <div className="size-full animate-pulse rounded-3xl bg-zinc-900" />
+    <div className="size-full animate-pulse rounded-3xl bg-card" />
   )
 })
 

@@ -20,19 +20,19 @@ export async function GithubCard({ owner, repository }: GithubCardProps) {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="ui-card group flex items-center gap-4 p-5 no-underline"
+      className="group flex items-center gap-4 rounded-lg border border-line bg-card p-5 text-ink no-underline"
     >
-      <GithubIcon className="size-8 shrink-0 text-zinc-300" />
+      <GithubIcon className="size-8 shrink-0 text-muted" />
       <div className="min-w-0 grow">
-        <p className="truncate font-medium text-zinc-100 group-hover:text-accent-300">
+        <p className="truncate font-medium text-ink group-hover:text-accent">
           {name}
         </p>
         {repo?.description && (
-          <p className="truncate text-sm text-zinc-400">{repo.description}</p>
+          <p className="truncate text-sm text-muted">{repo.description}</p>
         )}
       </div>
       {repo && (
-        <div className="flex shrink-0 items-center gap-4 text-sm text-zinc-400">
+        <div className="flex shrink-0 items-center gap-4 text-sm text-accent">
           <span className="flex items-center gap-1">
             <Star className="size-4" />
             {repo.stargazerCount}

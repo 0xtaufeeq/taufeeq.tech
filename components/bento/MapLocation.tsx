@@ -38,9 +38,9 @@ const ZoomButton = ({ onClick, children, className, hide, label }: ZoomButtonPro
     aria-hidden={hide}
     tabIndex={hide ? -1 : 0}
     className={cn(
-      'absolute z-[1000] size-10 rounded-full bg-zinc-950 leading-none outline outline-2 outline-zinc-700',
+      'absolute z-[1000] size-10 rounded-full bg-card leading-none outline outline-2 outline-line-strong',
       'scale-100 transition-all duration-300 hover:outline-4',
-      'flex items-center justify-center text-zinc-100',
+      'flex items-center justify-center text-ink',
       hide && 'scale-0',
       className
     )}
@@ -73,7 +73,7 @@ export default function MapLocation({ className }: { className?: string }) {
         zoomControl={false}
         attributionControl={false}
         className={cn(
-          'brightness-[0.64] -hue-rotate-[24deg] saturate-[0.86]',
+          'grayscale-[0.45] saturate-[0.9] contrast-[0.97]',
           'h-full min-h-full w-full',
           className
         )}
@@ -94,8 +94,8 @@ export default function MapLocation({ className }: { className?: string }) {
 
       <div className="pointer-events-none absolute inset-0 z-[999] flex items-center justify-center">
         <div className="relative size-16">
-          <div className="absolute size-full animate-ping rounded-full bg-accent-300/20 opacity-65 blur-sm" />
-          <div className="drop-shadow-accent size-full rounded-full bg-accent-400/30" />
+          <div className="absolute size-full animate-ping rounded-full bg-accent/20 opacity-65 blur-sm" />
+          <div className="drop-shadow-accent size-full rounded-full bg-accent/30" />
         </div>
       </div>
 

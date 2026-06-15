@@ -10,7 +10,12 @@ import { BentoBadge } from './BentoCard'
 
 const CELL = 16
 const GAP = 4
-const LEVELS = ['#19222F', '#0F4E43', '#1F977B', '#1EF4AE']
+const LEVELS = [
+  'var(--line)',
+  'color-mix(in srgb, var(--accent) 35%, transparent)',
+  'color-mix(in srgb, var(--accent) 65%, transparent)',
+  'var(--accent)'
+]
 
 const levelFor = (count: number) => {
   if (count === 0) return LEVELS[0]
@@ -54,7 +59,7 @@ export function GithubActivity(props: GithubContributionData) {
     <div className="relative flex h-full flex-col justify-between px-4 pb-5 pt-4 max-md:gap-4">
       <div className="flex items-baseline justify-between gap-4 max-xs:flex-col">
         <BentoBadge icon={<GithubIcon />} text="Github activity" />
-        <p className="line-clamp-1 text-sm text-zinc-300">
+        <p className="line-clamp-1 text-sm text-muted">
           {hovered ?? defaultLabel}
         </p>
       </div>
@@ -83,7 +88,7 @@ export function GithubActivity(props: GithubContributionData) {
           )}
         </svg>
       </div>
-      <p className="text-sm text-zinc-300 max-sm:text-xs">
+      <p className="text-sm text-muted max-sm:text-xs">
         Last pushed on {formatDate(new Date(props.lastPushedAt))}
       </p>
     </div>

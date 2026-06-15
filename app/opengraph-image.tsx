@@ -25,9 +25,10 @@ export default async function OpengraphImage() {
           flexDirection: 'column',
           justifyContent: 'flex-end',
           padding: 80,
-          backgroundColor: '#050505',
+          backgroundColor: '#fbfbf7',
           backgroundImage:
-            'radial-gradient(800px 500px at 85% 0%, rgba(0, 217, 126, 0.22), transparent 70%), radial-gradient(600px 400px at 0% 100%, rgba(0, 217, 126, 0.08), transparent 70%)',
+            'radial-gradient(#d6d4c8 1px, transparent 1px)',
+          backgroundSize: '22px 22px',
           fontFamily: 'Switzer'
         }}
       >
@@ -44,10 +45,10 @@ export default async function OpengraphImage() {
               width: 14,
               height: 14,
               borderRadius: 999,
-              backgroundColor: '#00d97e'
+              backgroundColor: '#1c7d4d'
             }}
           />
-          <div style={{ fontSize: 30, color: '#a1a1aa', fontWeight: 500 }}>
+          <div style={{ fontSize: 30, color: '#6c6c62', fontWeight: 500 }}>
             taufeeq.tech
           </div>
         </div>
@@ -55,7 +56,7 @@ export default async function OpengraphImage() {
           style={{
             fontSize: 104,
             fontWeight: 600,
-            color: '#fafafa',
+            color: '#16160f',
             letterSpacing: '-0.03em',
             lineHeight: 1
           }}
@@ -67,7 +68,7 @@ export default async function OpengraphImage() {
             marginTop: 28,
             fontSize: 38,
             fontWeight: 500,
-            color: '#71717a',
+            color: '#6c6c62',
             letterSpacing: '-0.01em'
           }}
         >

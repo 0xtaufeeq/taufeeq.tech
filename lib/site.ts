@@ -22,15 +22,6 @@ export const EXTRA_SOCIALS = [
   { name: 'Medium', href: 'https://medium.com/@taufeeqriyaz' }
 ] as const
 
-export const MARQUEE_WORDS = [
-  'Builder',
-  'Product Thinker',
-  'Community Leader',
-  'Designer',
-  'Writer',
-  'Momentum'
-]
-
 export const PROJECT_META = {
   title: 'Milestones in the learning journey',
   description:
@@ -111,19 +102,91 @@ export const VALUES = [
 
 export const EXPERIENCE = [
   {
+    company: 'Hoogway.ai',
+    location: 'Delaware, United States · Hybrid',
+    roles: [
+      {
+        title: 'Heading Sales and Business Development',
+        employmentType: 'Full-time',
+        period: 'Apr 2026 - Present · 3 mos'
+      }
+    ]
+  },
+  {
     company: 'DevSphere',
-    location: 'Bengaluru, Karnataka, India',
-    logoUrl: '/images/devsphere.png',
+    location: 'Bengaluru, Karnataka, India · Hybrid',
+    logoUrl: '/images/devsphere.jpg',
+    employmentType: 'Full-time',
+    duration: '2 yrs 6 mos',
     roles: [
       {
         title: 'Advisor',
-        period: 'Jun 2025 - Present',
+        period: 'Jun 2025 - Present · 1 yr 1 mo',
         description: 'I ensure things get done.'
       },
       {
         title: 'Founder and President',
-        period: 'Jan 2024 - Jun 2025',
+        period: 'Jan 2024 - Jun 2025 · 1 yr 6 mos',
         description: 'I get things done.'
+      }
+    ]
+  },
+  {
+    company: 'Neutrinos',
+    location: 'Singapore, Singapore · Remote',
+    roles: [
+      {
+        title: 'SDE',
+        employmentType: 'Internship',
+        period: 'Mar 2026 - Present · 4 mos'
+      }
+    ]
+  },
+  {
+    company: 'FOSS United - RV University',
+    roles: [
+      {
+        title: 'Founding President',
+        employmentType: 'Full-time',
+        period: 'Feb 2026 - Present · 5 mos'
+      }
+    ]
+  },
+  {
+    company: 'RV University',
+    logoUrl: '/images/rv university.jpg',
+    duration: '3 yrs 9 mos',
+    roles: [
+      {
+        title: 'Research Associate — Centre for Global Health and Development',
+        employmentType: 'Full-time',
+        period: 'Dec 2024 - Present · 1 yr 7 mos'
+      },
+      {
+        title: 'Peer Mentor — SoCSE',
+        employmentType: 'Part-time',
+        period: 'Jun 2023 - Present · 3 yrs 1 mo',
+        location: 'Hybrid'
+      },
+      {
+        title:
+          'Mentor — Centre for High Performing Systems and Web Technologies',
+        employmentType: 'Full-time',
+        period: 'Jun 2024 - Jul 2024 · 2 mos',
+        location: 'Bengaluru, Karnataka, India · Hybrid'
+      },
+      {
+        title: 'Teaching Assistant — B.Tech (Hons.)',
+        employmentType: 'Part-time',
+        period: 'Mar 2023 - Jun 2023 · 4 mos',
+        location: 'Bengaluru, Karnataka, India · On-site'
+      },
+      {
+        title: 'Peer Mentor — BSc (Hons.)',
+        employmentType: 'Full-time',
+        period: 'Oct 2022 - Mar 2023 · 6 mos',
+        location: 'Bengaluru, Karnataka, India · On-site',
+        description: `As a Peer Mentor at RV University, I worked closely with students — providing guidance, support, and one-on-one mentorship in the web technologies course to help them build the skills they need to succeed in the classroom and beyond.`
       }
     ]
   },
@@ -133,60 +196,36 @@ export const EXPERIENCE = [
     logoUrl: '/images/tenacity.jpg',
     roles: [
       {
-        title: 'Founder And Design Lead',
-        period: 'Dec 2022 - Present',
-        description: `As the founder of Tenacity, I am responsible for managing all aspects of the product and community, including the technology and design end. I take great care to ensure that the community runs smoothly and that our members have access to the resources and support they need to succeed.
+        title: 'Founder',
+        employmentType: 'Full-time',
+        period: 'Dec 2022 - Present · 3 yrs 7 mos',
+        description: `As the founder of Tenacity, I manage every aspect of the product and community — from technology and design to events and mentorship — making sure members have the resources and support they need to succeed.
 
-I work day and night to provide value for members at Tenacity, whether it's organizing events, creating educational content, or providing mentorship and guidance. I am dedicated to making a positive impact on the lives of our members and believe in the power of community.`
+We're committed to giving students a space to come together, share their passions, and learn from one another. By fostering a real sense of community and belonging, we help students grow into their full potential.`
       }
     ]
   },
   {
-    company: 'RV University',
-    location: 'Bengaluru, Karnataka, India',
-    logoUrl: '/images/rv university.jpg',
+    company: 'Perplexity',
+    location: 'Hybrid',
     roles: [
       {
-        title: 'Research Associate - Centre For Global Health and Development',
-        period: 'Dec 2024 - Present',
-        description:
-          'Full-time research role contributing to global health initiatives.'
-      },
-      {
-        title: 'Mentor - Centre For High Performing Systems and Web Technologies',
-        period: 'Jun 2024 - Jul 2024',
-        description:
-          'Mentored students on web technologies and high-performance systems.'
-      },
-      {
-        title: 'Peer Mentor - SoCSE',
-        period: 'Jun 2023 - Present',
-        description:
-          'Mentoring students in School of Computer Science and Engineering.'
-      },
-      {
-        title: 'Teaching Assistant - B.Tech(Hons.)',
-        period: 'Mar 2023 - Jun 2023',
-        description: 'Assisted in teaching and grading for B.Tech students.'
-      },
-      {
-        title: 'Peer Mentor - BSc(Hons.)',
-        period: 'Oct 2022 - Mar 2023',
-        description: `As a Peer Mentor at RV University, I had the opportunity to work closely with students, providing guidance, support, and mentorship to help them reach their full potential. My primary goal was to assist students in web technologies course and to develop the skills needed to succeed both in the classroom and in the professional world. I provided one-on-one mentoring to students who needed additional support, helping them to overcome challenges and achieve their goals.`
+        title: 'Campus Growth Strategist',
+        employmentType: 'Part-time',
+        period: 'Aug 2025 - Dec 2025 · 5 mos'
       }
     ]
   },
   {
-    company: 'Rabble Labs',
-    location: 'Bengaluru, Karnataka, India',
+    company: 'Rabble',
+    location: 'Bengaluru, Karnataka, India · Hybrid',
     logoUrl: '/images/rabble.jpg',
     roles: [
       {
         title: 'Community and Growth',
-        period: 'Jun 2024 - Aug 2024',
-        description: `Rabble Labs (Buidlers Tribe + Lumos Labs) provides a comprehensive suite of on chain platforms tailored for dedicated Web3 builders and enthusiasts. Our platforms empower Web3 developers by offering seamless access to talent, capital, distribution channels, and on chain users.
-
-Our standout platforms, buidl.so, connects Web3 founders with investors, trusted vendors, partners, advisors, and top-tier talent.`
+        employmentType: 'Full-time',
+        period: 'Jun 2024 - Aug 2024 · 3 mos',
+        description: `Rabble Labs (Buidlers Tribe + Lumos Labs) builds a suite of on-chain platforms for Web3 builders, giving developers access to talent, capital, distribution, and on-chain users. Its flagship, buidl.so, connects Web3 founders with investors, vendors, partners, and top talent — a community of 1,500+ founders and 400+ investors.`
       }
     ]
   },
@@ -197,7 +236,8 @@ Our standout platforms, buidl.so, connects Web3 founders with investors, trusted
     roles: [
       {
         title: 'Tech and Design',
-        period: 'Sep 2022 - Apr 2023',
+        employmentType: 'Full-time',
+        period: 'Sep 2022 - Apr 2023 · 8 mos',
         description:
           'Responsible for making ads for marketing campaigns, designing and developing websites.'
       }
@@ -210,10 +250,11 @@ Our standout platforms, buidl.so, connects Web3 founders with investors, trusted
     roles: [
       {
         title: 'Developer',
-        period: 'May 2021 - Dec 2022',
-        description: `Astro Bot is a versatile and powerful bot designed for use on Discord servers. It was built using the Discord.py library. The main purpose of Astro Bot is to help keep Discord servers organized and to make various tasks more convenient for server administrators and members.
+        employmentType: 'Full-time',
+        period: 'May 2021 - Dec 2022 · 1 yr 8 mos',
+        description: `Astro Bot was a versatile, multipurpose Discord bot built with the Discord.py library to keep servers organized — managing roles, automating tasks, and surfacing useful information. It was widely used across many servers with great feedback.
 
-The key features of Astro Bot are its ability to perform a wide range of tasks, such as managing roles, automating tasks, and providing useful information. It was widely used in many servers across the platform.`
+The project was eventually retired after Discord.py was discontinued and could no longer keep up with the Discord API. :((`
       }
     ]
   },
@@ -224,10 +265,11 @@ The key features of Astro Bot are its ability to perform a wide range of tasks, 
     roles: [
       {
         title: 'Chief Experiment Officer',
-        period: 'Dec 2021 - Mar 2022',
-        description: `I had the opportunity to work with the founder and founding team of Spenny. During my time there, I was able to learn a lot about entrepreneurship, marketing, and design. I was assigned weekly tasks that were designed to help the company acquire new customers and improve its marketing efforts.
+        employmentType: 'Internship',
+        period: 'Dec 2021 - Mar 2022 · 4 mos',
+        description: `I worked directly with the founder and founding team of Spenny, learning the ropes of entrepreneurship, marketing, and design. My main focus was designing websites, posters, and social posts aligned with the brand, alongside market research and customer-acquisition outreach.
 
-One of my primary responsibilities was to assist with the design of websites, posters, and social media posts. I worked closely with the team to create visually appealing designs that were in line with the company's branding and marketing goals.`
+Spenny rounds up your online transactions to the nearest 10 and invests the spare change into a diversified portfolio — turning everyday spending into returns.`
       }
     ]
   }

@@ -3,8 +3,6 @@
 import { useEffect, useState } from 'react'
 import { Clock } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
-
 import { BentoBadge } from './BentoCard'
 
 interface WeatherData {
@@ -93,44 +91,34 @@ export function LocalWeather() {
 
   return (
     <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-3xl px-5 pb-6 pt-4">
-      {/* Large background time */}
-      <p
-        className={cn(
-          'absolute font-serif text-[120px] font-extrabold text-transparent',
-          'left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 leading-none opacity-40',
-          'bg-gradient-to-b from-zinc-800 to-[var(--card)] bg-clip-text tabular-nums'
-        )}
-      >
-        {formatTime(currentTime).substring(0, 5).replace(':', '')}
-      </p>
-
       <BentoBadge icon={<Clock />} text="Local Time" className="w-fit" />
 
-      <div className="space-y-4">
-        <div>
-          <p className="text-[56px] font-light leading-tight tracking-wide tabular-nums text-zinc-100 max-sm:text-4xl">
+      <div className="space-y-5">
+        <div className="space-y-2">
+          <p className="text-[56px] font-light leading-none tracking-tight tabular-nums text-ink max-sm:text-4xl">
             {formatTime(currentTime)}
           </p>
-          <div className="flex items-center gap-2">
-            <p className="text-sm text-zinc-400">{formatDate(currentTime)}</p>
-            <span className="text-zinc-600">•</span>
-            <p className="text-sm text-zinc-500">
-              {currentTime ? getTimeZone() : ''}
-            </p>
-          </div>
+          <p className="label">
+            {formatDate(currentTime)}
+            {currentTime ? ` · ${getTimeZone()}` : ''}
+          </p>
         </div>
 
+        <div className="hairline" />
+
         {loading ? (
-          <div className="flex items-center gap-3 text-zinc-400">
-            <div className="size-4 animate-pulse rounded bg-zinc-700" />
-            <div className="h-4 w-20 animate-pulse rounded bg-zinc-700" />
+          <div className="flex items-center gap-3 text-muted">
+            <div className="size-4 animate-pulse rounded bg-line" />
+            <div className="h-4 w-20 animate-pulse rounded bg-line" />
           </div>
         ) : weather ? (
-          <div className="flex items-center gap-4 text-zinc-200">
-            <span className="text-3xl">{weather.icon}</span>
+          <div className="flex items-center gap-3 text-ink">
+            <span className="text-2xl">{weather.icon}</span>
             <div className="flex items-baseline gap-2">
-              <p className="text-2xl font-semibold">{weather.temp}°C</p>
-              <p className="text-sm text-zinc-400">• {weather.condition}</p>
+              <p className="text-xl font-semibold tabular-nums">
+                {weather.temp}°C
+              </p>
+              <p className="text-sm text-muted">· {weather.condition}</p>
             </div>
           </div>
         ) : null}

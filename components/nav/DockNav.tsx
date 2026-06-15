@@ -16,6 +16,8 @@ import {
 
 import { cn } from '@/lib/utils'
 
+import { ThemeToggle } from './ThemeToggle'
+
 const NAV_ITEMS: { label: string; icon: LucideIcon; href: string }[] = [
   { label: 'Hi 👋', icon: Hand, href: '/' },
   { label: 'Projects', icon: Briefcase, href: '/projects' },
@@ -51,11 +53,9 @@ export function DockNav() {
         style={{ viewTransitionName: 'dock-nav' }}
       >
         <motion.ul
-          animate={{ y: [-2, 2, -2] }}
-          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
           className={cn(
             'flex items-center gap-1 rounded-[32px] p-2',
-            'border border-white/10 bg-zinc-950/90 shadow-lg shadow-black/40 backdrop-blur-lg'
+            'border border-line bg-paper/85 shadow-lg shadow-ink/5 backdrop-blur-lg'
           )}
         >
           {NAV_ITEMS.map(({ label, icon: Icon, href }) => {
@@ -72,23 +72,23 @@ export function DockNav() {
                     onClick={(e) => navigate(e, href)}
                     className={cn(
                       'group relative flex items-center justify-center rounded-full p-3',
-                      'transition-colors hover:bg-white/10'
+                      'transition-colors hover:bg-ink/5'
                     )}
                   >
                     <Icon
                       className={cn(
                         'size-5 transition-colors',
-                        isActive ? 'text-accent-300' : 'text-zinc-100'
+                        isActive ? 'text-accent' : 'text-muted'
                       )}
                     />
                     {isActive && (
-                      <span className="absolute bottom-[3px] left-1/2 size-[3.5px] -translate-x-1/2 rounded-full bg-accent-300" />
+                      <span className="absolute bottom-[3px] left-1/2 size-[3.5px] -translate-x-1/2 rounded-full bg-accent" />
                     )}
                     <span
                       className={cn(
                         'absolute -top-8 left-1/2 -translate-x-1/2',
                         'rounded-md px-2 py-1 text-xs',
-                        'border border-white/10 bg-zinc-900 text-zinc-100',
+                        'border border-line bg-card text-ink',
                         'opacity-0 group-hover:opacity-100',
                         'pointer-events-none whitespace-nowrap transition-opacity'
                       )}
@@ -100,6 +100,10 @@ export function DockNav() {
               </li>
             )
           })}
+          <li aria-hidden className="mx-1 h-6 w-px bg-line" />
+          <li>
+            <ThemeToggle />
+          </li>
         </motion.ul>
       </motion.nav>
     </div>

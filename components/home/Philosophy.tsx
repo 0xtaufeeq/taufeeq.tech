@@ -34,13 +34,11 @@ export function Philosophy() {
           return (
             <Reveal key={title} delay={index * 0.1}>
               <div className="ui-card group h-full p-6">
-                <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-accent-500/10">
-                  <Icon className="size-6 text-accent-400" />
+                <div className="mb-4 flex size-12 items-center justify-center rounded-xl border border-line bg-accent/10">
+                  <Icon className="size-6 text-accent" />
                 </div>
-                <h3 className="font-display mb-2 text-xl font-semibold text-zinc-100">
-                  {title}
-                </h3>
-                <p className="text-sm leading-relaxed text-zinc-400">
+                <h3 className="display mb-2 text-2xl text-ink">{title}</h3>
+                <p className="text-sm leading-relaxed text-muted">
                   {description}
                 </p>
               </div>

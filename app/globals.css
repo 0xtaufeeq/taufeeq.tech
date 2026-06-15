@@ -1,30 +1,48 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
-@variant dark (&:where(.dark, .dark *));
+/* class-based dark mode (toggle adds .dark to <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- editorial palette (foss-rvu) ---------- */
+:root {
+  --paper: #fbfbf7;
+  --ink: #16160f;
+  --muted: #6c6c62;
+  --line: #e7e5db;
+  --line-strong: #d6d4c8;
+  --accent: #1c7d4d;
+  --accent-contrast: #fbfbf7;
+  --card: #ffffff;
+}
+
+.dark {
+  --paper: #0b0c09;
+  --ink: #eceadf;
+  --muted: #9a9a8d;
+  --line: #232318;
+  --line-strong: #34342a;
+  --accent: #4bc585;
+  --accent-contrast: #07140c;
+  --card: #121310;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-card: var(--card);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
 
 @theme {
-  /* AMOLED surfaces */
-  --color-zinc-900: #111111;
-  --color-zinc-950: #050505;
-
-  /* Signature electric-emerald accent on AMOLED black */
-  --color-accent-50: #eafff5;
-  --color-accent-100: #cdfde6;
-  --color-accent-200: #a0f8d2;
-  --color-accent-300: #5ef0b4;
-  --color-accent-400: #25e394;
-  --color-accent-500: #00d97e;
-  --color-accent-600: #00b368;
-  --color-accent-700: #008f55;
-  --color-accent-800: #007046;
-  --color-accent-900: #0b5c3d;
-  --color-accent-950: #03301f;
-
-  --font-sans: var(--font-switzer), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-playfair), Georgia, serif;
-  --font-mono: var(--font-dm-mono), ui-monospace, monospace;
-
   --breakpoint-xs: 30rem;
 
   --animate-marquee: marquee var(--duration, 30s) linear infinite;
@@ -37,54 +55,119 @@
       transform: translateX(calc(-100% - var(--gap, 0px)));
     }
   }
+
+  /* Editorial fallback for any legacy zinc/accent utilities still in the
+     tree. Light-only — semantic paper/ink/line tokens above carry dark mode. */
+  --color-zinc-50: #16160f;
+  --color-zinc-100: #16160f;
+  --color-zinc-200: #2c2c22;
+  --color-zinc-300: #6c6c62;
+  --color-zinc-400: #6c6c62;
+  --color-zinc-500: #8a8a7e;
+  --color-zinc-600: #9a9a8d;
+  --color-zinc-700: #d6d4c8;
+  --color-zinc-800: #e7e5db;
+  --color-zinc-900: #ffffff;
+  --color-zinc-950: #fbfbf7;
+
+  --color-accent-50: #e7f5ee;
+  --color-accent-100: #d3ecdf;
+  --color-accent-200: #a8d9bf;
+  --color-accent-300: #1c7d4d;
+  --color-accent-400: #1c7d4d;
+  --color-accent-500: #1c7d4d;
+  --color-accent-600: #166b42;
+  --color-accent-700: #125636;
+  --color-accent-800: #0e4429;
+  --color-accent-900: #0b341f;
+  --color-accent-950: #e7f5ee;
 }
 
-:root {
-  --bg: #050505;
-  --card: #111111;
-  --accent-color-1: #00d97e;
-  --accent-color-2: #5ef0b4;
+* {
+  border-color: var(--line);
 }
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background-color: var(--bg);
-  color: theme(--color-zinc-50);
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background-color: var(--accent-color-1);
-  color: #050505;
+  background: var(--accent);
+  color: var(--accent-contrast);
 }
 
 :focus-visible {
-  outline: 2px solid theme(--color-accent-300);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- editorial primitives (foss-rvu) ---------- */
+
+/* Eyebrow / mono label */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Editorial display headings */
+.display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+}
+
+/* Subtle dotted backdrop used behind hero/section accents */
+.dotgrid {
+  background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Animated underline for links */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+/* marquee edge fade */
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
 }
 
 /* ---------- shared UI primitives ---------- */
-
-@utility bg-primary-gradient {
-  background-image: linear-gradient(
-    to right,
-    var(--accent-color-1),
-    var(--accent-color-2)
-  );
-}
-
-@utility text-primary-gradient {
-  background-image: linear-gradient(
-    to right,
-    var(--accent-color-1),
-    var(--accent-color-2)
-  );
-  background-clip: text;
-  color: transparent;
-}
 
 @utility section-badge {
   display: flex;
@@ -92,27 +175,29 @@ body {
   align-items: center;
   gap: --spacing(2);
   border-radius: calc(infinity * 1px);
-  background-color: --alpha(theme(--color-accent-950) / 55%);
-  border: 1px solid --alpha(theme(--color-accent-500) / 15%);
+  background-color: var(--card);
+  border: 1px solid var(--line-strong);
   padding: --spacing(2) --spacing(4);
-  color: theme(--color-accent-300);
+  color: var(--muted);
 }
 
 @utility page-title {
   font-family: var(--font-serif);
-  letter-spacing: -0.025em;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   font-size: clamp(2.25rem, 7vw, 3.75rem);
-  font-weight: 600;
-  line-height: 1.02;
+  line-height: 1;
 }
 
 @utility font-heading {
   font-family: var(--font-serif);
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: -0.01em;
 }
 
 @utility font-display {
   font-family: var(--font-serif);
+  font-weight: 400;
 }
 
 @utility btn-primary {
@@ -120,16 +205,16 @@ body {
   align-items: center;
   gap: --spacing(2);
   border-radius: calc(infinity * 1px);
-  background-color: theme(--color-accent-500);
+  background-color: var(--ink);
   padding: --spacing(2.5) --spacing(6);
   font-size: 0.875rem;
   font-weight: 500;
-  color: #050505;
+  color: var(--paper);
   transition: all 300ms;
 
   &:hover {
-    background-color: theme(--color-accent-400);
-    box-shadow: 0 10px 30px -8px --alpha(theme(--color-accent-500) / 35%);
+    background-color: var(--accent);
+    color: var(--accent-contrast);
   }
 }
 
@@ -138,40 +223,45 @@ body {
   align-items: center;
   gap: --spacing(2);
   border-radius: calc(infinity * 1px);
-  border: 1px solid theme(--color-zinc-800);
-  background-color: --alpha(theme(--color-zinc-900) / 50%);
+  border: 1px solid var(--line-strong);
+  background-color: transparent;
   padding: --spacing(2.5) --spacing(6);
   font-size: 0.875rem;
   font-weight: 500;
-  color: theme(--color-zinc-300);
+  color: var(--ink);
   transition: all 300ms;
 
   &:hover {
-    border-color: theme(--color-zinc-700);
-    background-color: theme(--color-zinc-900);
-    color: theme(--color-zinc-100);
+    border-color: var(--ink);
   }
 }
 
 @utility ui-card {
   border-radius: 0.75rem;
-  border: 1px solid theme(--color-zinc-800);
-  background-color: --alpha(theme(--color-zinc-900) / 50%);
+  border: 1px solid var(--line);
+  background-color: var(--card);
   transition: all 300ms;
 
   &:hover {
-    border-color: theme(--color-zinc-700);
-    background-color: theme(--color-zinc-900);
+    border-color: var(--line-strong);
   }
 }
 
+@utility bg-primary-gradient {
+  background-color: var(--accent);
+}
+
+@utility text-primary-gradient {
+  color: var(--accent);
+}
+
 @utility drop-shadow-accent {
-  filter: drop-shadow(0px 0px 8px var(--accent-color-1));
+  filter: drop-shadow(0px 0px 6px --alpha(var(--accent) / 45%));
 }
 
 @utility scrollbar-color {
   scrollbar-width: thin;
-  scrollbar-color: theme(--color-zinc-400) theme(--color-zinc-900);
+  scrollbar-color: var(--line-strong) var(--paper);
 }
 
 @utility scrollbar-none {
@@ -181,15 +271,29 @@ body {
   }
 }
 
-/* ---------- film grain laid over the whole page ---------- */
-.noise-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  pointer-events: none;
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+/* outlined display type for watermark numerals */
+@utility text-outline {
+  -webkit-text-stroke: 1px --alpha(var(--muted) / 35%);
+  color: transparent;
+}
+
+/* faint dot-matrix atmosphere, fades out towards the edges */
+@utility dot-grid {
+  background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent);
+}
+
+/* gradient hairline divider */
+@utility hairline {
+  height: 1px;
+  border: none;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--line-strong),
+    transparent
+  );
 }
 
 /* ---------- custom cursor (fine pointers only) ---------- */
@@ -206,29 +310,55 @@ body {
   z-index: 9999;
   pointer-events: none;
   mix-blend-mode: difference;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+#site-cursor[data-hidden='true'] {
+  opacity: 0;
+}
+
+#site-cursor .cursor-dot,
+#site-cursor .cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 9999px;
+  will-change: transform, translate;
 }
 
 #site-cursor .cursor-dot {
-  position: absolute;
-  top: -3px;
-  left: -3px;
   width: 6px;
   height: 6px;
-  border-radius: 9999px;
-  background: white;
-}
-
-#site-cursor .cursor-ring {
-  position: absolute;
-  top: -18px;
-  left: -18px;
-  width: 36px;
-  height: 36px;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.65);
+  margin: -3px 0 0 -3px;
+  background: #fff;
   transition:
     transform 0.2s ease,
     opacity 0.2s ease;
+}
+
+#site-cursor .cursor-ring {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1.5px solid #fff;
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.3s ease;
+}
+
+/* over interactive elements: ring swells + softly fills, dot tucks in */
+#site-cursor[data-hover='true'] .cursor-ring {
+  transform: scale(1.7);
+  background-color: rgba(255, 255, 255, 0.12);
+}
+#site-cursor[data-hover='true'] .cursor-dot {
+  transform: scale(0.35);
+}
+
+/* click feedback */
+#site-cursor[data-press='true'] .cursor-ring {
+  transform: scale(0.8);
 }
 
 @media (pointer: coarse) {
@@ -237,79 +367,51 @@ body {
   }
 }
 
-/* ---------- bento spotlight cards ---------- */
+/* ---------- bento cards (editorial: flat, bordered) ---------- */
 #bento {
-  --card-border: #3f3f46;
-  --card-background: #111111;
   scroll-margin: 3rem;
 }
 
-#bento:hover .card::after {
-  opacity: 1;
-}
-
 .card {
-  background-color: #27272a;
   display: flex;
   flex-direction: column;
   position: relative;
+  border: 1px solid var(--line);
+  background-color: var(--card);
+  transition: border-color 300ms;
 }
 
-.card:hover::before {
-  opacity: 1;
-}
-
-.card::before,
-.card::after {
-  border-radius: inherit;
-  content: '';
-  height: 100%;
-  left: 0px;
-  opacity: 0;
-  position: absolute;
-  top: 0px;
-  transition: opacity 500ms;
-  width: 100%;
-  pointer-events: none;
-}
-
-.card::before {
-  background: radial-gradient(
-    800px circle at var(--mouse-x) var(--mouse-y),
-    rgba(255, 255, 255, 0.06),
-    transparent 40%
-  );
-  z-index: 3;
-}
-
-.card::after {
-  background: radial-gradient(
-    600px circle at var(--mouse-x) var(--mouse-y),
-    var(--card-border),
-    transparent 50%
-  );
-  z-index: 1;
+.card:hover {
+  border-color: var(--line-strong);
 }
 
 .card > .card-content {
-  background-color: var(--card-background);
+  background-color: var(--card);
   border-radius: inherit;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  inset: 1px;
   z-index: 2;
 }
 
 /* ---------- prose tweaks ---------- */
 .prose {
-  --tw-prose-invert-body: theme(--color-zinc-400);
+  --tw-prose-body: var(--muted);
+  --tw-prose-headings: var(--ink);
+  --tw-prose-links: var(--accent);
+  --tw-prose-bold: var(--ink);
+  --tw-prose-quotes: var(--ink);
+  --tw-prose-quote-borders: var(--line-strong);
+  --tw-prose-hr: var(--line);
+  --tw-prose-bullets: var(--line-strong);
+  --tw-prose-counters: var(--muted);
+  --tw-prose-code: var(--ink);
   letter-spacing: 0.01em;
 }
 
 .prose :where(code):not(:where(pre code)) {
-  background: theme(--color-zinc-900);
-  border: 1px solid theme(--color-zinc-800);
+  background: var(--card);
+  border: 1px solid var(--line);
   border-radius: 0.375rem;
   padding: 0.125rem 0.375rem;
   font-weight: 400;
@@ -321,9 +423,9 @@ body {
 }
 
 .prose pre {
-  border: 1px solid theme(--color-zinc-800);
+  border: 1px solid var(--line);
   border-radius: 0.75rem;
-  background: #0a0a0a !important;
+  background: var(--card) !important;
 }
 
 .prose img {
@@ -352,14 +454,10 @@ pre code {
 
 /* ---------- leaflet container ---------- */
 .leaflet-container {
-  background: #050505;
+  background: var(--paper);
 }
 
-/* ---------- view transitions (slide-up / reveal) ----------
-   The default View Transition API stacks the NEW page behind the OLD one.
-   These rules re-layer the snapshots so slideInOut() in lib/view-transition.ts
-   can clip-reveal the new page on top while the old page drifts away under it. */
-
+/* ---------- view transitions (slide-up / reveal) ---------- */
 ::view-transition {
   animation: none;
 }
@@ -381,23 +479,38 @@ pre code {
   z-index: 1;
 }
 
-/* slideInOut() drives these via WAAPI — kill the UA's default crossfade */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
 }
 
-/* the dock has its own snapshot pair so it stays put during transitions */
 ::view-transition-old(dock-nav),
 ::view-transition-new(dock-nav) {
   animation: none;
 }
 
-/* ---------- CSS-driven entrance animations ----------
-   These start at first paint instead of waiting for JS hydration: framer's
-   SSR'd `opacity: 0` initial styles kept content invisible until hydrate,
-   which is exactly the pattern that once produced a 17s LCP. */
+/* ---------- theme toggle: circular "spread" reveal ----------
+   Scoped to .theme-vt (added by lib/theme-transition.ts) so it never affects
+   page-navigation transitions. Declared in CSS — not WAAPI — so the new
+   snapshot is clipped from the first frame and the switch never blinks. */
+@keyframes vt-theme-reveal {
+  from {
+    clip-path: circle(0px at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
+  to {
+    clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
+}
 
+html.theme-vt::view-transition-old(root) {
+  animation: none;
+}
+
+html.theme-vt::view-transition-new(root) {
+  animation: vt-theme-reveal 1s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+/* ---------- CSS-driven entrance animations ---------- */
 @keyframes rise-in {
   from {
     opacity: 0;
@@ -416,8 +529,107 @@ pre code {
   animation-delay: var(--delay, 0s);
 }
 
-/* split-type chars rise from y:400 inside their word boxes; clipping the
-   words masks them until they arrive. Slight padding spares italic overhang. */
+/* editorial drop cap for manifesto openings */
+.drop-cap::first-letter {
+  float: left;
+  padding-right: 0.1em;
+  font-family: var(--font-serif);
+  font-size: 3.6em;
+  line-height: 0.78;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+/* hand-stamped verdicts on the chat windows */
+@utility stamp {
+  display: inline-block;
+  border: 2px solid currentColor;
+  border-radius: 0.375rem;
+  padding: 0.35rem 0.85rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+/* animated strikethrough — draws itself across "hello" */
+.strike-anim {
+  position: relative;
+}
+
+.strike-anim::after {
+  content: '';
+  position: absolute;
+  left: -3%;
+  right: -3%;
+  top: 53%;
+  height: 0.06em;
+  border-radius: 999px;
+  background: #c0492f;
+  transform-origin: left center;
+  animation: strike-draw 0.7s cubic-bezier(0.87, 0, 0.13, 1) 0.9s both;
+}
+
+@keyframes strike-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* accent scanline sweeping the 404 page */
+@keyframes scan-sweep {
+  0% {
+    top: -8%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    top: 108%;
+    opacity: 0;
+  }
+}
+
+.scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    --alpha(var(--accent) / 60%),
+    transparent
+  );
+  box-shadow: 0 0 24px 1px --alpha(var(--accent) / 25%);
+  animation: scan-sweep 5s linear infinite;
+}
+
+/* terminal caret */
+@keyframes caret-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  95% {
+    opacity: 0;
+  }
+}
+
+.caret-blink {
+  animation: caret-blink 1.1s steps(1) infinite;
+}
+
+/* split-type chars rise from y:400 inside their word boxes */
 .hero-title .word {
   overflow: clip;
   padding-block: 0.08em;
@@ -430,7 +642,22 @@ pre code {
     scroll-behavior: auto;
   }
 
-  .fade-rise {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .fade-rise,
+  .strike-anim::after,
+  .scanline,
+  .caret-blink {
     animation: none;
+  }
+
+  .scanline {
+    opacity: 0;
   }
 }

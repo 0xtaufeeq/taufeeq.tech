@@ -1,32 +1,51 @@
 'use client'
 
-import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 
-const NAME = 'Taufeeq Riyaz'
-const HANDLE = '@0xtaufeeq'
+/** The name in several languages — cycled with a smooth blur/slide swap. */
+const NAMES = [
+  'Taufeeq Riyaz', // English
+  'ತೌಫೀಕ್ ರಿಯಾಜ್', // Kannada
+  'తౌఫీఖ్ రియాజ్', // Telugu
+  'توفيق رياز', // Arabic
+  'तौफ़ीक़ रियाज़' // Hindi
+]
 
-/** Hover-swap between the name and the handle, letter by letter. */
+/** Cycles the name through different languages with a smooth animated swap. */
 export function AnimatedName() {
-  const [hovered, setHovered] = useState(false)
-  const text = hovered ? HANDLE : NAME
+  const [index, setIndex] = useState(0)
+  const reduceMotion = useReducedMotion()
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % NAMES.length)
+    }, 2600)
+    return () => clearInterval(id)
+  }, [])
+
+  const name = NAMES[index]
 
   return (
-    <span
-      className="relative inline-flex cursor-default overflow-hidden font-medium"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <AnimatePresence mode="popLayout" initial={false}>
+    <span className="relative inline-flex font-medium" dir="auto">
+      <AnimatePresence mode="wait" initial={false}>
         <motion.span
-          key={text}
-          initial={{ y: '110%', opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: '-110%', opacity: 0 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          key={name + index}
+          initial={
+            reduceMotion
+              ? { opacity: 0 }
+              : { opacity: 0, y: 10, filter: 'blur(6px)' }
+          }
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          exit={
+            reduceMotion
+              ? { opacity: 0 }
+              : { opacity: 0, y: -10, filter: 'blur(6px)' }
+          }
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="inline-block"
         >
-          {text}
+          {name}
         </motion.span>
       </AnimatePresence>
     </span>

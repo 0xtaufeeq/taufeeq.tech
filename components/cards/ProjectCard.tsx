@@ -14,7 +14,7 @@ export function ProjectCard({
 }) {
   return (
     <Link href={`/projects/${project.slug}`} className="group block space-y-6">
-      <div className="relative overflow-clip rounded-lg border border-zinc-900">
+      <div className="relative overflow-clip rounded-xl border border-line bg-card">
         <Image
           src={project.heroImage}
           alt={project.title}
@@ -22,15 +22,14 @@ export function ProjectCard({
           height={457}
           className="aspect-[1.75] w-full object-cover object-top transition-all duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/30 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
       </div>
       <div className="flex flex-col gap-4">
-        <p className="font-mono text-sm text-accent-400">{project.year}</p>
-        <h4 className="font-display text-xl font-semibold !leading-[1.25] text-zinc-100 max-sm:text-lg">
+        <p className="label">{project.year}</p>
+        <h4 className="display text-2xl !leading-[1.2] text-ink max-sm:text-xl">
           {project.title}
         </h4>
-        <p className="text-sm text-zinc-400">{project.description}</p>
-        <span className="w-fit text-sm text-accent-400">
+        <p className="text-sm text-muted">{project.description}</p>
+        <span className="w-fit text-sm text-accent">
           Read more
           <ArrowRight className="ml-1 inline-block size-4 transition-all duration-300 group-hover:ml-2" />
         </span>

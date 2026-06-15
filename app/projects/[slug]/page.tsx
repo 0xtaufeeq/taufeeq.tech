@@ -59,15 +59,13 @@ export default async function ProjectPage({ params }: PageProps) {
       <BackToHome />
 
       <header className="mt-12 space-y-6">
-        <p className="font-mono text-sm tracking-widest text-accent-400">
-          {project.year} — PROJECT
-        </p>
-        <h1 className="page-title text-zinc-100">{project.title}</h1>
-        <p className="text-lg leading-relaxed text-zinc-400">
+        <p className="label text-accent">{project.year} — PROJECT</p>
+        <h1 className="page-title text-ink">{project.title}</h1>
+        <p className="text-lg leading-relaxed text-muted">
           {project.description}
         </p>
 
-        <div className="flex flex-wrap items-center gap-4 text-sm text-zinc-500">
+        <div className="flex flex-wrap items-center gap-4 text-sm text-muted">
           <span className="flex items-center gap-1.5">
             <Clock className="size-4" />
             {project.readingMinutes} min read
@@ -98,7 +96,7 @@ export default async function ProjectPage({ params }: PageProps) {
           </div>
         )}
 
-        <div className="overflow-clip rounded-xl border border-zinc-800">
+        <div className="overflow-clip rounded-xl border border-line">
           <Image
             src={project.heroImage}
             alt={project.title}
@@ -110,7 +108,7 @@ export default async function ProjectPage({ params }: PageProps) {
         </div>
       </header>
 
-      <div className="prose prose-invert mt-12 max-w-none prose-headings:font-heading prose-headings:text-zinc-100 prose-a:text-accent-400 prose-strong:text-zinc-200">
+      <div className="prose mt-12 max-w-none prose-headings:font-heading prose-headings:text-ink prose-a:text-accent prose-strong:text-ink">
         <Mdx source={project.body} />
       </div>
     </article>

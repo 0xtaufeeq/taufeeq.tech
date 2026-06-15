@@ -25,15 +25,17 @@ export function SectionHeader({
 
   return (
     <Reveal className={cn('space-y-6 sm:space-y-8', className)}>
-      <div className="section-badge">
-        {badge}
+      <div className="label inline-flex items-center gap-2">
+        <span aria-hidden className="[&>svg]:size-3.5 text-accent">
+          {badge}
+        </span>
         <SectionTag className="text-sm font-medium tracking-wide max-sm:text-xs">
           {section}
         </SectionTag>
       </div>
       <TitleTag
         className={cn(
-          'font-heading font-semibold leading-[1.02] text-zinc-100',
+          'display leading-[1.02] text-ink',
           forHomePage
             ? 'text-[clamp(2rem,7vw,3rem)]'
             : 'text-[clamp(2rem,7vw,3.25rem)]'
@@ -41,7 +43,7 @@ export function SectionHeader({
       >
         {title}
       </TitleTag>
-      <p className="max-w-2xl leading-relaxed text-zinc-400 max-md:text-sm">
+      <p className="max-w-2xl leading-relaxed text-muted max-md:text-sm">
         {description}
       </p>
     </Reveal>

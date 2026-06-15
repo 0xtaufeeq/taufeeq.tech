@@ -111,12 +111,12 @@ export function RegexTester() {
       <div>
         <label
           htmlFor="regex-pattern"
-          className="mb-2 block text-sm font-medium text-zinc-300"
+          className="mb-2 block text-sm font-medium text-muted"
         >
           Regular Expression
         </label>
         <div className="flex">
-          <span className="flex items-center rounded-l-lg border border-r-0 border-zinc-700 bg-zinc-800 px-3 text-zinc-400">
+          <span className="flex items-center rounded-l-lg border border-r-0 border-line bg-card px-3 text-muted">
             /
           </span>
           <input
@@ -126,12 +126,12 @@ export function RegexTester() {
             onChange={(e) => setPattern(e.target.value)}
             spellCheck={false}
             className={cn(
-              'flex-1 border-y border-zinc-700 bg-zinc-800 px-4 py-3 font-mono text-sm text-zinc-200',
-              'placeholder-zinc-500 focus:border-accent-500 focus:outline-none focus:ring-2 focus:ring-accent-500/20'
+              'flex-1 border-y border-line bg-card px-4 py-3 font-mono text-sm text-ink',
+              'placeholder-muted focus:outline-none'
             )}
             placeholder="Enter your regex pattern..."
           />
-          <span className="flex items-center rounded-r-lg border border-l-0 border-zinc-700 bg-zinc-800 px-3 font-mono text-sm text-zinc-400">
+          <span className="flex items-center rounded-r-lg border border-l-0 border-line bg-card px-3 font-mono text-sm text-muted">
             /{flagString}
           </span>
         </div>
@@ -140,7 +140,7 @@ export function RegexTester() {
 
       {/* Flags */}
       <div>
-        <p className="mb-2 block text-sm font-medium text-zinc-300">Flags</p>
+        <p className="mb-2 block text-sm font-medium text-muted">Flags</p>
         <div className="flex flex-wrap gap-3">
           {FLAGS.map(({ flag, label }) => (
             <label
@@ -151,10 +151,10 @@ export function RegexTester() {
                 type="checkbox"
                 checked={flags.has(flag)}
                 onChange={() => toggleFlag(flag)}
-                className="size-4 rounded border-zinc-700 bg-zinc-800 accent-[#00d97e]"
+                className="size-4 rounded border-line bg-card accent-accent"
               />
-              <span className="text-sm text-zinc-300">
-                <code className="text-accent-500">{flag}</code> - {label}
+              <span className="text-sm text-muted">
+                <code className="text-accent">{flag}</code> - {label}
               </span>
             </label>
           ))}
@@ -163,7 +163,7 @@ export function RegexTester() {
 
       {/* Common patterns */}
       <div>
-        <p className="mb-2 block text-sm font-medium text-zinc-300">
+        <p className="mb-2 block text-sm font-medium text-muted">
           Common patterns
         </p>
         <div className="flex flex-wrap gap-2">
@@ -172,8 +172,8 @@ export function RegexTester() {
               key={name}
               onClick={() => setPattern(p)}
               className={cn(
-                'rounded-full border border-zinc-700 bg-zinc-800/60 px-3 py-1.5 text-xs text-zinc-300',
-                'transition-colors hover:border-accent-500/40 hover:text-accent-300'
+                'rounded-full border border-line bg-card px-3 py-1.5 text-xs text-muted',
+                'transition-colors hover:border-accent hover:text-accent'
               )}
             >
               {name}
@@ -186,7 +186,7 @@ export function RegexTester() {
       <div>
         <label
           htmlFor="test-string"
-          className="mb-2 block text-sm font-medium text-zinc-300"
+          className="mb-2 block text-sm font-medium text-muted"
         >
           Test String
         </label>
@@ -197,9 +197,9 @@ export function RegexTester() {
           spellCheck={false}
           rows={6}
           className={cn(
-            'scrollbar-color w-full resize-y rounded-lg border border-zinc-700 bg-zinc-800 p-4',
-            'font-mono text-sm leading-relaxed text-zinc-200 placeholder-zinc-500',
-            'focus:border-accent-500 focus:outline-none focus:ring-2 focus:ring-accent-500/20'
+            'scrollbar-color w-full resize-y rounded-lg border border-line bg-card p-4',
+            'font-mono text-sm leading-relaxed text-ink placeholder-muted',
+            'focus:outline-none'
           )}
           placeholder="Paste the text you want to test against..."
         />
@@ -208,20 +208,20 @@ export function RegexTester() {
       {/* Highlighted matches */}
       <div>
         <div className="mb-2 flex items-baseline justify-between">
-          <p className="text-sm font-medium text-zinc-300">Result</p>
-          <p className="text-sm text-zinc-400">
+          <p className="text-sm font-medium text-muted">Result</p>
+          <p className="text-sm text-muted">
             {error
               ? '—'
               : `${matches.length} match${matches.length === 1 ? '' : 'es'}`}
           </p>
         </div>
-        <div className="min-h-24 whitespace-pre-wrap break-words rounded-lg border border-zinc-800 bg-zinc-950/80 p-4 font-mono text-sm leading-relaxed text-zinc-300">
+        <div className="min-h-24 whitespace-pre-wrap break-words rounded-lg border border-line bg-card p-4 font-mono text-sm leading-relaxed text-muted">
           {highlighted
             ? highlighted.map((segment, i) =>
                 segment.isMatch ? (
                   <mark
                     key={i}
-                    className="rounded bg-accent-500/25 px-0.5 text-accent-200"
+                    className="rounded bg-accent/20 px-0.5 text-ink"
                   >
                     {segment.text}
                   </mark>
@@ -236,20 +236,20 @@ export function RegexTester() {
       {/* Match details */}
       {matches.length > 0 && (
         <div>
-          <p className="mb-2 text-sm font-medium text-zinc-300">
+          <p className="mb-2 text-sm font-medium text-muted">
             Match details
           </p>
           <div className="scrollbar-color max-h-64 space-y-2 overflow-y-auto">
             {matches.slice(0, 100).map((m, i) => (
               <div
                 key={`${m.index}-${i}`}
-                className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-2 text-sm"
+                className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border border-line bg-card px-4 py-2 text-sm"
               >
-                <span className="font-mono text-xs text-zinc-500">#{i + 1}</span>
-                <code className="text-accent-300">{m.match}</code>
-                <span className="text-xs text-zinc-500">index {m.index}</span>
+                <span className="font-mono text-xs text-muted">#{i + 1}</span>
+                <code className="text-accent">{m.match}</code>
+                <span className="text-xs text-muted">index {m.index}</span>
                 {m.groups.filter(Boolean).length > 0 && (
-                  <span className="text-xs text-zinc-500">
+                  <span className="text-xs text-muted">
                     groups: {m.groups.filter(Boolean).join(', ')}
                   </span>
                 )}

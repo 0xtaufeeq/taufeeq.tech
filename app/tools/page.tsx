@@ -42,8 +42,8 @@ export default function ToolsPage() {
               Tools
             </h1>
           </div>
-          <h2 className="page-title text-zinc-100">Useful Web Tools</h2>
-          <p className="text-zinc-400 max-md:text-sm">
+          <h2 className="page-title text-ink">Useful Web Tools</h2>
+          <p className="text-muted max-md:text-sm">
             A collection of useful web tools and utilities
           </p>
         </Reveal>
@@ -53,7 +53,7 @@ export default function ToolsPage() {
       <section className="mt-12 sm:mt-16">
         {categories.map((category) => (
           <div key={category} className="mb-12">
-            <h2 className="font-heading mb-6 text-xl font-semibold text-zinc-300">
+            <h2 className="font-heading mb-6 text-xl text-muted">
               {category}
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -65,16 +65,16 @@ export default function ToolsPage() {
                       className="ui-card group relative flex flex-col gap-4 overflow-hidden p-6"
                     >
                       <div className="flex items-start justify-between">
-                        <div className="flex size-12 items-center justify-center rounded-lg bg-zinc-800 text-2xl">
+                        <div className="flex size-12 items-center justify-center rounded-lg bg-card border border-line text-2xl">
                           {tool.icon}
                         </div>
-                        <ChevronRight className="size-5 text-zinc-600 transition-all duration-300 group-hover:translate-x-1 group-hover:text-zinc-400" />
+                        <ChevronRight className="size-5 text-muted transition-all duration-300 group-hover:translate-x-1 group-hover:text-ink" />
                       </div>
                       <div>
-                        <h3 className="font-display mb-2 text-xl font-semibold text-zinc-100">
+                        <h3 className="font-display mb-2 text-xl text-ink">
                           {tool.title}
                         </h3>
-                        <p className="text-sm text-zinc-400">
+                        <p className="text-sm text-muted">
                           {tool.description}
                         </p>
                       </div>

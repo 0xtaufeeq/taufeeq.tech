@@ -5,8 +5,10 @@ import { User } from 'lucide-react'
 import { Reveal } from '@/components/motion/Reveal'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { BackToHome } from '@/components/ui/BackToHome'
+import { SectionNav } from '@/components/ui/SectionNav'
 import { profilePageJsonLd } from '@/lib/jsonld'
 import { EXPERIENCE, SKILLS } from '@/lib/site'
+import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = {
   title: 'About Me',
@@ -14,6 +16,13 @@ export const metadata: Metadata = {
     'Building Tenacity. Founding President at DevSphere. Tech Enthusiast.',
   alternates: { canonical: '/about' }
 }
+
+const SECTIONS = [
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'connect', label: 'Connect' }
+]
 
 export default function AboutPage() {
   return (
@@ -23,10 +32,9 @@ export default function AboutPage() {
         <BackToHome />
       </div>
 
-      {/* Background glow */}
-      <div className="absolute right-0 top-0 -z-10 h-64 w-64 translate-x-1/3 rounded-full bg-primary-gradient opacity-10 blur-[100px]" />
+      <SectionNav items={SECTIONS} className="mb-16" />
 
-      <header className="mb-20 pt-16">
+      <header id="about" className="mb-20 scroll-mt-24">
         <Reveal>
           <div className="section-badge mb-6">
             <User className="size-4" />
@@ -34,25 +42,25 @@ export default function AboutPage() {
               About
             </span>
           </div>
-          <h1 className="page-title mb-8 text-zinc-100">
-            About <span className="text-zinc-500">Me</span>
+          <h1 className="page-title mb-8 text-ink">
+            About <span className="text-muted">Me</span>
           </h1>
 
           <div className="max-w-none space-y-4">
-            <p className="text-xl leading-relaxed text-zinc-300">
+            <p className="text-xl leading-relaxed text-muted">
               Hi, I&apos;m{' '}
-              <strong className="font-semibold text-accent-400">
+              <strong className="font-semibold text-accent">
                 Taufeeq Riyaz
               </strong>
               . I&apos;m a builder and community leader passionate about
               empowering others.
             </p>
-            <p className="leading-relaxed text-zinc-400">
+            <p className="leading-relaxed text-muted">
               Currently, I&apos;m building{' '}
-              <strong className="font-semibold text-zinc-200">Tenacity</strong>,
+              <strong className="font-semibold text-ink">Tenacity</strong>,
               a community where students can discover their passions and
               develop skills. I also served as the Founding President of{' '}
-              <strong className="font-semibold text-zinc-200">DevSphere</strong>
+              <strong className="font-semibold text-ink">DevSphere</strong>
               . I love working at the intersection of technology, design, and
               people.
             </p>
@@ -60,16 +68,16 @@ export default function AboutPage() {
         </Reveal>
       </header>
 
-      <section className="mb-20">
+      <section id="skills" className="mb-20 scroll-mt-24">
         <Reveal>
-          <h2 className="font-heading mb-8 text-2xl font-semibold text-zinc-100 sm:text-3xl">
+          <h2 className="display mb-8 text-4xl text-ink">
             Skills &amp; Interests
           </h2>
           <div className="flex flex-wrap gap-3">
             {SKILLS.map((skill) => (
               <div
                 key={skill}
-                className="rounded-full border border-zinc-800 bg-zinc-900/50 px-4 py-2 text-sm text-zinc-300 transition-colors hover:border-accent-500/30 hover:text-accent-400"
+                className="rounded-full border border-line bg-card px-4 py-2 text-sm text-muted transition-colors hover:border-line-strong hover:text-accent"
               >
                 {skill}
               </div>
@@ -78,72 +86,124 @@ export default function AboutPage() {
         </Reveal>
       </section>
 
-      <section className="mb-20">
+      <section id="experience" className="mb-20 scroll-mt-24">
         <Reveal>
-          <h2 className="font-heading mb-8 text-2xl font-semibold text-zinc-100 sm:text-3xl">
-            Experience
-          </h2>
+          <h2 className="display mb-8 text-4xl text-ink">Experience</h2>
         </Reveal>
         <div className="space-y-12">
-          {EXPERIENCE.map((companyData) => (
-            <Reveal key={companyData.company}>
-              <div className="group relative">
-                <div className="mb-6 flex gap-4">
-                  <div className="flex-shrink-0">
-                    <Image
-                      src={companyData.logoUrl}
-                      alt={`${companyData.company} logo`}
-                      width={48}
-                      height={48}
-                      className="size-12 rounded-lg border border-zinc-800 bg-zinc-900 object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-xl font-semibold text-zinc-100">
-                      {companyData.company}
-                    </h3>
-                    {companyData.location && (
-                      <p className="text-sm text-zinc-500">
-                        {companyData.location}
-                      </p>
-                    )}
-                  </div>
-                </div>
+          {EXPERIENCE.map((companyData) => {
+            const logoUrl =
+              'logoUrl' in companyData ? companyData.logoUrl : undefined
+            const companyLocation =
+              'location' in companyData ? companyData.location : undefined
+            const meta = [
+              'employmentType' in companyData
+                ? companyData.employmentType
+                : undefined,
+              'duration' in companyData ? companyData.duration : undefined
+            ]
+              .filter(Boolean)
+              .join(' · ')
 
-                <div className="relative ml-[23px] space-y-8 border-l border-zinc-800 pl-8">
-                  {companyData.roles.map((role) => (
-                    <div key={role.title} className="relative">
-                      <span className="absolute -left-[37px] top-1.5 size-3 rounded-full border-2 border-zinc-950 bg-zinc-700 transition-colors group-hover:border-accent-900 group-hover:bg-accent-500" />
-
-                      <div className="mb-2 flex flex-col sm:flex-row sm:items-baseline sm:justify-between">
-                        <h4 className="text-lg font-medium text-zinc-200">
-                          {role.title}
-                        </h4>
-                        <span className="shrink-0 text-sm text-zinc-500">
-                          {role.period}
+            return (
+              <Reveal key={companyData.company}>
+                <div className="group relative">
+                  <div className="mb-6 flex gap-4">
+                    <div className="flex-shrink-0">
+                      {logoUrl ? (
+                        <Image
+                          src={logoUrl}
+                          alt={`${companyData.company} logo`}
+                          width={48}
+                          height={48}
+                          className="size-12 rounded-lg border border-line bg-card object-cover"
+                        />
+                      ) : (
+                        <span
+                          aria-hidden
+                          className="display grid size-12 place-items-center rounded-lg border border-line bg-card text-xl text-muted"
+                        >
+                          {companyData.company.charAt(0)}
                         </span>
-                      </div>
-
-                      <div className="space-y-4 text-sm leading-relaxed text-zinc-400">
-                        {role.description.split('\n\n').map((paragraph, i) => (
-                          <p key={i}>{paragraph.trim()}</p>
-                        ))}
-                      </div>
+                      )}
                     </div>
-                  ))}
+                    <div>
+                      <h3 className="display text-2xl text-ink">
+                        {companyData.company}
+                      </h3>
+                      {meta && <p className="label mt-1">{meta}</p>}
+                      {companyLocation && (
+                        <p className="text-sm text-muted">{companyLocation}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="relative ml-6 space-y-7 border-l border-line pl-8 before:absolute before:-top-7 before:left-[-0.5px] before:h-7 before:w-px before:bg-gradient-to-b before:from-transparent before:to-line">
+                    {companyData.roles.map((role) => {
+                      const roleEmploymentType =
+                        'employmentType' in role ? role.employmentType : undefined
+                      const roleLocation =
+                        'location' in role ? role.location : undefined
+                      const roleDescription =
+                        'description' in role ? role.description : undefined
+                      const isCurrent = /present/i.test(role.period)
+
+                      return (
+                        <div key={role.title} className="group/role relative">
+                          <span
+                            aria-hidden
+                            className={cn(
+                              'absolute -left-[38px] top-[7px] size-2.5 rounded-full ring-4 ring-paper transition-all duration-300',
+                              isCurrent ? 'bg-accent' : 'bg-line-strong',
+                              'group-hover/role:scale-125 group-hover/role:bg-accent'
+                            )}
+                          />
+
+                          <div className="mb-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+                            <h4 className="text-lg font-medium text-ink">
+                              {role.title}
+                              {roleEmploymentType && (
+                                <span className="font-normal text-muted">
+                                  {' '}
+                                  · {roleEmploymentType}
+                                </span>
+                              )}
+                            </h4>
+                            <span className="shrink-0 text-sm text-muted">
+                              {role.period}
+                            </span>
+                          </div>
+
+                          {roleLocation && (
+                            <p className="mb-2 text-sm text-muted">
+                              {roleLocation}
+                            </p>
+                          )}
+
+                          {roleDescription && (
+                            <div className="mt-2 space-y-4 text-sm leading-relaxed text-muted">
+                              {roleDescription
+                                .split('\n\n')
+                                .map((paragraph, i) => (
+                                  <p key={i}>{paragraph.trim()}</p>
+                                ))}
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            )
+          })}
         </div>
       </section>
 
-      <section>
+      <section id="connect" className="scroll-mt-24">
         <Reveal>
-          <h2 className="font-heading mb-8 text-2xl font-semibold text-zinc-100 sm:text-3xl">
-            Connect
-          </h2>
-          <p className="mb-8 text-zinc-400">
+          <h2 className="display mb-8 text-4xl text-ink">Connect</h2>
+          <p className="mb-8 text-muted">
             I&apos;m always open to discussing new projects, community
             initiatives, or just chatting about tech.
           </p>

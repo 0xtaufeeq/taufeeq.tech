@@ -8,8 +8,8 @@ export function BackToHome({ className }: { className?: string }) {
     <Link
       href="/"
       className={cn(
-        'group inline-flex items-center gap-2 text-sm text-zinc-400',
-        'transition-colors duration-300 hover:text-accent-300',
+        'group inline-flex items-center gap-2 text-sm text-muted',
+        'transition-colors duration-300 hover:text-accent',
         className
       )}
     >

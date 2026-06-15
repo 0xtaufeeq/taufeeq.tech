@@ -52,10 +52,10 @@ export function HeroTitle() {
   return (
     <h1
       ref={ref}
-      className="hero-title font-heading text-[clamp(2.25rem,7.5vw,4rem)] font-semibold leading-[1.05] text-zinc-100"
+      className="hero-title display text-[clamp(2.25rem,7.5vw,4rem)] leading-[1.05] text-ink"
     >
       Hi, I&apos;m{' '}
-      <span data-gradient className="text-primary-gradient">
+      <span data-gradient className="italic text-accent">
         Taufeeq Riyaz.
       </span>
       <br />

@@ -99,10 +99,10 @@ export function ValuesTicker() {
         >
           {/* opening of the "sentence" */}
           <div className="flex items-center gap-6">
-            <span className="font-mono text-xs uppercase tracking-[0.35em] text-accent-400">
+            <span className="label">
               Core Values
             </span>
-            <span className="inline-block h-8 w-auto text-accent-500 sm:h-10 [&>svg]:h-full [&>svg]:w-auto">
+            <span className="inline-block h-8 w-auto text-accent sm:h-10 [&>svg]:h-full [&>svg]:w-auto">
               {CONNECTORS[2]}
             </span>
           </div>
@@ -114,29 +114,29 @@ export function ValuesTicker() {
             >
               <span
                 className={cn(
-                  'mr-[4vw] inline-block h-[clamp(2rem,5vw,3.5rem)] w-auto shrink-0 text-accent-500/80',
+                  'mr-[4vw] inline-block h-[clamp(2rem,5vw,3.5rem)] w-auto shrink-0 text-accent/80',
                   '[&>svg]:h-full [&>svg]:w-auto',
                   CONNECTOR_TILTS[index]
                 )}
               >
                 {CONNECTORS[index % CONNECTORS.length]}
               </span>
-              <span className="mr-4 self-start pt-[1vw] font-mono text-xs text-accent-400 sm:text-sm">
+              <span className="mr-4 self-start pt-[1vw] font-mono text-xs text-accent sm:text-sm">
                 ( {value.number} )
               </span>
               <h3
                 className={cn(
                   'font-serif text-[clamp(3rem,9vw,7.5rem)] leading-none',
                   index === 3
-                    ? 'font-medium text-accent-500'
+                    ? 'font-medium text-accent'
                     : index % 2 === 0
-                      ? 'font-medium text-zinc-100'
-                      : 'font-light italic text-zinc-200'
+                      ? 'font-medium text-ink'
+                      : 'font-light italic text-ink'
                 )}
               >
                 {value.title}
               </h3>
-              <p className="ml-[3vw] inline-block w-56 whitespace-normal text-sm leading-relaxed text-zinc-400 sm:w-64">
+              <p className="ml-[3vw] inline-block w-56 whitespace-normal text-sm leading-relaxed text-muted sm:w-64">
                 {value.description}
               </p>
             </div>
@@ -144,17 +144,17 @@ export function ValuesTicker() {
 
           {/* end of the tape */}
           <div className="ml-[12vw] flex items-center gap-8">
-            <span className="inline-block h-10 w-auto text-accent-500 [&>svg]:h-full [&>svg]:w-auto">
+            <span className="inline-block h-10 w-auto text-accent [&>svg]:h-full [&>svg]:w-auto">
               {CONNECTORS[3]}
             </span>
-            <span className="font-serif text-[clamp(2rem,5vw,3.5rem)] font-light italic leading-none text-zinc-500">
+            <span className="font-serif text-[clamp(2rem,5vw,3.5rem)] font-light italic leading-none text-muted">
               the rest is noise.
             </span>
           </div>
         </motion.div>
 
         {!reduceMotion && (
-          <div className="pointer-events-none absolute bottom-24 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.35em] text-white/30">
+          <div className="pointer-events-none absolute bottom-24 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.35em] text-muted">
             keep scrolling
           </div>
         )}

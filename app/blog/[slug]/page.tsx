@@ -67,8 +67,8 @@ export default async function BlogPostPage({ params }: PageProps) {
       <BackToHome />
 
       <header className="mt-12 space-y-6">
-        <div className="flex flex-wrap items-center gap-4 font-mono text-sm text-zinc-500">
-          <time dateTime={post.pubDate} className="text-accent-400">
+        <div className="flex flex-wrap items-center gap-4 font-mono text-sm text-muted">
+          <time dateTime={post.pubDate} className="text-accent">
             {formatDate(new Date(post.pubDate))}
           </time>
           <span className="flex items-center gap-1.5">
@@ -77,8 +77,8 @@ export default async function BlogPostPage({ params }: PageProps) {
           </span>
         </div>
 
-        <h1 className="page-title text-zinc-100">{post.title}</h1>
-        <p className="text-lg leading-relaxed text-zinc-400">
+        <h1 className="page-title text-ink">{post.title}</h1>
+        <p className="text-lg leading-relaxed text-muted">
           {post.description}
         </p>
 
@@ -87,7 +87,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             {post.tags.map((tag) => (
               <li
                 key={tag}
-                className="rounded bg-zinc-900 px-2 py-1 font-mono text-xs tracking-tight text-zinc-400"
+                className="rounded bg-card border border-line px-2 py-1 font-mono text-xs tracking-tight text-muted"
               >
                 {tag}
               </li>
@@ -95,7 +95,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           </ul>
         )}
 
-        <div className="overflow-clip rounded-xl border border-zinc-800">
+        <div className="overflow-clip rounded-xl border border-line">
           <Image
             src={post.heroImage}
             alt={post.title}
@@ -107,7 +107,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
       </header>
 
-      <div className="prose prose-invert mt-12 max-w-none prose-headings:font-heading prose-headings:text-zinc-100 prose-a:text-accent-400 prose-strong:text-zinc-200">
+      <div className="prose mt-12 max-w-none prose-headings:font-heading prose-headings:text-ink prose-a:text-accent prose-strong:text-ink">
         <Mdx source={post.body} />
       </div>
     </article>

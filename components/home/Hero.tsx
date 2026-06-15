@@ -11,12 +11,12 @@ export function Hero() {
 
       <div className="relative z-10 flex h-full grow flex-col gap-8 sm:justify-center">
         <FadeIn delay={0}>
-          <div className="flex w-fit items-center gap-3 rounded-full border border-accent-500/20 bg-accent-500/5 py-1.5 pl-3 pr-4 backdrop-blur-sm">
+          <div className="flex w-fit items-center gap-3 rounded-full border border-line-strong bg-card py-1.5 pl-3 pr-4 backdrop-blur-sm">
             <div className="relative size-3">
-              <div className="absolute size-full animate-ping rounded-full bg-accent-400 opacity-20" />
-              <div className="drop-shadow-accent size-full rounded-full bg-accent-400" />
+              <div className="absolute size-full animate-ping rounded-full bg-accent opacity-20" />
+              <div className="drop-shadow-accent size-full rounded-full bg-accent" />
             </div>
-            <p className="text-sm text-zinc-300 max-xs:text-xs">
+            <p className="text-sm text-muted max-xs:text-xs">
               Available for projects
             </p>
           </div>
@@ -25,7 +25,7 @@ export function Hero() {
         <HeroTitle />
 
         <FadeIn delay={0.45}>
-          <p className="mb-8 max-w-xl leading-relaxed text-zinc-400 max-sm:text-sm">
+          <p className="mb-8 max-w-xl leading-relaxed text-muted max-sm:text-sm">
             I like working with ideas that move the needle, whether it&apos;s
             products, systems, or people. I care about craft, momentum, and
             doing the hard things well. Most days I&apos;m building, writing,

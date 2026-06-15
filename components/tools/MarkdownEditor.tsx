@@ -90,7 +90,7 @@ export function MarkdownEditor() {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-sm text-zinc-400">
+        <div className="flex items-center gap-2 text-sm text-muted">
           <FileText className="size-4" />
           <span>
             {markdown.length} characters ·{' '}
@@ -104,7 +104,7 @@ export function MarkdownEditor() {
           </button>
           <button onClick={copyHtml} className="btn-secondary !px-4 !py-2">
             {copied ? (
-              <Check className="size-4 text-accent-400" />
+              <Check className="size-4 text-accent" />
             ) : (
               <Copy className="size-4" />
             )}
@@ -125,17 +125,17 @@ export function MarkdownEditor() {
           aria-label="Markdown source"
           className={cn(
             'scrollbar-color h-[600px] w-full resize-none rounded-xl p-5',
-            'border border-zinc-800 bg-zinc-950/80 font-mono text-sm leading-relaxed text-zinc-200',
-            'placeholder-zinc-600 focus:border-accent-500/50 focus:outline-none focus:ring-2 focus:ring-accent-500/20'
+            'border border-line bg-card font-mono text-sm leading-relaxed text-ink',
+            'placeholder-muted focus:outline-none'
           )}
           placeholder="Type your markdown here..."
         />
         <div
           ref={previewRef}
           className={cn(
-            'scrollbar-color prose prose-invert h-[600px] max-w-none overflow-y-auto rounded-xl p-5',
-            'border border-zinc-800 bg-zinc-900/40',
-            'prose-headings:font-heading prose-headings:text-zinc-100 prose-a:text-accent-400'
+            'scrollbar-color prose h-[600px] max-w-none overflow-y-auto rounded-xl p-5',
+            'border border-line bg-card',
+            'prose-headings:font-heading prose-headings:text-ink prose-a:text-accent'
           )}
           dangerouslySetInnerHTML={{ __html: html }}
         />

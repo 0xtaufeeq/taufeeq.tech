@@ -29,7 +29,7 @@ const NotificationCard = ({
     viewport={{ once: true, margin: '-40px' }}
     transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
     className={cn(
-      'flex w-[340px] items-center gap-4 rounded-2xl bg-zinc-100 p-4 text-zinc-700 shadow-xl',
+      'flex w-[340px] items-center gap-4 rounded-2xl border border-line bg-card p-4 text-ink shadow-sm',
       'transition-all duration-300 group-hover:-mt-2 group-hover:scale-105',
       'max-xs:w-[300px]',
       className
@@ -39,7 +39,7 @@ const NotificationCard = ({
     <div className="min-w-0">
       <div className="flex items-baseline justify-between gap-3">
         <p className="truncate text-sm font-semibold">{sender}</p>
-        <p className="shrink-0 text-xs text-zinc-500">{time}</p>
+        <p className="shrink-0 text-xs text-muted">{time}</p>
       </div>
       <p className="truncate text-sm">{message}</p>
     </div>
@@ -58,8 +58,8 @@ export function FeaturedWork() {
       <div className="z-40 space-y-5">
         <BentoBadge icon={<Briefcase />} text="Featured work" className="w-fit" />
         <div className="space-y-3 xs:max-md:w-1/2">
-          <p className="text-xl leading-none text-zinc-100">DevSphere</p>
-          <p className="text-sm leading-relaxed text-zinc-400">
+          <p className="text-xl leading-none text-ink">DevSphere</p>
+          <p className="text-sm leading-relaxed text-muted">
             Open Source and Web 3.0 Club at RV University.
           </p>
         </div>
@@ -79,7 +79,7 @@ export function FeaturedWork() {
             sender="DevSphere"
             time="1m ago"
             message="Membership request received"
-            className="z-10 -mt-8 w-[88%] bg-zinc-400 text-zinc-800 transition-all duration-500"
+            className="z-10 -mt-8 w-[88%] bg-line text-muted transition-all duration-500"
           />
         </div>
       </div>

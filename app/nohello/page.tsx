@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 
+import { FadeIn } from '@/components/motion/FadeIn'
 import { Reveal } from '@/components/motion/Reveal'
 import { BackToHome } from '@/components/ui/BackToHome'
 import { cn } from '@/lib/utils'
@@ -10,254 +11,322 @@ export const metadata: Metadata = {
   alternates: { canonical: '/nohello' }
 }
 
+/* ---------- chat primitives ---------- */
+
 const Avatar = ({
   letter,
-  color
+  tone
 }: {
   letter: string
-  color: 'indigo' | 'accent'
+  tone: 'indigo' | 'accent'
 }) => (
   <div
     className={cn(
-      'flex size-10 items-center justify-center rounded-full text-sm font-bold ring-1',
-      color === 'indigo'
-        ? 'bg-indigo-500/10 text-indigo-400 ring-indigo-500/50'
-        : 'bg-accent-500/10 text-accent-400 ring-accent-500/50'
+      'flex size-9 shrink-0 items-center justify-center rounded-full font-mono text-sm font-bold ring-1',
+      tone === 'indigo'
+        ? 'bg-ink/5 text-muted ring-line'
+        : 'bg-accent/10 text-accent ring-line'
     )}
   >
     {letter}
   </div>
 )
 
+const Message = ({
+  from,
+  time,
+  tone,
+  side = 'left',
+  delay = 0,
+  children
+}: {
+  from: string
+  time: string
+  tone: 'indigo' | 'accent'
+  side?: 'left' | 'right'
+  delay?: number
+  children: React.ReactNode
+}) => (
+  <FadeIn
+    delay={delay}
+    y={14}
+    className={cn('flex gap-3', side === 'right' && 'flex-row-reverse')}
+  >
+    <Avatar letter={from[0]} tone={tone} />
+    <div
+      className={cn('space-y-1.5', side === 'right' && 'flex flex-col items-end')}
+    >
+      <div
+        className={cn(
+          'flex items-baseline gap-2',
+          side === 'right' && 'flex-row-reverse'
+        )}
+      >
+        <span className="text-sm font-semibold text-ink">{from}</span>
+        <span className="font-mono text-[10px] tracking-wide text-muted">
+          {time}
+        </span>
+      </div>
+      <div
+        className={cn(
+          'w-fit max-w-md px-4 py-2 text-[15px] leading-relaxed ring-1',
+          side === 'left'
+            ? 'rounded-2xl rounded-tl-sm bg-card text-ink ring-line'
+            : 'rounded-2xl rounded-tr-sm bg-accent/10 text-ink ring-line'
+        )}
+      >
+        {children}
+      </div>
+    </div>
+  </FadeIn>
+)
+
+const ChatWindow = ({
+  channel,
+  stamp,
+  stampTone,
+  children
+}: {
+  channel: string
+  stamp: string
+  stampTone: 'red' | 'accent'
+  children: React.ReactNode
+}) => (
+  <div className="relative">
+    <div className="overflow-hidden rounded-2xl border border-line bg-card shadow-sm">
+      {/* window chrome */}
+      <div className="flex items-center justify-between border-b border-line bg-card px-5 py-3.5">
+        <div className="flex gap-2">
+          <div className="size-3 rounded-full bg-[#ff5f57]/70" />
+          <div className="size-3 rounded-full bg-[#febc2e]/70" />
+          <div className="size-3 rounded-full bg-[#28c840]/70" />
+        </div>
+        <span className="font-mono text-[11px] tracking-[0.2em] text-muted">
+          {channel}
+        </span>
+        <span className="w-12" aria-hidden="true" />
+      </div>
+      <div className="space-y-6 p-6 sm:p-8">{children}</div>
+    </div>
+
+    {/* verdict stamp */}
+    <span
+      className={cn(
+        'stamp absolute -top-4 right-6 z-10 backdrop-blur-sm',
+        stampTone === 'red'
+          ? 'rotate-3 bg-paper text-red-400'
+          : '-rotate-2 bg-paper text-accent'
+      )}
+    >
+      {stamp}
+    </span>
+  </div>
+)
+
+const TypingIndicator = ({ from, delay }: { from: string; delay: number }) => (
+  <FadeIn delay={delay} y={14} className="flex gap-3">
+    <Avatar letter={from[0]} tone="indigo" />
+    <div className="space-y-1.5">
+      <div className="flex items-baseline gap-2">
+        <span className="text-sm font-semibold text-ink">{from}</span>
+        <span className="font-mono text-[10px] italic tracking-wide text-muted">
+          is typing…
+        </span>
+      </div>
+      <div className="flex w-16 items-center gap-1 rounded-2xl rounded-tl-sm bg-card px-4 py-3 ring-1 ring-line">
+        <div className="size-1.5 animate-bounce rounded-full bg-muted [animation-delay:-0.3s]" />
+        <div className="size-1.5 animate-bounce rounded-full bg-muted [animation-delay:-0.15s]" />
+        <div className="size-1.5 animate-bounce rounded-full bg-muted" />
+      </div>
+    </div>
+  </FadeIn>
+)
+
+/* ---------- page ---------- */
+
+const STATS = [
+  { value: '4 min+', label: 'avg. time lost per "hello"' },
+  { value: '2×', label: 'the messages it takes' },
+  { value: '0', label: 'information conveyed' }
+]
+
+const DONT = ['"Hello"', '"Hi Taufeeq, quick question"', '"You got a sec?"', '"ping"']
+const DO = [
+  `"Hey! When's the deadline for X?"`,
+  '"Hi, could you send me the report?"',
+  `"Quick q — what's the login for Y?"`
+]
+
 export default function NoHelloPage() {
   return (
-    <div className="relative mx-auto max-w-3xl px-6 py-24">
-      <div className="absolute left-6 top-6 md:left-0 md:top-8">
+    <div className="relative mx-auto max-w-3xl px-2 py-24 sm:px-6">
+      <div className="absolute left-2 top-6 md:left-0 md:top-8">
         <BackToHome />
       </div>
 
-      {/* Background glow */}
-      <div className="absolute left-1/2 top-0 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-primary-gradient opacity-20 blur-[100px]" />
+      {/* atmosphere */}
+      <div className="dot-grid pointer-events-none absolute inset-x-0 top-0 -z-10 h-[70vh]" />
 
-      <Reveal className="mb-24 text-center">
-        <h1 className="font-heading mb-6 text-[clamp(4rem,12vw,6rem)] font-semibold leading-none text-white">
-          no{' '}
-          <span className="line-through decoration-red-500/50 decoration-4">
-            hello
-          </span>
-        </h1>
-        <p className="mx-auto max-w-lg text-xl leading-relaxed text-zinc-400">
-          Please don&apos;t just say hello in chat. It interrupts flow and
-          delays answers.
-        </p>
-      </Reveal>
+      {/* ---------- opener ---------- */}
+      <header className="mb-28 mt-12 text-center">
+        <FadeIn>
+          <p className="label">
+            A public service announcement
+          </p>
+        </FadeIn>
+        <FadeIn delay={0.1}>
+          <h1 className="display mt-8 text-[clamp(4.5rem,16vw,9.5rem)] leading-[0.9] tracking-tight text-ink">
+            no{' '}
+            <em className="strike-anim font-light text-muted">hello</em>
+          </h1>
+        </FadeIn>
+        <FadeIn delay={0.25}>
+          <p className="mx-auto mt-10 max-w-md text-lg leading-relaxed text-muted">
+            Don&apos;t open with{' '}
+            <span className="text-ink">&quot;hello&quot;</span> and wait.
+            Say why you&apos;re here — it&apos;s one message, not a phone call.
+          </p>
+        </FadeIn>
 
-      <div className="mb-20">
-        <Reveal>
-          <div className="relative mb-12 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-8 shadow-2xl backdrop-blur-sm">
-            {/* Window controls */}
-            <div className="mb-6 flex gap-2">
-              <div className="size-3 rounded-full bg-red-500/20" />
-              <div className="size-3 rounded-full bg-yellow-500/20" />
-              <div className="size-3 rounded-full bg-accent-500/20" />
-            </div>
-
-            <div className="space-y-6">
-              {/* Bad example */}
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Avatar letter="K" color="indigo" />
-                </div>
-                <div className="flex-1 space-y-1">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-sm font-bold text-zinc-200">
-                      Keith
-                    </span>
-                    <span className="text-xs text-zinc-600">2:15 PM</span>
-                  </div>
-                  <div className="w-fit rounded-2xl rounded-tl-none bg-indigo-500/10 px-4 py-2 text-indigo-100 ring-1 ring-indigo-500/20">
-                    hi
-                  </div>
-                </div>
+        {/* stat strip */}
+        <FadeIn delay={0.4}>
+          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-3 divide-x divide-line border-y border-line">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="px-2 py-6 sm:px-6">
+                <p className="font-serif text-3xl font-medium text-ink sm:text-4xl">
+                  {stat.value}
+                </p>
+                <p className="mt-2 font-mono text-[10px] uppercase leading-relaxed tracking-[0.15em] text-muted">
+                  {stat.label}
+                </p>
               </div>
-
-              <div className="flex flex-row-reverse gap-4">
-                <div className="flex-shrink-0">
-                  <Avatar letter="Y" color="accent" />
-                </div>
-                <div className="flex-1 space-y-1">
-                  <div className="flex flex-row-reverse items-baseline gap-2">
-                    <span className="text-sm font-bold text-zinc-200">You</span>
-                    <span className="text-xs text-zinc-600">2:19 PM</span>
-                  </div>
-                  <div className="ml-auto w-fit rounded-2xl rounded-tr-none bg-accent-500/10 px-4 py-2 text-accent-100 ring-1 ring-accent-500/20">
-                    hello?
-                  </div>
-                </div>
-              </div>
-
-              {/* Typing indicator */}
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Avatar letter="K" color="indigo" />
-                </div>
-                <div className="flex-1 space-y-1">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-sm font-bold text-zinc-200">
-                      Keith
-                    </span>
-                    <span className="text-xs text-zinc-600">is typing...</span>
-                  </div>
-                  <div className="flex w-16 items-center gap-1 rounded-2xl rounded-tl-none bg-zinc-800/50 px-4 py-3 ring-1 ring-zinc-700/50">
-                    <div className="size-1.5 animate-bounce rounded-full bg-zinc-500 [animation-delay:-0.3s]" />
-                    <div className="size-1.5 animate-bounce rounded-full bg-zinc-500 [animation-delay:-0.15s]" />
-                    <div className="size-1.5 animate-bounce rounded-full bg-zinc-500" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Annotation */}
-            <div className="absolute -right-4 top-1/2 hidden translate-x-full md:block">
-              <div className="flex items-center gap-2 text-sm text-red-400">
-                <span className="text-2xl">←</span>
-                <span className="w-32 font-medium">
-                  Wasting both of your time
-                </span>
-              </div>
-            </div>
+            ))}
           </div>
+        </FadeIn>
+      </header>
 
-          <p className="mx-auto max-w-xl text-center text-lg text-zinc-400">
-            Keith could have received his answer{' '}
-            <strong className="text-accent-400">minutes sooner</strong>. <br />
-            In async communication, asking &quot;hello&quot; forces a context
-            switch without providing context.
+      {/* ---------- exhibit A ---------- */}
+      <section className="mb-24">
+        <Reveal>
+          <p className="label mb-6">
+            Exhibit A — the slow way
+          </p>
+          <ChatWindow channel="#dev-team" stamp="Time wasted" stampTone="red">
+            <Message from="Keith" time="2:15 PM" tone="indigo" delay={0.2}>
+              hi
+            </Message>
+            <Message from="You" time="2:19 PM" tone="accent" side="right" delay={0.45}>
+              hello?
+            </Message>
+            <TypingIndicator from="Keith" delay={0.7} />
+          </ChatWindow>
+        </Reveal>
+        <Reveal>
+          <p className="mx-auto mt-10 max-w-xl text-center text-muted">
+            Keith could have had his answer{' '}
+            <strong className="font-medium text-accent">
+              four minutes ago
+            </strong>
+            . A bare &quot;hello&quot; forces a context switch and delivers
+            nothing to act on.
           </p>
         </Reveal>
-      </div>
+      </section>
 
-      {/* The better way */}
-      <div className="mb-24">
+      {/* divider */}
+      <Reveal className="mb-24">
+        <div className="flex items-center justify-center gap-6">
+          <hr className="hairline w-full max-w-40" />
+          <p className="shrink-0 font-serif text-2xl font-light italic text-muted">
+            or, the fast way
+          </p>
+          <hr className="hairline w-full max-w-40" />
+        </div>
+      </Reveal>
+
+      {/* ---------- exhibit B ---------- */}
+      <section className="mb-28">
         <Reveal>
-          <div className="relative rounded-2xl border border-zinc-800 bg-zinc-900/50 p-8 shadow-2xl backdrop-blur-sm">
-            <div className="mb-6 flex gap-2">
-              <div className="size-3 rounded-full bg-zinc-700" />
-              <div className="size-3 rounded-full bg-zinc-700" />
-              <div className="size-3 rounded-full bg-zinc-700" />
-            </div>
-
-            <div className="space-y-6">
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Avatar letter="D" color="indigo" />
-                </div>
-                <div className="flex-1 space-y-1">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-sm font-bold text-zinc-200">
-                      Dawn
-                    </span>
-                    <span className="text-xs text-zinc-600">2:15 PM</span>
-                  </div>
-                  <div className="w-fit max-w-md rounded-2xl rounded-tl-none bg-indigo-500/10 px-4 py-2 text-indigo-100 ring-1 ring-indigo-500/20">
-                    Hey! Do you know what time the team meeting is today?
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-row-reverse gap-4">
-                <div className="flex-shrink-0">
-                  <Avatar letter="Y" color="accent" />
-                </div>
-                <div className="flex-1 space-y-1">
-                  <div className="flex flex-row-reverse items-baseline gap-2">
-                    <span className="text-sm font-bold text-zinc-200">You</span>
-                    <span className="text-xs text-zinc-600">2:16 PM</span>
-                  </div>
-                  <div className="ml-auto w-fit rounded-2xl rounded-tr-none bg-accent-500/10 px-4 py-2 text-accent-100 ring-1 ring-accent-500/20">
-                    Yep, it&apos;s at 3:30 PM!
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute -right-4 top-1/2 hidden translate-x-full md:block">
-              <div className="flex items-center gap-2 text-sm text-accent-400">
-                <span className="text-2xl">←</span>
-                <span className="w-32 font-medium">Actionable immediately</span>
-              </div>
-            </div>
-          </div>
+          <p className="label mb-6">
+            Exhibit B — sixty seconds, done
+          </p>
+          <ChatWindow channel="#dev-team" stamp="Answered in 60s" stampTone="accent">
+            <Message from="Dawn" time="2:15 PM" tone="indigo" delay={0.15}>
+              Hey! Do you know what time the team meeting is today?
+            </Message>
+            <Message from="You" time="2:16 PM" tone="accent" side="right" delay={0.4}>
+              Yep, it&apos;s at 3:30 PM!
+            </Message>
+          </ChatWindow>
         </Reveal>
-      </div>
+      </section>
 
-      <div className="mb-24 grid gap-6 md:grid-cols-2">
+      {/* ---------- field guide ---------- */}
+      <section className="mb-28 grid gap-5 md:grid-cols-2">
         <Reveal>
-          <div className="group h-full rounded-2xl border border-red-500/10 bg-red-500/5 p-8 transition-colors duration-300 hover:border-red-500/20 hover:bg-red-500/10">
-            <div className="mb-4 flex items-center gap-3">
-              <div className="flex size-8 items-center justify-center rounded-full bg-red-500/20 text-red-400">
-                ✕
-              </div>
-              <h2 className="text-lg font-semibold text-red-200">
-                Don&apos;t say
-              </h2>
-            </div>
-            <ul className="space-y-3 text-zinc-400">
-              {['"Hello"', '"Hi Taufeeq, quick question"', '"You got a sec?"', '"ping"'].map(
-                (item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <span className="size-1.5 rounded-full bg-red-500/50" />
-                    {item}
+          <div className="h-full rounded-2xl border border-line bg-card">
+            <div className="h-full rounded-[15px] p-8">
+              <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.3em] text-red-400">
+                ✗ — Don&apos;t open with
+              </p>
+              <ul className="space-y-4 text-muted">
+                {DONT.map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <span className="mt-2.5 h-px w-4 shrink-0 bg-red-500/50" />
+                    <span className="font-serif text-lg text-ink">
+                      {item}
+                    </span>
                   </li>
-                )
-              )}
-            </ul>
+                ))}
+              </ul>
+            </div>
           </div>
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="group h-full rounded-2xl border border-accent-500/10 bg-accent-500/5 p-8 transition-colors duration-300 hover:border-accent-500/20 hover:bg-accent-500/10">
-            <div className="mb-4 flex items-center gap-3">
-              <div className="flex size-8 items-center justify-center rounded-full bg-accent-500/20 text-accent-400">
-                ✓
-              </div>
-              <h2 className="text-lg font-semibold text-accent-200">
-                Instead say
-              </h2>
+          <div className="h-full rounded-2xl border border-line bg-card">
+            <div className="h-full rounded-[15px] p-8">
+              <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.3em] text-accent">
+                ✓ — Lead with the ask
+              </p>
+              <ul className="space-y-4 text-muted">
+                {DO.map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <span className="mt-2.5 h-px w-4 shrink-0 bg-accent/60" />
+                    <span className="font-serif text-lg text-ink">
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="space-y-3 text-zinc-400">
-              {[
-                `"Hey! When's the deadline for X?"`,
-                '"Hi, could you send me the report?"',
-                `"Quick q - what's the login for Y?"`
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <span className="size-1.5 rounded-full bg-accent-500/50" />
-                  {item}
-                </li>
-              ))}
-            </ul>
           </div>
         </Reveal>
-      </div>
+      </section>
 
-      <div className="text-center">
-        <p className="mb-2 text-sm text-zinc-600">
+      {/* ---------- colophon ---------- */}
+      <Reveal className="text-center">
+        <p className="font-serif text-xl font-light italic text-muted">
+          Same greeting. Same warmth.{' '}
+          <span className="text-accent not-italic font-medium">
+            Just with the question attached.
+          </span>
+        </p>
+        <p className="mt-8 text-sm text-muted">
           Inspired by{' '}
           <a
             href="https://nohello.net/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-zinc-400 transition-colors hover:text-accent-400"
+            className="text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
           >
             nohello.net
           </a>
         </p>
-        <p className="text-[10px] italic text-zinc-700 opacity-50 transition-opacity hover:opacity-100">
-          (⚠️ Warning: This page contains traces of sarcasm. Viewer discretion
-          is advised.)
+        <p className="mt-3 font-mono text-[10px] italic text-muted opacity-60 transition-opacity hover:opacity-100">
+          (⚠ this page contains traces of sarcasm. viewer discretion advised.)
         </p>
-      </div>
+      </Reveal>
     </div>
   )
 }

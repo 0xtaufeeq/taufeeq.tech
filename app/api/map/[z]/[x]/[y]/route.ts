@@ -15,7 +15,7 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
   }
 
   const response = await fetch(
-    `https://api.maptiler.com/maps/streets-v2-dark/${z}/${x}/${tileY}.png?key=${process.env.MAPTILER_API_KEY}`
+    `https://api.maptiler.com/maps/streets-v2-light/${z}/${x}/${tileY}.png?key=${process.env.MAPTILER_API_KEY}`
   )
 
   if (!response.ok) {

@@ -34,11 +34,8 @@ export function NowPlaying({ initialData }: Props) {
     }
   }, [initialData])
 
-  const status = data?.isNotListening
-    ? 'Not listening'
-    : data?.isPlaying
-      ? 'Now playing'
-      : 'Last played'
+  const notListening = !data || data.isNotListening
+  const status = data?.isPlaying ? 'Now playing' : 'Last played'
 
   return (
     <a
@@ -50,14 +47,18 @@ export function NowPlaying({ initialData }: Props) {
         'max-lg:p-6 md:max-lg:flex-col md:max-lg:items-start md:max-lg:justify-between'
       )}
     >
-      <SpotifyIcon className="absolute right-4 top-4 size-5 text-zinc-500 transition-colors duration-300 group-hover:text-[#1DB954]" />
-      <div className="aspect-square h-full rounded-xl bg-black p-3 max-lg:h-3/5 max-md:min-w-24">
+      <SpotifyIcon className="absolute right-4 top-4 size-5 text-muted transition-colors duration-300 group-hover:text-[#1DB954]" />
+      <div className="aspect-square h-full rounded-xl border border-line bg-card p-3 max-lg:h-3/5 max-md:min-w-24">
         <div className="relative size-full">
-          {data?.albumImageUrl && (
+          {notListening ? (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <SpotifyIcon className="size-2/5 text-muted" />
+            </div>
+          ) : (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={data.albumImageUrl}
-              alt={data.isNotListening ? 'Spotify' : 'Album art'}
+              alt="Album art"
               className={cn('absolute size-full rounded-full object-cover', {
                 'animate-[spin_5s_linear_infinite]': data.isPlaying
               })}
@@ -66,15 +67,21 @@ export function NowPlaying({ initialData }: Props) {
         </div>
       </div>
       <div className="w-full space-y-1 overflow-hidden tracking-wide">
-        <p className="text-sm text-zinc-400">{status}</p>
-        <div className="items-center gap-x-4 space-y-1 md:max-lg:flex">
-          <p className="max-w-full flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap font-medium text-zinc-100">
-            {data?.title ?? '—'}
-          </p>
-          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm uppercase text-zinc-400">
-            {data?.artist ?? ''}
-          </p>
-        </div>
+        {notListening ? (
+          <p className="font-medium text-ink">Not listening to music</p>
+        ) : (
+          <>
+            <p className="text-sm text-muted">{status}</p>
+            <div className="items-center gap-x-4 space-y-1 md:max-lg:flex">
+              <p className="max-w-full flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap font-medium text-ink">
+                {data.title}
+              </p>
+              <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm uppercase text-muted">
+                {data.artist}
+              </p>
+            </div>
+          </>
+        )}
       </div>
     </a>
   )

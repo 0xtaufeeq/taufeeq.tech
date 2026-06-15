@@ -44,8 +44,8 @@ export function TechStack() {
                       title={`${name} — ${description}`}
                       className={cn(
                         'mx-2 flex items-center gap-3 rounded-2xl px-4 py-3',
-                        'border border-zinc-800 bg-zinc-950/60 text-zinc-300',
-                        'transition-colors duration-300 hover:border-accent-500/40 hover:text-accent-300'
+                        'border border-line bg-card text-muted',
+                        'transition-colors duration-300 hover:border-accent hover:text-accent'
                       )}
                     >
                       <Icon className="size-6" />

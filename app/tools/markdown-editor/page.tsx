@@ -16,20 +16,20 @@ export default function MarkdownEditorPage() {
       <div className="mb-8">
         <Link
           href="/tools"
-          className="mb-4 inline-flex items-center text-sm text-zinc-400 hover:text-zinc-200"
+          className="mb-4 inline-flex items-center text-sm text-muted hover:text-ink"
         >
           <ChevronLeft className="mr-2 size-4" />
           Back to Tools
         </Link>
-        <h1 className="font-heading text-3xl font-semibold text-zinc-100 sm:text-4xl">
+        <h1 className="font-heading text-3xl text-ink sm:text-4xl">
           Markdown Editor
         </h1>
-        <p className="mt-2 text-zinc-400">
+        <p className="mt-2 text-muted">
           Live markdown editing with instant preview
         </p>
       </div>
 
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 sm:p-8">
+      <div className="rounded-xl border border-line bg-card p-6 sm:p-8">
         <MarkdownEditor />
       </div>
     </div>

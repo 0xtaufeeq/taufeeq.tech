@@ -26,7 +26,7 @@ export async function BentoSection() {
       <div
         className={cn(
           'relative col-start-1 col-end-11 row-start-1 row-end-[8] aspect-square',
-          'overflow-hidden rounded-3xl border border-zinc-800',
+          'overflow-hidden rounded-3xl border border-line',
           'max-lg:col-end-3 max-lg:row-end-3'
         )}
       >
@@ -54,7 +54,7 @@ export async function BentoSection() {
                 aria-label={name}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex size-full items-center justify-center rounded-3xl text-zinc-300 transition-colors group-hover:text-accent-400"
+                className="flex size-full items-center justify-center rounded-3xl text-muted transition-colors group-hover:text-accent"
               >
                 <Icon className="size-10" />
               </a>
@@ -111,7 +111,7 @@ export async function BentoSection() {
         {contributions ? (
           <GithubActivity {...contributions} />
         ) : (
-          <p className="p-5 text-sm text-zinc-500">
+          <p className="p-5 text-sm text-muted">
             GitHub activity is unavailable right now.
           </p>
         )}

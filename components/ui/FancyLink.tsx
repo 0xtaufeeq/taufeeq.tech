@@ -18,8 +18,8 @@ export function FancyLink({ href, children, className, ...rest }: FancyLinkProps
       {...rest}
       className={cn(
         'group inline-flex shrink-0 items-center gap-2 rounded-full',
-        'border border-zinc-800 bg-zinc-900/40 px-5 py-2.5 text-sm text-zinc-300',
-        'transition-all duration-300 hover:border-accent-500/40 hover:text-accent-300',
+        'border border-line-strong px-5 py-2.5 text-sm text-ink',
+        'transition-colors duration-300 hover:border-ink hover:text-accent',
         className
       )}
     >
