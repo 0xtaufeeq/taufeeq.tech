@@ -81,8 +81,13 @@ export function Keyboard({ className }: { className?: string }) {
           data-cal-config='{"layout":"month_view"}'
           onClick={fireConfetti}
           className={cn(
-            KEY_CLASSES,
-            'w-[180px] font-mono text-[13px] font-semibold uppercase tracking-[0.08rem]',
+            // Mirrors KEY_CLASSES' look, but uses separate height/width so the
+            // square `size-*` can't override the pill width (it was collapsing
+            // to a 56px square on phones, wrapping the label to 3 lines).
+            'relative flex items-center justify-center overflow-hidden rounded-2xl',
+            'border shadow-sm transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0',
+            'h-[4.5rem] w-[180px] max-sm:h-14 max-xs:w-full',
+            'font-mono text-[13px] font-semibold uppercase tracking-[0.08rem]',
             'border-transparent bg-ink text-paper',
             'hover:bg-accent hover:text-accent-contrast'
           )}
