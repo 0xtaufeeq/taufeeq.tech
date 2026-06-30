@@ -79,8 +79,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // Set theme before paint to avoid a flash of the wrong palette.
-  const themeScript = `(function(){try{var t=localStorage.getItem('theme');var m=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(!t&&m)){document.documentElement.classList.add('dark');}}catch(e){}})();`
+  // Set theme before paint to avoid a flash of the wrong palette. Default is
+  // "system": with no stored preference we follow the OS and keep tracking it
+  // live via matchMedia. An explicit toggle (stored 'light'/'dark') wins and
+  // stops the live following.
+  const themeScript = `(function(){try{var q=window.matchMedia('(prefers-color-scheme: dark)');var apply=function(){var t=localStorage.getItem('theme');var dark=t==='dark'||(!t&&q.matches);document.documentElement.classList.toggle('dark',dark);};apply();q.addEventListener('change',apply);}catch(e){}})();`
 
   return (
     <ViewTransitions>
