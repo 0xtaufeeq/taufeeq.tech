@@ -76,9 +76,9 @@ export const VALUES = [
   },
   {
     number: '04',
-    title: 'Conviction > Consensus',
+    title: 'Adaptability Over Attachment',
     description:
-      'Progress rarely comes from groupthink. Have a point of view and defend it.'
+      "Most plans don't survive contact with reality. The useful skill is noticing what changed early — and letting go of the version I fell in love with."
   },
   {
     number: '05',
@@ -88,9 +88,9 @@ export const VALUES = [
   },
   {
     number: '06',
-    title: 'Alignment Beats Balance',
+    title: 'Learn Out Loud',
     description:
-      'Work-life "balance" is a myth. When your purpose and work align, balance happens naturally.'
+      "Most of what I know, someone shared for free. Writing and building in public is how I return the favor — and the fastest way to find out what I've got wrong."
   },
   {
     number: '07',

@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 
 import { Reveal } from '@/components/motion/Reveal'
 import { BackToHome } from '@/components/ui/BackToHome'
 import { ValuesTicker } from '@/components/values/ValuesTicker'
+import { SITE } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'My Philosophy & Values',
@@ -24,12 +25,7 @@ export default function ValuesPage() {
       {/* ---------- opener ---------- */}
       <header className="mt-24 sm:mt-32">
         <Reveal>
-          <p className="label">
-            Operating principles — est. 2022
-          </p>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <h1 className="display mt-8 text-[clamp(2.75rem,8vw,6.5rem)] leading-[0.98] tracking-tight text-ink">
+          <h1 className="display text-[clamp(2.75rem,8vw,6.5rem)] leading-[0.98] tracking-tight text-ink">
             What I believe,
             <br />
             <em className="text-muted">
@@ -40,13 +36,8 @@ export default function ValuesPage() {
             </em>
           </h1>
         </Reveal>
-        <Reveal delay={0.16}>
-          <div className="mt-12 flex items-center gap-6">
-            <hr className="hairline w-24" />
-            <p className="label">
-              Seven principles. Zero compromise.
-            </p>
-          </div>
+        <Reveal delay={0.12}>
+          <hr className="hairline mt-12 w-24" />
         </Reveal>
       </header>
 
@@ -115,13 +106,10 @@ export default function ValuesPage() {
           </p>
         </Reveal>
         <Reveal delay={0.1}>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Link href="/about" className="btn-primary group">
-              More about me
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link href="/blog" className="btn-secondary">
-              Read the blog
+          <div className="mt-10 flex items-center justify-center">
+            <Link href={`mailto:${SITE.email}`} className="btn-primary group">
+              Email me
+              <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>
         </Reveal>

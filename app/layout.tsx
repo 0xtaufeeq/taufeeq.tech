@@ -71,7 +71,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#fbfbf7'
+  themeColor: '#0b0c09'
 }
 
 export default function RootLayout({
@@ -80,10 +80,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   // Set theme before paint to avoid a flash of the wrong palette. Default is
-  // "system": with no stored preference we follow the OS and keep tracking it
-  // live via matchMedia. An explicit toggle (stored 'light'/'dark') wins and
-  // stops the live following.
-  const themeScript = `(function(){try{var q=window.matchMedia('(prefers-color-scheme: dark)');var apply=function(){var t=localStorage.getItem('theme');var dark=t==='dark'||(!t&&q.matches);document.documentElement.classList.toggle('dark',dark);};apply();q.addEventListener('change',apply);}catch(e){}})();`
+  // dark: with no stored preference we use dark regardless of the OS. An
+  // explicit toggle (stored 'light'/'dark') always wins.
+  const themeScript = `(function(){try{var t=localStorage.getItem('theme');document.documentElement.classList.toggle('dark',t!=='light');}catch(e){}})();`
 
   return (
     <ViewTransitions>

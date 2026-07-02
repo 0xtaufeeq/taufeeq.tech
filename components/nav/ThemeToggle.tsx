@@ -17,14 +17,6 @@ export function ThemeToggle() {
   useEffect(() => {
     setMounted(true)
     setDark(getIsDark())
-
-    // Keep the icon in sync while following the OS (no explicit preference).
-    const q = window.matchMedia('(prefers-color-scheme: dark)')
-    const onChange = () => {
-      if (!localStorage.getItem('theme')) setDark(getIsDark())
-    }
-    q.addEventListener('change', onChange)
-    return () => q.removeEventListener('change', onChange)
   }, [])
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
